@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="marginStandard">8dp</dimen>
+  <dimen name="marginStandardHalf">4dp</dimen>
+  <dimen name="fabMargin">16dp</dimen>
+  <dimen name="appBarHeight">56dp</dimen>
+  <dimen name="toolbarIconSize">24dp</dimen>
+  <dimen name="toolbarIconMargin">16dp</dimen>
+</resources>
