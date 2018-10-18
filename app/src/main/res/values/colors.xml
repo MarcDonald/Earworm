@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--Light Theme Colors-->
+  <color name="colorPrimary">@color/white</color>
+  <color name="colorPrimaryDark">#CCCCCC</color>
+  <color name="colorPrimaryLight">@color/white</color>
+  <color name="colorAccent">#F57C00</color>
+  <color name="colorAccentLight">#FFAD42</color>
+  <color name="colorAccentDark">#BB4D00</color>
+  <color name="textOnPrimary">@color/black</color>
+  <color name="error">#B00020</color>
+
+  <!--Other colors-->
+  <color name="white">#FFFFFF</color>
+  <color name="black">#000000</color>
+  <color name="black70">#8A000000</color>
+</resources>
