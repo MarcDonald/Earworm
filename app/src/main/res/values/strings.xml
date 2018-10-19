@@ -1,3 +1,10 @@
 <resources>
   <string name="app_name">Earworm</string>
+
+  <!--Songs-->
+  <string name="song_name">Song name</string>
+  <string name="album">Album</string>
+  <string name="artist">Artist</string>
+  <string name="genre">Genre</string>
+  <string name="date">Date</string>
 </resources>
