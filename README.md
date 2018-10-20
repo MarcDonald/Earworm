@@ -1,5 +1,5 @@
 # Earworm
-An app for tracking your favourite songs throughout time
+An app for tracking your favourite music throughout time
 
 ## Open Source Libraries Used
 ### [Timber](https://github.com/JakeWharton/timber)

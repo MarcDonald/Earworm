@@ -1,3 +1,17 @@
 <resources>
   <string name="app_name">Earworm</string>
+  <string name="no_entries">You haven\'t made any entries yet. To add a new entry, click the button in the bottom
+    right
+  </string>
+
+  <!--Favourite Items-->
+  <string name="song_name">Song name</string>
+  <string name="album">Album</string>
+  <string name="artist">Artist</string>
+  <string name="genre">Genre</string>
+  <string name="date">Date</string>
+
+  <!--Data Modification-->
+  <string name="item_added">Added</string>
+  <string name="item_deleted">Deleted</string>
 </resources>

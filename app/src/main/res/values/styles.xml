@@ -7,4 +7,12 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <!--Text Styles-->
+  <style name="LightTheme.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <item name="android:textColor">@color/textOnPrimary</item>
+  </style>
+
+  <style name="LightTheme.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
+    <item name="android:textColor">@color/textOnPrimary</item>
+  </style>
 </resources>
