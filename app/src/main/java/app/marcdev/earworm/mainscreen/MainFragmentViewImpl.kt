@@ -10,13 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
+import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class MainFragment : Fragment()
+class MainFragmentViewImpl : Fragment(), MainFragmentView
 {
   private lateinit var fab: FloatingActionButton
+  private lateinit var recyclerAdapter: MainRecyclerAdapter
+  private val presenter = MainFragmentPresenterImpl(this)
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
   {
@@ -33,14 +36,18 @@ class MainFragment : Fragment()
     Timber.v("Log: bindViews: Started")
     this.fab = view.findViewById(R.id.fab_main)
     fab.setOnClickListener(fabOnClickListener)
+    fab.setOnLongClickListener(fabOnLongClickListener)
 
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
   }
 
   private val fabOnClickListener = View.OnClickListener {
-    Timber.d("Log: fabOnClickListener: Started")
-    Toast.makeText(activity, "Fab Clicked", Toast.LENGTH_SHORT).show()
+    presenter.fabClick()
+  }
+  private val fabOnLongClickListener = View.OnLongClickListener {
+    presenter.fabLongClick()
+    return@OnLongClickListener true
   }
 
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
@@ -60,7 +67,23 @@ class MainFragment : Fragment()
   {
     Timber.v("Log: setupRecycler: Started")
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
-    recycler.adapter = MainRecyclerAdapter(context)
+    this.recyclerAdapter = MainRecyclerAdapter(context)
+    recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
+  }
+
+  override fun updateRecycler(items: MutableList<FavouriteItem>) {
+    Timber.d("Log: updateRecycler: Started")
+    recyclerAdapter.updateItems(items)
+  }
+
+  override fun displayAddedToast() {
+    Timber.d("Log: displayAddedToast: Started")
+    Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
+  }
+
+  override fun displayClearedToast() {
+    Timber.d("Log: displayClearedToast: Started")
+    Toast.makeText(activity, resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT).show()
   }
 }

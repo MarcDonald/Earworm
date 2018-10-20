@@ -14,28 +14,6 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
   private var items: MutableList<FavouriteItem> = mutableListOf()
   private var inflater: LayoutInflater = LayoutInflater.from(context)
 
-  init
-  {
-    // TODO remove test items
-    addTestItems()
-  }
-
-  // TODO remove test items
-  private fun addTestItems()
-  {
-    for(i in 1..10)
-    {
-      val item: FavouriteItem = when (i)
-      {
-        2 -> FavouriteItem("", "Test Album $i", "Test Artist $i", "", "$i-10-2018", EarwormUtils.ALBUM)
-        5 -> FavouriteItem("", "", "Test Artist $i", "Test Genre $i", "$i-10-2018", EarwormUtils.ARTIST)
-        7 -> FavouriteItem("", "", "", "Test Genre $i", "$i-10-2018", EarwormUtils.GENRE)
-        else -> FavouriteItem("Test Song $i", "Test Album $i", "Test Artist $i", "Test Genre $i", "$i-10-2018", EarwormUtils.SONG)
-      }
-      items.add(item)
-    }
-  }
-
   override fun getItemViewType(position: Int): Int
   {
     Timber.v("Log: getItemViewType: Started")
@@ -92,5 +70,11 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
   {
     Timber.v("Log: getItemCount: ${items.size}")
     return items.size
+  }
+
+  fun updateItems(items: MutableList<FavouriteItem>) {
+    Timber.d("Log: updateItems: Started")
+    this.items = items
+    notifyDataSetChanged()
   }
 }

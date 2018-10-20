@@ -3,7 +3,7 @@ package app.marcdev.earworm
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import app.marcdev.earworm.mainscreen.MainFragment
+import app.marcdev.earworm.mainscreen.MainFragmentViewImpl
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity()
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity()
   private fun setDefaultFragment()
   {
     Timber.v("Log: setDefaultFragment: Started")
-    val fragment = MainFragment()
+    val fragment = MainFragmentViewImpl()
     EarwormUtils().setFragment(fragment, supportFragmentManager, R.id.frame_main)
   }
 }
