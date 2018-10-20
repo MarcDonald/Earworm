@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import timber.log.Timber
 class MainFragmentViewImpl : Fragment(), MainFragmentView {
 
   private lateinit var fab: FloatingActionButton
+  private lateinit var noEntriesWarning: TextView
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private val presenter = MainFragmentPresenterImpl(this)
 
@@ -26,6 +28,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
     bindViews(view)
     setupRecycler(view)
+    displayNoEntriesWarning()
 
     return view
   }
@@ -35,6 +38,8 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
     this.fab = view.findViewById(R.id.fab_main)
     fab.setOnClickListener(fabOnClickListener)
     fab.setOnLongClickListener(fabOnLongClickListener)
+
+    noEntriesWarning = view.findViewById(R.id.txt_noEntries)
 
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
@@ -66,9 +71,22 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
     recycler.layoutManager = LinearLayoutManager(context)
   }
 
+  private fun displayNoEntriesWarning() {
+    Timber.d("Log: displayNoEntriesWarning: Started")
+
+    if (recyclerAdapter.itemCount == 0) {
+      Timber.d("Log: displayNoEntriesWarning: Displaying")
+      noEntriesWarning.visibility = View.VISIBLE
+    } else {
+      Timber.d("Log: displayNoEntriesWarning: Hiding")
+      noEntriesWarning.visibility = View.GONE
+    }
+  }
+
   override fun updateRecycler(items: MutableList<FavouriteItem>) {
     Timber.d("Log: updateRecycler: Started")
     recyclerAdapter.updateItems(items)
+    displayNoEntriesWarning()
   }
 
   override fun displayAddedToast() {
