@@ -8,7 +8,7 @@
   <string name="genre">Genre</string>
   <string name="date">Date</string>
 
-    <!--Data Modification-->
-    <string name="item_added">Added</string>
-    <string name="item_deleted">Deleted</string>
+  <!--Data Modification-->
+  <string name="item_added">Added</string>
+  <string name="item_deleted">Deleted</string>
 </resources>

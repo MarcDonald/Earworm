@@ -15,14 +15,13 @@ import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class MainFragmentViewImpl : Fragment(), MainFragmentView
-{
+class MainFragmentViewImpl : Fragment(), MainFragmentView {
+
   private lateinit var fab: FloatingActionButton
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private val presenter = MainFragmentPresenterImpl(this)
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-  {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Timber.d("Log: onCreateView: Started")
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
     bindViews(view)
@@ -31,8 +30,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView
     return view
   }
 
-  private fun bindViews(view: View)
-  {
+  private fun bindViews(view: View) {
     Timber.v("Log: bindViews: Started")
     this.fab = view.findViewById(R.id.fab_main)
     fab.setOnClickListener(fabOnClickListener)
@@ -52,19 +50,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView
 
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
 
-  private fun hideFabOnScroll(scrollY: Int, oldScrollY: Int)
-  {
-    if(scrollY > oldScrollY)
-    {
+  private fun hideFabOnScroll(scrollY: Int, oldScrollY: Int) {
+    if (scrollY > oldScrollY) {
       fab.hide()
-    } else
-    {
+    } else {
       fab.show()
     }
   }
 
-  private fun setupRecycler(view: View)
-  {
+  private fun setupRecycler(view: View) {
     Timber.v("Log: setupRecycler: Started")
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
     this.recyclerAdapter = MainRecyclerAdapter(context)

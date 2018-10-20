@@ -6,14 +6,13 @@ import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import timber.log.Timber
 
-class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(itemView)
-{
+class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(itemView) {
+
   private var artistNameDisplay: TextView = itemView.findViewById(R.id.txt_artistName)
   private var artistGenreDisplay: TextView = itemView.findViewById(R.id.txt_artistGenre)
   private var artistDateDisplay: TextView = itemView.findViewById(R.id.txt_artistDate)
 
-  override fun display(favouriteItemToDisplay: FavouriteItem)
-  {
+  override fun display(favouriteItemToDisplay: FavouriteItem) {
     Timber.d("Log: display: $favouriteItemToDisplay")
     artistNameDisplay.text = favouriteItemToDisplay.artistName
     artistGenreDisplay.text = favouriteItemToDisplay.genre
