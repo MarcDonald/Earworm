@@ -1,7 +1,9 @@
 package app.marcdev.earworm.mainscreen
 
 interface MainFragmentModel {
-  fun addTestItem()
+  fun addItemAsync()
 
-  fun clearList()
+  fun getAllItemsAsync()
+
+  fun clearListAsync()
 }

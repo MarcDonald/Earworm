@@ -5,9 +5,13 @@ import app.marcdev.earworm.database.FavouriteItem
 interface MainFragmentPresenter {
   fun fabClick()
 
-  fun addTestItemCallback(items: MutableList<FavouriteItem>)
+  fun addTestItemCallback()
 
   fun fabLongClick()
 
-  fun clearListCallback(items: MutableList<FavouriteItem>)
+  fun getAllItems()
+
+  fun getAllItemsCallback(items: MutableList<FavouriteItem>)
+
+  fun clearListCallback()
 }

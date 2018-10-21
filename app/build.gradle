@@ -45,4 +45,8 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     androidTestImplementation 'androidx.room:room-testing:2.0.0'
+
+    // Kotlin co-routines for asynchronous code
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0-RC1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0-RC1'
 }

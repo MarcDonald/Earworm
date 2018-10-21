@@ -6,6 +6,7 @@ import app.marcdev.earworm.EarwormUtils
 import app.marcdev.earworm.database.AppDatabase
 import app.marcdev.earworm.database.DAO
 import app.marcdev.earworm.database.FavouriteItem
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -33,7 +34,7 @@ class FavouriteItemRepositoryTest {
   }
 
   @Test
-  fun insertMultipleSongs_getAllItems() {
+  fun insertMultipleSongs_getAllItems() = runBlocking {
     val testName = "Test Song Name"
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
@@ -55,7 +56,7 @@ class FavouriteItemRepositoryTest {
   }
 
   @Test
-  fun insertOneSong_getItemById_deleteSong() {
+  fun insertOneSong_getItemById_deleteSong() = runBlocking {
     val testName = "Test Song Name"
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
@@ -82,7 +83,7 @@ class FavouriteItemRepositoryTest {
   }
 
   @Test
-  fun insertTwoSongs_deleteOneSong() {
+  fun insertTwoSongs_deleteOneSong() = runBlocking {
     val testName = "Test Song Name"
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
@@ -116,7 +117,7 @@ class FavouriteItemRepositoryTest {
   }
 
   @Test
-  fun insertMultipleSongs_getOneById() {
+  fun insertMultipleSongs_getOneById() = runBlocking {
     val testName = "Test Song Name"
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
