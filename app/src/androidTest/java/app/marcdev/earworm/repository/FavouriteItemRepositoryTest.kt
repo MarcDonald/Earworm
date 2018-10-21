@@ -1,16 +1,20 @@
-package app.marcdev.earworm.database
+package app.marcdev.earworm.repository
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import app.marcdev.earworm.EarwormUtils
+import app.marcdev.earworm.database.AppDatabase
+import app.marcdev.earworm.database.DAO
+import app.marcdev.earworm.database.FavouriteItem
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class DAOTest {
+class FavouriteItemRepositoryTest {
 
   private var database: AppDatabase? = null
+  private var repository: FavouriteItemRepository? = null
   private var dao: DAO? = null
 
   @Before
@@ -18,32 +22,14 @@ class DAOTest {
     database =
         Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context, AppDatabase::class.java)
           .allowMainThreadQueries().build()
+
     dao = database!!.dao()
+    repository = FavouriteItemRepositoryImpl(dao!!)
   }
 
   @After
   fun tearDown() {
-    database?.close()
-  }
-
-  @Test
-  fun insertOneSong_getAllItems() {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testDate = "01-01-2018"
-    val testType: Int = EarwormUtils.SONG
-
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
-
-    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
-    Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
-
-    database?.dao()!!.insertOrUpdateItem(testItem)
-
-    val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
-    Assert.assertEquals(1, returnedItemsWhenOneInserted.size)
+    database!!.close()
   }
 
   @Test
@@ -58,13 +44,13 @@ class DAOTest {
     val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
     val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
 
-    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
 
-    val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(2, returnedItemsWhenOneInserted.size)
   }
 
@@ -81,17 +67,17 @@ class DAOTest {
     val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
     testItem.id = testId
 
-    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
+    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getItem(testId)
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem)
+    repository!!.insertOrUpdateItem(testItem)
 
-    val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
+    val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = repository!!.getItem(testId)
     Assert.assertEquals(1, returnedItemsWhenOneInserted.size)
 
-    database?.dao()!!.deleteItemById(testId)
+    repository!!.deleteItem(testId)
 
-    val returnedItemsWhenOneDeleted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
+    val returnedItemsWhenOneDeleted: MutableList<FavouriteItem> = repository!!.getItem(testId)
     Assert.assertEquals(0, returnedItemsWhenOneDeleted.size)
   }
 
@@ -111,21 +97,21 @@ class DAOTest {
     val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
     testItem2.id = testId2
 
-    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
 
-    val returnedItemsWhenTwoInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedItemsWhenTwoInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(2, returnedItemsWhenTwoInserted.size)
 
-    database?.dao()!!.deleteItemById(testId1)
+    repository!!.deleteItem(testId1)
 
-    val returnedItemsWhenOneDeleted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedItemsWhenOneDeleted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(1, returnedItemsWhenOneDeleted.size)
 
-    val returnedItemsWhenDeletedOneSearched: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId1)
+    val returnedItemsWhenDeletedOneSearched: MutableList<FavouriteItem> = repository!!.getItem(testId1)
     Assert.assertEquals(0, returnedItemsWhenDeletedOneSearched.size)
   }
 
@@ -145,16 +131,16 @@ class DAOTest {
     val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
     testItem2.id = testId2
 
-    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
 
-    val returnedAllItemsWhenTwoInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
+    val returnedAllItemsWhenTwoInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(2, returnedAllItemsWhenTwoInserted.size)
 
-    val returnedItemsWhenSearchedById1: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId1)
+    val returnedItemsWhenSearchedById1: MutableList<FavouriteItem> = repository!!.getItem(testId1)
     Assert.assertEquals(1, returnedItemsWhenSearchedById1.size)
   }
 }
