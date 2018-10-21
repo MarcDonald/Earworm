@@ -1,7 +1,6 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.EarwormUtils
 import app.marcdev.earworm.database.AppDatabase
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.repository.FavouriteItemRepository
@@ -18,11 +17,8 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, contex
     repository = FavouriteItemRepositoryImpl(db.dao())
   }
 
-  override fun addItemAsync() {
+  override fun addItemAsync(item: FavouriteItem) {
     Timber.d("Log: addItemAsync: Started")
-
-    // TODO adds a test item, this will be removed in the future
-    val item = FavouriteItem("Test Song", "Test Album", "Test Artist", "Test Genre", "01-10-2018", EarwormUtils.SONG)
 
     // Launches a co-routine that won't block the UI thread
     GlobalScope.launch(Dispatchers.Main) {
@@ -31,7 +27,7 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, contex
         repository.insertOrUpdateItem(item)
       }.await()
 
-      // After the insert is complete, perform the callback to presenter
+      // After the insert is complete, perform the callback to presenter on the main thread
       presenter.addTestItemCallback()
     }
   }

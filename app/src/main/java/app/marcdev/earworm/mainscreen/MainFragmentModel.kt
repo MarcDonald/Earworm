@@ -1,7 +1,9 @@
 package app.marcdev.earworm.mainscreen
 
+import app.marcdev.earworm.database.FavouriteItem
+
 interface MainFragmentModel {
-  fun addItemAsync()
+  fun addItemAsync(item: FavouriteItem)
 
   fun getAllItemsAsync()
 
