@@ -4,7 +4,7 @@
   <string name="no_entries">You haven\'t made any entries yet. To add a new entry, click the button in the bottom
     right
   </string>
-  <string name="save">Save</string>
+  <string name="empty">Please ensure all fields are filled before saving</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
@@ -17,4 +17,5 @@
   <!--Data Modification-->
   <string name="item_added">Added</string>
   <string name="item_deleted">Deleted</string>
+  <string name="save">Save</string>
 </resources>

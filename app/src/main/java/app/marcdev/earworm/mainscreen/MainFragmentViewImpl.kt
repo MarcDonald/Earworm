@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
+import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class MainFragmentViewImpl : Fragment(), MainFragmentView {
+class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
@@ -50,6 +51,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
   private val fabOnClickListener = View.OnClickListener {
     Timber.d("Log: Fab Clicked")
     val addDialog = AddItemBottomSheet()
+    addDialog.bindRecyclerUpdateView(this)
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
   }
   private val fabOnLongClickListener = View.OnLongClickListener {
@@ -76,7 +78,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
     recycler.layoutManager = LinearLayoutManager(context)
   }
 
-  private fun fillData() {
+  override fun fillData() {
     Timber.d("Log: fillData: Started")
     presenter.getAllItems()
   }

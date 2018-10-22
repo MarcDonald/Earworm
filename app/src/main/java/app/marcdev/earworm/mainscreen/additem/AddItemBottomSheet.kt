@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import app.marcdev.earworm.EarwormUtils
@@ -14,7 +15,7 @@ import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import com.google.android.material.button.MaterialButton
 import timber.log.Timber
 
-class AddItemBottomSheet : RoundedBottomDialogFragment() {
+class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private lateinit var saveButton: MaterialButton
   private lateinit var primaryInput: EditText
@@ -23,16 +24,25 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
   private lateinit var songButton: ImageButton
   private lateinit var albumButton: ImageButton
   private lateinit var artistButton: ImageButton
-  private var choice: Int = 0
+  private lateinit var presenter: AddItemPresenter
+  private var type: Int = 0
+  private var recyclerUpdateView: RecyclerUpdateView? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = inflater.inflate(R.layout.dialog_add_item_song, container, false)
+    presenter = AddItemPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
-    setDefaultChoice()
+    setDefaultType()
     return view
   }
 
+  fun bindRecyclerUpdateView(view: RecyclerUpdateView) {
+    Timber.d("Log: bindRecyclerUpdateView: Started")
+    this.recyclerUpdateView = view
+  }
+
   private fun bindViews(view: View) {
+    Timber.v("Log: bindViews: Started")
     this.saveButton = view.findViewById(R.id.btn_add_item_save)
     saveButton.setOnClickListener(saveOnClickListener)
 
@@ -54,10 +64,12 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
 
   private val saveOnClickListener = View.OnClickListener {
     Timber.d("Log: SaveClick: Clicked")
+    presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type)
   }
 
   private val dateOnClickListener = View.OnClickListener {
     Timber.d("Log: DateClick: Clicked")
+    // TODO
   }
 
   private val songOnClickListener = View.OnClickListener {
@@ -75,9 +87,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
     activateButton(artistButton)
   }
 
-  private fun setDefaultChoice() {
-    Timber.d("Log: setDefaultChoice: Started")
-    choice = EarwormUtils.SONG
+  private fun setDefaultType() {
+    Timber.d("Log: setDefaultType: Started")
+    type = EarwormUtils.SONG
     changeColorOfImageButton(songButton, true)
     changeColorOfImageButton(albumButton, false)
     changeColorOfImageButton(artistButton, false)
@@ -87,9 +99,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
     Timber.d("Log: activateButton: Started")
     var doUpdate = true
 
-    if(choice == EarwormUtils.SONG && button == songButton
-       || choice == EarwormUtils.ALBUM && button == albumButton
-       || choice == EarwormUtils.ARTIST && button == artistButton
+    if(type == EarwormUtils.SONG && button == songButton
+       || type == EarwormUtils.ALBUM && button == albumButton
+       || type == EarwormUtils.ARTIST && button == artistButton
     ) {
       Timber.d("Log: activateButton: No need to update")
       doUpdate = false
@@ -97,7 +109,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
 
     if(doUpdate) {
       Timber.d("Log: activateButton: Activating button $button")
-      when(choice) {
+      when(type) {
         EarwormUtils.SONG -> {
           changeColorOfImageButton(songButton, false)
         }
@@ -112,27 +124,28 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
       when(button) {
         songButton -> {
           changeColorOfImageButton(songButton, true)
-          choice = EarwormUtils.SONG
+          type = EarwormUtils.SONG
           primaryInput.hint = resources.getString(R.string.song_name)
           secondaryInput.hint = resources.getString(R.string.artist)
         }
 
         albumButton -> {
           changeColorOfImageButton(albumButton, true)
-          choice = EarwormUtils.ALBUM
+          type = EarwormUtils.ALBUM
           primaryInput.hint = resources.getString(R.string.album)
           secondaryInput.hint = resources.getString(R.string.artist)
         }
 
         artistButton -> {
           changeColorOfImageButton(artistButton, true)
-          choice = EarwormUtils.ARTIST
+          type = EarwormUtils.ARTIST
           primaryInput.hint = resources.getString(R.string.artist)
           secondaryInput.hint = resources.getString(R.string.genre)
         }
       }
       primaryInput.setText("")
       secondaryInput.setText("")
+      primaryInput.requestFocus()
     }
   }
 
@@ -144,5 +157,21 @@ class AddItemBottomSheet : RoundedBottomDialogFragment() {
     } else {
       DrawableCompat.setTint(button.drawable, ContextCompat.getColor(activity!!.applicationContext, R.color.black))
     }
+  }
+
+  override fun saveCallback() {
+    Timber.d("Log: saveCallback: Started")
+    if(recyclerUpdateView == null) {
+      Timber.e("Log: saveCallback: RecyclerUpdateView is null, cannot update recycler")
+    } else {
+      recyclerUpdateView!!.fillData()
+    }
+    Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
+    dismiss()
+  }
+
+  override fun displayEmptyToast() {
+    Timber.d("Log: displayEmptyToast: Started")
+    Toast.makeText(activity, resources.getString(R.string.empty), Toast.LENGTH_SHORT).show()
   }
 }
