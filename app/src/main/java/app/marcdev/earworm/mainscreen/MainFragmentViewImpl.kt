@@ -21,14 +21,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
   private lateinit var recyclerAdapter: MainRecyclerAdapter
-  private val presenter = MainFragmentPresenterImpl(this)
+  private lateinit var presenter: MainFragmentPresenter
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Timber.d("Log: onCreateView: Started")
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
+    presenter = MainFragmentPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
     setupRecycler(view)
-    displayNoEntriesWarning()
+    fillData()
 
     return view
   }
@@ -56,7 +57,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
 
   private fun hideFabOnScroll(scrollY: Int, oldScrollY: Int) {
-    if (scrollY > oldScrollY) {
+    if(scrollY > oldScrollY) {
       fab.hide()
     } else {
       fab.show()
@@ -71,10 +72,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
     recycler.layoutManager = LinearLayoutManager(context)
   }
 
-  private fun displayNoEntriesWarning() {
+  private fun fillData() {
+    Timber.d("Log: fillData: Started")
+    presenter.getAllItems()
+  }
+
+  override fun displayNoEntriesWarning(display: Boolean) {
     Timber.d("Log: displayNoEntriesWarning: Started")
 
-    if (recyclerAdapter.itemCount == 0) {
+    if(display) {
       Timber.d("Log: displayNoEntriesWarning: Displaying")
       noEntriesWarning.visibility = View.VISIBLE
     } else {
@@ -86,7 +92,6 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
   override fun updateRecycler(items: MutableList<FavouriteItem>) {
     Timber.d("Log: updateRecycler: Started")
     recyclerAdapter.updateItems(items)
-    displayNoEntriesWarning()
   }
 
   override fun displayAddedToast() {
