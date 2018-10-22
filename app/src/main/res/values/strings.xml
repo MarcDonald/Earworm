@@ -1,11 +1,14 @@
 <resources>
+  <!--Application-->
   <string name="app_name">Earworm</string>
   <string name="no_entries">You haven\'t made any entries yet. To add a new entry, click the button in the bottom
     right
   </string>
+  <string name="save">Save</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
+  <string name="song">Song</string>
   <string name="album">Album</string>
   <string name="artist">Artist</string>
   <string name="genre">Genre</string>

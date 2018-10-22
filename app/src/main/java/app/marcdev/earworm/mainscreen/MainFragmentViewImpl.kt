@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
@@ -47,9 +48,12 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView {
   }
 
   private val fabOnClickListener = View.OnClickListener {
-    presenter.fabClick()
+    Timber.d("Log: Fab Clicked")
+    val addDialog = AddItemBottomSheet()
+    addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
   }
   private val fabOnLongClickListener = View.OnLongClickListener {
+    Timber.d("Log: Fab Long Clicked")
     presenter.fabLongClick()
     return@OnLongClickListener true
   }
