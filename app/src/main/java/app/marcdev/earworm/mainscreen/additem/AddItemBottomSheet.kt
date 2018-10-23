@@ -1,9 +1,13 @@
 package app.marcdev.earworm.mainscreen.additem
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
@@ -13,26 +17,34 @@ import app.marcdev.earworm.EarwormUtils
 import app.marcdev.earworm.R
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.chip.Chip
 import timber.log.Timber
+import java.util.*
 
 class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private lateinit var saveButton: MaterialButton
   private lateinit var primaryInput: EditText
   private lateinit var secondaryInput: EditText
-  private lateinit var dateButton: ImageButton
   private lateinit var songButton: ImageButton
   private lateinit var albumButton: ImageButton
   private lateinit var artistButton: ImageButton
   private lateinit var presenter: AddItemPresenter
+  private lateinit var datePickerDialog: Dialog
+  private lateinit var datePicker: DatePicker
+  private lateinit var datePickerOk: MaterialButton
+  private lateinit var datePickerCancel: MaterialButton
+  private lateinit var dateChip: Chip
+  private val dateChosen = Calendar.getInstance()
+
   private var type: Int = 0
   private var recyclerUpdateView: RecyclerUpdateView? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    val view = inflater.inflate(R.layout.dialog_add_item_song, container, false)
+    val view = inflater.inflate(R.layout.dialog_add_item, container, false)
     presenter = AddItemPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
-    setDefaultType()
+    setupDefaults()
     return view
   }
 
@@ -49,9 +61,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     this.primaryInput = view.findViewById(R.id.edt_item_primary_input)
     this.secondaryInput = view.findViewById(R.id.edt_item_secondary_input)
 
-    this.dateButton = view.findViewById(R.id.btn_add_item_date)
-    dateButton.setOnClickListener(dateOnClickListener)
-
     this.songButton = view.findViewById(R.id.btn_add_item_song_choice)
     songButton.setOnClickListener(songOnClickListener)
 
@@ -60,16 +69,65 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
     this.artistButton = view.findViewById(R.id.btn_add_item_artist_choice)
     artistButton.setOnClickListener(artistOnClickListener)
+
+    this.datePickerDialog = Dialog(this.requireActivity())
+    datePickerDialog.setContentView(R.layout.dialog_datepicker)
+    datePickerDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    this.datePicker = datePickerDialog.findViewById(R.id.datepicker)
+
+    this.datePickerOk = datePickerDialog.findViewById(R.id.btn_datepicker_ok)
+    datePickerOk.setOnClickListener(dateOnOkClickListener)
+
+    this.datePickerCancel = datePickerDialog.findViewById(R.id.btn_datepicker_cancel)
+    datePickerCancel.setOnClickListener(dateOnCancelClickListener)
+
+    this.dateChip = view.findViewById(R.id.chip_add_item_date_display)
+    dateChip.setOnClickListener(dateOnClickListener)
   }
 
   private val saveOnClickListener = View.OnClickListener {
     Timber.d("Log: SaveClick: Clicked")
-    presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type)
+    presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen)
   }
 
   private val dateOnClickListener = View.OnClickListener {
     Timber.d("Log: DateClick: Clicked")
-    // TODO
+    datePickerDialog.show()
+  }
+
+  private val dateOnOkClickListener = View.OnClickListener {
+    Timber.d("Log: DateOkClick: Clicked")
+
+    val todayCalendar = Calendar.getInstance()
+    val todayDay = todayCalendar.get(Calendar.DAY_OF_MONTH)
+    val todayMonthRaw = todayCalendar.get(Calendar.MONTH)
+    val todayYear = todayCalendar.get(Calendar.YEAR)
+
+    if(datePicker.dayOfMonth == todayDay
+       && (datePicker.month) == todayMonthRaw
+       && datePicker.year == todayYear
+    ) {
+      // Display "Today" on chip
+      datePickerDialog.dismiss()
+      dateChip.text = resources.getString(R.string.today)
+      setDate(todayDay, todayMonthRaw, todayYear)
+    } else {
+      val day = datePicker.dayOfMonth
+      val monthRaw = datePicker.month
+      val year = datePicker.year
+      // Add one for non zero-indexed display
+      val date = "$day/${monthRaw + 1}/$year"
+      dateChip.text = date
+
+      setDate(day, monthRaw, year)
+      datePickerDialog.dismiss()
+    }
+  }
+
+  private val dateOnCancelClickListener = View.OnClickListener {
+    Timber.d("Log: DateCancelClick: Clicked")
+    datePickerDialog.dismiss()
   }
 
   private val songOnClickListener = View.OnClickListener {
@@ -87,12 +145,13 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     activateButton(artistButton)
   }
 
-  private fun setDefaultType() {
-    Timber.d("Log: setDefaultType: Started")
+  private fun setupDefaults() {
+    Timber.d("Log: setupDefaults: Started")
     type = EarwormUtils.SONG
     changeColorOfImageButton(songButton, true)
     changeColorOfImageButton(albumButton, false)
     changeColorOfImageButton(artistButton, false)
+    dateChip.text = resources.getString(R.string.today)
   }
 
   private fun activateButton(button: ImageButton) {
@@ -157,6 +216,13 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     } else {
       DrawableCompat.setTint(button.drawable, ContextCompat.getColor(activity!!.applicationContext, R.color.black))
     }
+  }
+
+  private fun setDate(day: Int, month: Int, year: Int) {
+    Timber.d("Log: setDate: Started with day = $day, month = $month, year = $year")
+    dateChosen.set(Calendar.DAY_OF_MONTH, day)
+    dateChosen.set(Calendar.MONTH, month)
+    dateChosen.set(Calendar.YEAR, year)
   }
 
   override fun saveCallback() {

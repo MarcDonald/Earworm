@@ -5,6 +5,7 @@
     right
   </string>
   <string name="empty">Please ensure all fields are filled before saving</string>
+  <string name="today">Today</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
@@ -18,4 +19,7 @@
   <string name="item_added">Added</string>
   <string name="item_deleted">Deleted</string>
   <string name="save">Save</string>
+  <string name="ok">OK</string>
+  <string name="cancel">Cancel</string>
+
 </resources>

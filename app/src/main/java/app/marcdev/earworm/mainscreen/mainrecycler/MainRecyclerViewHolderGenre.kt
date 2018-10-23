@@ -14,6 +14,8 @@ class MainRecyclerViewHolderGenre(itemView: View) : MainRecyclerViewHolder(itemV
   override fun display(favouriteItemToDisplay: FavouriteItem) {
     Timber.d("Log: display: $favouriteItemToDisplay")
     genreNameDisplay.text = favouriteItemToDisplay.genre
-    genreDateDisplay.text = favouriteItemToDisplay.date
+    // + 1 to month for non-zero-indexed display
+    val date = "${favouriteItemToDisplay.day}/${favouriteItemToDisplay.month + 1}/${favouriteItemToDisplay.year}"
+    genreDateDisplay.text = date
   }
 }

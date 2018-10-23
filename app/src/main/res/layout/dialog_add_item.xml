@@ -46,16 +46,25 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toBottomOf="@id/edt_item_secondary_input" />
 
-    <ImageButton
-      android:id="@+id/btn_add_item_date"
-      style="@style/LightTheme.NoBackgroundImageButton"
+    <com.google.android.material.chip.Chip
+      android:id="@+id/chip_add_item_date_display"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="@dimen/marginStandard"
-      android:src="@drawable/ic_date_range_24px"
-      app:layout_constraintBottom_toBottomOf="parent"
+      android:text="@string/date"
+      android:layout_margin="@dimen/marginStandard"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/edt_item_secondary_input" />
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/btn_add_item_date"-->
+    <!--style="@style/LightTheme.NoBackgroundImageButton"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="@dimen/marginStandard"-->
+    <!--android:src="@drawable/ic_date_range_24px"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/chip_add_item_date_display" />-->
 
     <ImageButton
       android:id="@+id/btn_add_item_song_choice"
@@ -65,7 +74,7 @@
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_music_note_24px"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toEndOf="@id/btn_add_item_date"
+      app:layout_constraintStart_toEndOf="@id/chip_add_item_date_display"
       app:layout_constraintTop_toBottomOf="@id/edt_item_secondary_input" />
 
     <ImageButton

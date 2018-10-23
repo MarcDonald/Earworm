@@ -16,6 +16,8 @@ class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(item
     Timber.d("Log: display: $favouriteItemToDisplay")
     artistNameDisplay.text = favouriteItemToDisplay.artistName
     artistGenreDisplay.text = favouriteItemToDisplay.genre
-    artistDateDisplay.text = favouriteItemToDisplay.date
+    // + 1 to month for non-zero-indexed display
+    val date = "${favouriteItemToDisplay.day}/${favouriteItemToDisplay.month + 1}/${favouriteItemToDisplay.year}"
+    artistDateDisplay.text = date
   }
 }

@@ -16,15 +16,24 @@
   </style>
 
   <style name="LightTheme.BottomDialogTheme" parent="Widget.MaterialComponents.BottomSheet.Modal">
-    <item name="android:background">@drawable/bottom_sheet_background</item>
+    <item name="android:background">@drawable/rounded_bottom_sheet_background</item>
+  </style>
+
+  <style name="LightTheme.DialogTheme" parent="Theme.MaterialComponents.Dialog">
+    <item name="android:background">@drawable/rounded_dialog_background</item>
+  </style>
+
+  <style name="LightTheme.CardView" parent="CardView.Light">
+    <item name="android:layout_margin">@dimen/marginStandard</item>"
+    <item name="cardCornerRadius">@dimen/roundedCornerRadius</item>
   </style>
 
   <!--Text Styles-->
-  <style name="LightTheme.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+  <style name="LightTheme.TextAppearance.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
     <item name="android:textColor">@color/textOnPrimary</item>
   </style>
 
-  <style name="LightTheme.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
+  <style name="LightTheme.TextAppearance.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
     <item name="android:textColor">@color/textOnPrimary</item>
   </style>
 
