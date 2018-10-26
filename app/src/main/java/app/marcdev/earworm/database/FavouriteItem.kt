@@ -9,7 +9,9 @@ data class FavouriteItem(
   var albumName: String,
   var artistName: String,
   var genre: String,
-  var date: String,
+  var day: Int,
+  var month: Int,
+  var year: Int,
   var type: Int
 ) {
 

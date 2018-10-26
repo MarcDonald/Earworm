@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.formatDateForDisplay
 import timber.log.Timber
 
 class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(itemView) {
@@ -16,6 +17,7 @@ class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(item
     Timber.d("Log: display: $favouriteItemToDisplay")
     artistNameDisplay.text = favouriteItemToDisplay.artistName
     artistGenreDisplay.text = favouriteItemToDisplay.genre
-    artistDateDisplay.text = favouriteItemToDisplay.date
+    val date = formatDateForDisplay(favouriteItemToDisplay.day, favouriteItemToDisplay.month, favouriteItemToDisplay.year)
+    artistDateDisplay.text = date
   }
 }

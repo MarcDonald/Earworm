@@ -7,12 +7,38 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="LightTheme.BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@color/colorPrimary</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="bottomSheetStyle">@style/LightTheme.BottomDialogTheme</item>
+    <item name="android:windowSoftInputMode">adjustResize</item>
+  </style>
+
+  <style name="LightTheme.BottomDialogTheme" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <item name="android:background">@drawable/rounded_bottom_sheet_background</item>
+  </style>
+
+  <style name="LightTheme.DialogTheme" parent="Theme.MaterialComponents.Dialog">
+    <item name="android:background">@drawable/rounded_dialog_background</item>
+  </style>
+
+  <style name="LightTheme.CardView" parent="CardView.Light">
+    <item name="android:layout_margin">@dimen/marginStandard</item>"
+    <item name="cardCornerRadius">@dimen/roundedCornerRadius</item>
+  </style>
+
   <!--Text Styles-->
-  <style name="LightTheme.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+  <style name="LightTheme.TextAppearance.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
     <item name="android:textColor">@color/textOnPrimary</item>
   </style>
 
-  <style name="LightTheme.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
+  <style name="LightTheme.TextAppearance.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
     <item name="android:textColor">@color/textOnPrimary</item>
+  </style>
+
+  <!--Button Styles-->
+  <style name="LightTheme.NoBackgroundImageButton">
+    <item name="android:backgroundTint">@color/colorPrimary</item>
   </style>
 </resources>

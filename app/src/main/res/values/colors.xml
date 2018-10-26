@@ -8,7 +8,8 @@
   <color name="colorAccentLight">#FFAD42</color>
   <color name="colorAccentDark">#BB4D00</color>
   <color name="textOnPrimary">@color/black</color>
-  <color name="error">#B00020</color>
+  <color name="negative">#B00020</color>
+  <color name="positive">#4CAF50</color>
 
   <!--Other colors-->
   <color name="white">#FFFFFF</color>
