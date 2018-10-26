@@ -4,8 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import app.marcdev.earworm.EarwormUtils
-import app.marcdev.earworm.R
+import app.marcdev.earworm.*
 import app.marcdev.earworm.database.FavouriteItem
 import timber.log.Timber
 
@@ -25,25 +24,25 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
     lateinit var viewHolder: MainRecyclerViewHolder
 
     when (viewType) {
-      EarwormUtils.SONG -> {
+      SONG -> {
         Timber.v("Log: onCreateViewHolder: Type == Song")
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
         viewHolder = MainRecyclerViewHolderSong(view)
       }
 
-      EarwormUtils.ALBUM -> {
+      ALBUM -> {
         Timber.v("Log: onCreateViewHolder: Type == Album")
         val view = inflater.inflate(R.layout.item_mainrecycler_album, parent, false)
         viewHolder = MainRecyclerViewHolderAlbum(view)
       }
 
-      EarwormUtils.ARTIST -> {
+      ARTIST -> {
         Timber.v("Log: onCreateViewHolder: Type == Artist")
         val view = inflater.inflate(R.layout.item_mainrecycler_artist, parent, false)
         viewHolder = MainRecyclerViewHolderArtist(view)
       }
 
-      EarwormUtils.GENRE -> {
+      GENRE -> {
         Timber.v("Log: onCreateViewHolder: Type == Genre")
         val view = inflater.inflate(R.layout.item_mainrecycler_genre, parent, false)
         viewHolder = MainRecyclerViewHolderGenre(view)

@@ -1,7 +1,9 @@
 package app.marcdev.earworm.mainscreen.additem
 
 import android.content.Context
-import app.marcdev.earworm.EarwormUtils
+import app.marcdev.earworm.ALBUM
+import app.marcdev.earworm.ARTIST
+import app.marcdev.earworm.SONG
 import app.marcdev.earworm.database.FavouriteItem
 import timber.log.Timber
 import java.util.*
@@ -27,9 +29,9 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
       val year = dateChosen.get(Calendar.YEAR)
 
       val item: FavouriteItem = when(type) {
-        EarwormUtils.SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type)
-        EarwormUtils.ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type)
-        EarwormUtils.ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type)
+        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type)
+        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type)
+        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type)
         else -> FavouriteItem("", "", "", "", 0, 0, 0, type)
       }
       model.addItemAsync(item)

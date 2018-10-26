@@ -13,8 +13,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import app.marcdev.earworm.EarwormUtils
-import app.marcdev.earworm.R
+import app.marcdev.earworm.*
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -116,8 +115,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       val day = datePicker.dayOfMonth
       val monthRaw = datePicker.month
       val year = datePicker.year
-      // Add one for non zero-indexed display
-      val date = "$day/${monthRaw + 1}/$year"
+      val date = formatDateForDisplay(day, monthRaw, year)
       dateChip.text = date
 
       setDate(day, monthRaw, year)
@@ -147,7 +145,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private fun setupDefaults() {
     Timber.d("Log: setupDefaults: Started")
-    type = EarwormUtils.SONG
+    type = SONG
     changeColorOfImageButton(songButton, true)
     changeColorOfImageButton(albumButton, false)
     changeColorOfImageButton(artistButton, false)
@@ -158,9 +156,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     Timber.d("Log: activateButton: Started")
     var doUpdate = true
 
-    if(type == EarwormUtils.SONG && button == songButton
-       || type == EarwormUtils.ALBUM && button == albumButton
-       || type == EarwormUtils.ARTIST && button == artistButton
+    if(type == SONG && button == songButton
+       || type == ALBUM && button == albumButton
+       || type == ARTIST && button == artistButton
     ) {
       Timber.d("Log: activateButton: No need to update")
       doUpdate = false
@@ -169,13 +167,13 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     if(doUpdate) {
       Timber.d("Log: activateButton: Activating button $button")
       when(type) {
-        EarwormUtils.SONG -> {
+        SONG -> {
           changeColorOfImageButton(songButton, false)
         }
-        EarwormUtils.ALBUM -> {
+        ALBUM -> {
           changeColorOfImageButton(albumButton, false)
         }
-        EarwormUtils.ARTIST -> {
+        ARTIST -> {
           changeColorOfImageButton(artistButton, false)
         }
       }
@@ -183,21 +181,21 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       when(button) {
         songButton -> {
           changeColorOfImageButton(songButton, true)
-          type = EarwormUtils.SONG
+          type = SONG
           primaryInput.hint = resources.getString(R.string.song_name)
           secondaryInput.hint = resources.getString(R.string.artist)
         }
 
         albumButton -> {
           changeColorOfImageButton(albumButton, true)
-          type = EarwormUtils.ALBUM
+          type = ALBUM
           primaryInput.hint = resources.getString(R.string.album)
           secondaryInput.hint = resources.getString(R.string.artist)
         }
 
         artistButton -> {
           changeColorOfImageButton(artistButton, true)
-          type = EarwormUtils.ARTIST
+          type = ARTIST
           primaryInput.hint = resources.getString(R.string.artist)
           secondaryInput.hint = resources.getString(R.string.genre)
         }

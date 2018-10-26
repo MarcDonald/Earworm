@@ -27,6 +27,6 @@ class MainActivity : AppCompatActivity() {
   private fun setDefaultFragment() {
     Timber.v("Log: setDefaultFragment: Started")
     val fragment = MainFragmentViewImpl()
-    EarwormUtils().setFragment(fragment, supportFragmentManager, R.id.frame_main)
+    setFragment(fragment, supportFragmentManager, R.id.frame_main)
   }
 }
