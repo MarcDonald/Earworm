@@ -6,6 +6,8 @@
   </string>
   <string name="empty">Please ensure all fields are filled before saving</string>
   <string name="today">Today</string>
+  <string name="long_click_hint">Hold to edit or delete</string>
+  <string name="dont_show">Don\'t Show Again</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
@@ -21,5 +23,8 @@
   <string name="save">Save</string>
   <string name="ok">OK</string>
   <string name="cancel">Cancel</string>
+  <string name="edit_or_delete">Edit or Delete Item</string>
+  <string name="edit">Edit</string>
+  <string name="delete">Delete</string>
 
 </resources>
