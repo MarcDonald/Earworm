@@ -15,6 +15,7 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
 import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
+import app.marcdev.earworm.uicomponents.FilterDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
@@ -24,6 +25,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var noEntriesWarning: TextView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
+  private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
 
@@ -57,6 +59,8 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
+
+    this.filterDialog = FilterDialog(requireActivity())
   }
 
   private val fabOnClickListener = View.OnClickListener {
@@ -86,7 +90,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private val filterOnClickListener = View.OnClickListener {
     Timber.d("Log: Filter Clicked")
-    // TODO
+    filterDialog.show()
   }
 
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
