@@ -19,7 +19,7 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
   override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?) {
     Timber.d("Log: addItem: Started")
 
-    if(primaryInput.trim() == "" || secondaryInput.trim() == "") {
+    if(primaryInput.isBlank() || secondaryInput.isBlank()) {
       Timber.d("Log: addItem: Empty input")
       view.displayEmptyToast()
     } else {

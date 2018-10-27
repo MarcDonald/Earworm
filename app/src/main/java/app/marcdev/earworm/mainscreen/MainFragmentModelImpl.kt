@@ -43,4 +43,9 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, contex
       presenter.deleteItemCallback()
     }
   }
+
+  override fun searchAsync(input: String) {
+    Timber.d("Log: searchAsync: Started")
+    //TODO
+  }
 }

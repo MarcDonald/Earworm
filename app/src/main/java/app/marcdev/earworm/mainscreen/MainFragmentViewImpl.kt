@@ -1,12 +1,11 @@
 package app.marcdev.earworm.mainscreen
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +23,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
   private lateinit var progressBar: ProgressBar
+  private lateinit var searchInput: EditText
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
 
@@ -46,6 +46,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     this.noEntriesWarning = view.findViewById(R.id.txt_noEntries)
     this.progressBar = view.findViewById(R.id.prog_main)
 
+    this.searchInput = view.findViewById(R.id.edt_filter_input)
+    searchInput.setOnKeyListener(searchOnEnterListener)
+
+    val searchButton: ImageView = view.findViewById(R.id.img_search)
+    searchButton.setOnClickListener(searchOnClickListener)
+
+    val filterButton: ImageView = view.findViewById(R.id.img_filter)
+    filterButton.setOnClickListener(filterOnClickListener)
+
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
   }
@@ -55,6 +64,29 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     val addDialog = AddItemBottomSheet()
     addDialog.bindRecyclerUpdateView(this)
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
+  }
+
+  private val searchOnEnterListener: View.OnKeyListener = View.OnKeyListener { _: View, keyCode: Int, keyEvent: KeyEvent ->
+    testIfSubmitButtonClicked(keyEvent, keyCode)
+  }
+
+  private fun testIfSubmitButtonClicked(keyEvent: KeyEvent, keyCode: Int): Boolean {
+    Timber.d("Log: testIfSubmitButtonClicked: Submit button clicked")
+    if((keyEvent.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
+      presenter.search(searchInput.text.toString())
+      return true
+    }
+    return false
+  }
+
+  private val searchOnClickListener = View.OnClickListener {
+    Timber.d("Log: Search Clicked")
+    presenter.search(searchInput.text.toString())
+  }
+
+  private val filterOnClickListener = View.OnClickListener {
+    Timber.d("Log: Filter Clicked")
+    // TODO
   }
 
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
@@ -128,6 +160,10 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     addDialog.arguments = args
 
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
+  }
 
+  override fun displayEmptySearchToast() {
+    Timber.d("Log: displayEmptySearchToast: Started")
+    Toast.makeText(activity, resources.getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
   }
 }

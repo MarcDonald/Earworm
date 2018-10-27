@@ -5,6 +5,7 @@
     right
   </string>
   <string name="empty">Please ensure all fields are filled before saving</string>
+  <string name="empty_search">Please enter something to search for</string>
   <string name="today">Today</string>
   <string name="long_click_hint">Hold to edit or delete</string>
   <string name="dont_show">Don\'t Show Again</string>

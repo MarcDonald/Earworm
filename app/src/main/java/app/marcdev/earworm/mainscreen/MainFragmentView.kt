@@ -15,4 +15,6 @@ interface MainFragmentView {
   fun displayProgress(isVisible: Boolean)
 
   fun displayEditItemSheet(itemId: Int)
+
+  fun displayEmptySearchToast()
 }

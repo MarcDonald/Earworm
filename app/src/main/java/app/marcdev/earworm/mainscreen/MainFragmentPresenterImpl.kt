@@ -44,4 +44,17 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     Timber.d("Log: editItemClick: Started")
     view.displayEditItemSheet(itemId)
   }
+
+  override fun search(input: String) {
+    Timber.d("Log: search: Started with input = $input")
+    if(input.isBlank()) {
+      view.displayEmptySearchToast()
+    } else {
+      model.searchAsync(input.trim())
+    }
+  }
+
+  override fun searchCallback(items: MutableList<FavouriteItem>) {
+    // TODO
+  }
 }
