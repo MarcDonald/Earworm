@@ -7,9 +7,11 @@
 
   <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="@dimen/appBarHeight">
+    android:layout_height="wrap_content">
 
     <include layout="@layout/toolbar_main" />
+
+    <include layout="@layout/toolbar_filter" />
   </com.google.android.material.appbar.AppBarLayout>
 
   <androidx.core.widget.NestedScrollView
@@ -37,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_noEntries" />
 
       <androidx.recyclerview.widget.RecyclerView

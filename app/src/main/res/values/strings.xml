@@ -8,6 +8,7 @@
   <string name="today">Today</string>
   <string name="long_click_hint">Hold to edit or delete</string>
   <string name="dont_show">Don\'t Show Again</string>
+  <string name="search">Search</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
