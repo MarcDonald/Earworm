@@ -94,7 +94,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     }
   }
 
-  override fun updateRecycler(items: MutableList<FavouriteItem>) {
+  override fun updateRecycler(items: List<FavouriteItem>) {
     Timber.d("Log: updateRecycler: Started")
     recyclerAdapter.updateItems(items)
   }

@@ -14,7 +14,14 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>) {
     Timber.d("Log: getAllItemsCallback: Started")
-    view.updateRecycler(items)
+
+    val sortedItems = items.sortedWith(
+      compareBy(
+        { it.year },
+        { it.month },
+        { it.day }))
+
+    view.updateRecycler(sortedItems)
     view.displayProgress(false)
 
     if(items.size == 0) {
