@@ -117,4 +117,17 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
       progressBar.visibility = View.GONE
     }
   }
+
+  override fun displayEditItemSheet(itemId: Int) {
+    Timber.d("Log: displayEditItemSheet: Started")
+    val addDialog = AddItemBottomSheet()
+    addDialog.bindRecyclerUpdateView(this)
+
+    val args = Bundle()
+    args.putInt("item_id", itemId)
+    addDialog.arguments = args
+
+    addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
+
+  }
 }

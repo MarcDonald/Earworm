@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.preference.PreferenceManager
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
@@ -44,8 +43,9 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
   private val editOnClickListener = View.OnClickListener {
     Timber.d("Log: editOnClickListener: Clicked")
-    Toast.makeText(itemView.context, "Edit", Toast.LENGTH_SHORT).show()
     editDialog.dismiss()
+    Timber.i("Log: yeet: ${displayedItem.id!!}")
+    presenter.editItemClick(displayedItem.id!!)
   }
 
   private val deleteOnClickListener = View.OnClickListener {

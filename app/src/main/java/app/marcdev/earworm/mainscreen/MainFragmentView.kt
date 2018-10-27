@@ -13,4 +13,6 @@ interface MainFragmentView {
   fun updateRecycler(items: MutableList<FavouriteItem>)
 
   fun displayProgress(isVisible: Boolean)
+
+  fun displayEditItemSheet(itemId: Int)
 }

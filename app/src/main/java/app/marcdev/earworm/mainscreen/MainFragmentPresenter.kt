@@ -11,4 +11,6 @@ interface MainFragmentPresenter {
   fun deleteItem(item: FavouriteItem)
 
   fun deleteItemCallback()
+
+  fun editItemClick(itemId: Int)
 }

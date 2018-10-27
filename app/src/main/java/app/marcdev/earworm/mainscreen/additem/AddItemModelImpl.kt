@@ -31,4 +31,16 @@ class AddItemModelImpl(private val presenter: AddItemPresenter, context: Context
       presenter.addItemCallback()
     }
   }
+
+  override fun getItemAsync(itemId: Int) {
+    Timber.d("Log: getItemAsync: Started")
+
+    GlobalScope.launch(Dispatchers.Main) {
+      val item = async(Dispatchers.IO) {
+        repository.getItem(itemId)
+      }.await()
+
+      presenter.getItemCallback(item)
+    }
+  }
 }
