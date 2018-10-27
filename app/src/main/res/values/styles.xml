@@ -25,7 +25,7 @@
 
   <style name="LightTheme.CardView" parent="CardView.Light">
     <item name="android:layout_margin">@dimen/marginStandard</item>"
-    <item name="cardCornerRadius">@dimen/roundedCornerRadius</item>
+    <item name="cardCornerRadius">@dimen/cardCornerRadius</item>
   </style>
 
   <!--Text Styles-->
@@ -35,6 +35,11 @@
 
   <style name="LightTheme.TextAppearance.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
     <item name="android:textColor">@color/textOnPrimary</item>
+  </style>
+
+  <style name="LightTheme.TextAppearance.AlertDialogTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <item name="android:textColor">@color/textOnPrimary</item>
+    <item name="android:textAlignment">center</item>
   </style>
 
   <!--Button Styles-->

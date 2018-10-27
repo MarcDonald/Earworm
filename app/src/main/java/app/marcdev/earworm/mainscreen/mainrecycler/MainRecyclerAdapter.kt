@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.*
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import timber.log.Timber
 
-class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecyclerViewHolder>() {
+class MainRecyclerAdapter(context: Context?, private val presenter: MainFragmentPresenter) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
 
   private var items: MutableList<FavouriteItem> = mutableListOf()
   private var inflater: LayoutInflater = LayoutInflater.from(context)
@@ -23,7 +24,7 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
 
     lateinit var viewHolder: MainRecyclerViewHolder
 
-    when (viewType) {
+    when(viewType) {
       SONG -> {
         Timber.v("Log: onCreateViewHolder: Type == Song")
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
@@ -55,6 +56,7 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
   override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
     Timber.v("Log: onBindViewHolder: $position")
     holder.display(items[position])
+    holder.bindPresenterAndItem(presenter, items[position])
   }
 
   override fun getItemCount(): Int {
@@ -62,7 +64,7 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
     return items.size
   }
 
-  fun updateItems(items: MutableList<FavouriteItem>) {
+  override fun updateItems(items: MutableList<FavouriteItem>) {
     Timber.d("Log: updateItems: Started")
     this.items = items
     notifyDataSetChanged()

@@ -1,8 +1,10 @@
 package app.marcdev.earworm.mainscreen
 
+import app.marcdev.earworm.database.FavouriteItem
+
 interface MainFragmentModel {
 
   fun getAllItemsAsync()
 
-  fun clearListAsync()
+  fun deleteItemAsync(item: FavouriteItem)
 }
