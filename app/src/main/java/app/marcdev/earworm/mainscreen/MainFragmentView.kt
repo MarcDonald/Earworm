@@ -8,7 +8,9 @@ interface MainFragmentView {
 
   fun displayAddedToast()
 
-  fun displayClearedToast()
+  fun displayItemDeletedToast()
 
   fun updateRecycler(items: MutableList<FavouriteItem>)
+
+  fun displayProgress(isVisible: Boolean)
 }

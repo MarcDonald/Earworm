@@ -18,8 +18,8 @@
   <string name="date">Date</string>
 
   <!--Data Modification-->
-  <string name="item_added">Added</string>
-  <string name="item_deleted">Deleted</string>
+  <string name="item_added">Item Added</string>
+  <string name="item_deleted">Item Deleted</string>
   <string name="save">Save</string>
   <string name="ok">OK</string>
   <string name="cancel">Cancel</string>

@@ -7,11 +7,6 @@ import timber.log.Timber
 class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context) : MainFragmentPresenter {
   private var model = MainFragmentModelImpl(this, context)
 
-  override fun fabLongClick() {
-    Timber.d("Log: fabLongClick: Started")
-    model.clearListAsync()
-  }
-
   override fun getAllItems() {
     Timber.d("Log: getAllItems: Started")
     model.getAllItemsAsync()
@@ -20,6 +15,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>) {
     Timber.d("Log: getAllItemsCallback: Started")
     view.updateRecycler(items)
+    view.displayProgress(false)
 
     if(items.size == 0) {
       view.displayNoEntriesWarning(true)
@@ -27,9 +23,13 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
       view.displayNoEntriesWarning(false)
   }
 
-  override fun clearListCallback() {
-    Timber.d("Log: clearListCallback: Started")
-    view.displayClearedToast()
-    model.getAllItemsAsync()
+  override fun deleteItem(item: FavouriteItem) {
+    Timber.d("Log: deleteItem: Started")
+    model.deleteItemAsync(item)
+  }
+
+  override fun deleteItemCallback() {
+    Timber.d("Log: deleteItemCallback: Started")
+    getAllItems()
   }
 }

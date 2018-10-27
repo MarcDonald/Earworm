@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
@@ -22,6 +23,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
+  private lateinit var progressBar: ProgressBar
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
 
@@ -40,9 +42,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     Timber.v("Log: bindViews: Started")
     this.fab = view.findViewById(R.id.fab_main)
     fab.setOnClickListener(fabOnClickListener)
-    fab.setOnLongClickListener(fabOnLongClickListener)
 
-    noEntriesWarning = view.findViewById(R.id.txt_noEntries)
+    this.noEntriesWarning = view.findViewById(R.id.txt_noEntries)
+    this.progressBar = view.findViewById(R.id.prog_main)
 
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
@@ -53,11 +55,6 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     val addDialog = AddItemBottomSheet()
     addDialog.bindRecyclerUpdateView(this)
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
-  }
-  private val fabOnLongClickListener = View.OnLongClickListener {
-    Timber.d("Log: Fab Long Clicked")
-    presenter.fabLongClick()
-    return@OnLongClickListener true
   }
 
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
@@ -73,13 +70,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private fun setupRecycler(view: View) {
     Timber.v("Log: setupRecycler: Started")
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
-    this.recyclerAdapter = MainRecyclerAdapter(context)
+    this.recyclerAdapter = MainRecyclerAdapter(context, presenter)
     recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
   }
 
   override fun fillData() {
     Timber.d("Log: fillData: Started")
+    displayProgress(true)
+    displayNoEntriesWarning(false)
     presenter.getAllItems()
   }
 
@@ -105,8 +104,17 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
   }
 
-  override fun displayClearedToast() {
-    Timber.d("Log: displayClearedToast: Started")
+  override fun displayItemDeletedToast() {
+    Timber.d("Log: displayItemDeletedToast: Started")
     Toast.makeText(activity, resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT).show()
+  }
+
+  override fun displayProgress(isVisible: Boolean) {
+    Timber.d("Log: displayProgress: Started with isVisible = $isVisible")
+    if(isVisible) {
+      progressBar.visibility = View.VISIBLE
+    } else {
+      progressBar.visibility = View.GONE
+    }
   }
 }

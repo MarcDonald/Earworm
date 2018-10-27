@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
@@ -16,7 +17,7 @@ import timber.log.Timber
 open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
   private lateinit var displayedItem: FavouriteItem
-  private lateinit var presenter: MainRecyclerPresenter
+  private lateinit var presenter: MainFragmentPresenter
   private lateinit var editDialog: Dialog
   private val prefs = PreferenceManager.getDefaultSharedPreferences(itemView.context)
 
@@ -63,7 +64,7 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
     // TO BE OVERRIDDEN
   }
 
-  fun bindPresenterAndItem(presenter: MainRecyclerPresenter, item: FavouriteItem) {
+  fun bindPresenterAndItem(presenter: MainFragmentPresenter, item: FavouriteItem) {
     this.presenter = presenter
     this.displayedItem = item
   }

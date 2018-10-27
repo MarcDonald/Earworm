@@ -3,18 +3,16 @@ package app.marcdev.earworm.mainscreen.mainrecycler
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.*
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import timber.log.Timber
 
-class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
+class MainRecyclerAdapter(context: Context?, private val presenter: MainFragmentPresenter) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
 
   private var items: MutableList<FavouriteItem> = mutableListOf()
   private var inflater: LayoutInflater = LayoutInflater.from(context)
-  private var presenter: MainRecyclerPresenter = MainRecyclerPresenterImpl(this, context!!)
-  private val itemDeletedToast: Toast = Toast.makeText(context, context!!.resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT)
 
   override fun getItemViewType(position: Int): Int {
     Timber.v("Log: getItemViewType: Started")
@@ -26,7 +24,7 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
 
     lateinit var viewHolder: MainRecyclerViewHolder
 
-    when (viewType) {
+    when(viewType) {
       SONG -> {
         Timber.v("Log: onCreateViewHolder: Type == Song")
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
@@ -70,10 +68,5 @@ class MainRecyclerAdapter(context: Context?) : RecyclerView.Adapter<MainRecycler
     Timber.d("Log: updateItems: Started")
     this.items = items
     notifyDataSetChanged()
-  }
-
-  override fun displayItemDeletedToast() {
-    Timber.d("Log: displayItemDeletedToast: Started")
-    itemDeletedToast.show()
   }
 }
