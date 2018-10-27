@@ -16,7 +16,7 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
     model = AddItemModelImpl(this, context)
   }
 
-  override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar) {
+  override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?) {
     Timber.d("Log: addItem: Started")
 
     if(primaryInput.trim() == "" || secondaryInput.trim() == "") {
@@ -34,6 +34,12 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
         ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type)
         else -> FavouriteItem("", "", "", "", 0, 0, 0, type)
       }
+
+      if(itemId != null) {
+        Timber.d("Log: addItem: Updating old item with ID = $itemId")
+        item.id = itemId
+      }
+
       model.addItemAsync(item)
     }
   }
@@ -41,5 +47,20 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
   override fun addItemCallback() {
     Timber.d("Log: addItemCallback: Started")
     view.saveCallback()
+  }
+
+  override fun getItem(itemId: Int) {
+    Timber.d("Log: getItem: Started")
+    model.getItemAsync(itemId)
+  }
+
+  override fun getItemCallback(items: MutableList<FavouriteItem>) {
+    Timber.d("Log: getItemCallback: Started")
+
+    if(items.isNotEmpty()) {
+      view.convertToEditMode(items.first())
+    } else {
+      Timber.e("Log: getItemCallback: Returned empty list")
+    }
   }
 }

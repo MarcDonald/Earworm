@@ -32,4 +32,9 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     Timber.d("Log: deleteItemCallback: Started")
     getAllItems()
   }
+
+  override fun editItemClick(itemId: Int) {
+    Timber.d("Log: editItemClick: Started")
+    view.displayEditItemSheet(itemId)
+  }
 }

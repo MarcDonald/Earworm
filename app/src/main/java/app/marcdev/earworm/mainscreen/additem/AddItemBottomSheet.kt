@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import app.marcdev.earworm.*
+import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -35,6 +36,8 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var datePickerCancel: MaterialButton
   private lateinit var dateChip: Chip
   private val dateChosen = Calendar.getInstance()
+  // If the itemID is anything other than -1 then it is in edit mode
+  private var itemId: Int = -1
 
   private var type: Int = 0
   private var recyclerUpdateView: RecyclerUpdateView? = null
@@ -43,8 +46,42 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     val view = inflater.inflate(R.layout.dialog_add_item, container, false)
     presenter = AddItemPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
-    setupDefaults()
+
+    if(arguments != null) {
+      Timber.d("Log: onCreateView: Arguments not null")
+      this.itemId = arguments!!.getInt("item_id")
+      presenter.getItem(itemId)
+    } else {
+      Timber.d("Log: onCreateView: Arguments null")
+      setupDefaults()
+    }
     return view
+  }
+
+  override fun convertToEditMode(item: FavouriteItem) {
+    Timber.d("Log: convertToEditMode: Started")
+
+    when(item.type) {
+      SONG -> {
+        activateButton(songButton)
+        primaryInput.setText(item.songName)
+        secondaryInput.setText(item.artistName)
+      }
+
+      ALBUM -> {
+        activateButton(albumButton)
+        primaryInput.setText(item.albumName)
+        secondaryInput.setText(item.artistName)
+      }
+
+      ARTIST -> {
+        activateButton(artistButton)
+        primaryInput.setText(item.artistName)
+        secondaryInput.setText(item.genre)
+      }
+    }
+
+    updateDateAndDisplay(item.day, item.month, item.year)
   }
 
   fun bindRecyclerUpdateView(view: RecyclerUpdateView) {
@@ -87,40 +124,31 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private val saveOnClickListener = View.OnClickListener {
     Timber.d("Log: SaveClick: Clicked")
-    presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen)
+    if(itemId == -1) {
+      Timber.d("Log: saveOnClickListener: Adding new item")
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null)
+    } else {
+      Timber.d("Log: saveOnClickListener: Updating item with id = $itemId")
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId)
+    }
   }
 
   private val dateOnClickListener = View.OnClickListener {
     Timber.d("Log: DateClick: Clicked")
+    datePicker.updateDate(dateChosen.get(Calendar.YEAR), dateChosen.get(Calendar.MONTH), dateChosen.get(Calendar.DAY_OF_MONTH))
     datePickerDialog.show()
   }
 
   private val dateOnOkClickListener = View.OnClickListener {
     Timber.d("Log: DateOkClick: Clicked")
 
-    val todayCalendar = Calendar.getInstance()
-    val todayDay = todayCalendar.get(Calendar.DAY_OF_MONTH)
-    val todayMonthRaw = todayCalendar.get(Calendar.MONTH)
-    val todayYear = todayCalendar.get(Calendar.YEAR)
+    val day = datePicker.dayOfMonth
+    val monthRaw = datePicker.month
+    val year = datePicker.year
 
-    if(datePicker.dayOfMonth == todayDay
-       && (datePicker.month) == todayMonthRaw
-       && datePicker.year == todayYear
-    ) {
-      // Display "Today" on chip
-      datePickerDialog.dismiss()
-      dateChip.text = resources.getString(R.string.today)
-      setDate(todayDay, todayMonthRaw, todayYear)
-    } else {
-      val day = datePicker.dayOfMonth
-      val monthRaw = datePicker.month
-      val year = datePicker.year
-      val date = formatDateForDisplay(day, monthRaw, year)
-      dateChip.text = date
+    updateDateAndDisplay(day, monthRaw, year)
 
-      setDate(day, monthRaw, year)
-      datePickerDialog.dismiss()
-    }
+    datePickerDialog.dismiss()
   }
 
   private val dateOnCancelClickListener = View.OnClickListener {
@@ -213,6 +241,30 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       DrawableCompat.setTint(button.drawable, ContextCompat.getColor(activity!!.applicationContext, R.color.colorAccent))
     } else {
       DrawableCompat.setTint(button.drawable, ContextCompat.getColor(activity!!.applicationContext, R.color.black))
+    }
+  }
+
+  private fun updateDateAndDisplay(day: Int, month: Int, year: Int) {
+    val todayCalendar = Calendar.getInstance()
+    val todayDay = todayCalendar.get(Calendar.DAY_OF_MONTH)
+    val todayMonthRaw = todayCalendar.get(Calendar.MONTH)
+    val todayYear = todayCalendar.get(Calendar.YEAR)
+
+    if(day == todayDay
+       && month == todayMonthRaw
+       && year == todayYear
+    ) {
+      // Display "Today" on chip
+      datePickerDialog.dismiss()
+      dateChip.text = resources.getString(R.string.today)
+      setDate(todayDay, todayMonthRaw, todayYear)
+    } else {
+
+      val date = formatDateForDisplay(day, month, year)
+      dateChip.text = date
+
+      setDate(day, month, year)
+      datePickerDialog.dismiss()
     }
   }
 
