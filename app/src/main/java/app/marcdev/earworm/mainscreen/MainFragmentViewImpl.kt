@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.R
+import app.marcdev.earworm.changeColorOfImageButtonDrawable
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
 import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
@@ -29,7 +30,8 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var noFilteredResultsWarning: TextView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
-  private lateinit var searchButton: ImageView
+  private lateinit var searchButton: ImageButton
+  private lateinit var filterButton: ImageButton
   private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
@@ -63,7 +65,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     this.searchButton = view.findViewById(R.id.img_search)
     searchButton.setOnClickListener(searchOnClickListener)
 
-    val filterButton: ImageView = view.findViewById(R.id.img_filter)
+    this.filterButton = view.findViewById(R.id.img_filter)
     filterButton.setOnClickListener(filterOnClickListener)
 
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
@@ -215,5 +217,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
       searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, null))
       this.isSearchMode = false
     }
+  }
+
+  override fun activateFilterIcon(isActive: Boolean) {
+    Timber.d("Log: activateFilterIcon: Started with isActive = $isActive")
+
+    changeColorOfImageButtonDrawable(context!!, filterButton, isActive)
   }
 }

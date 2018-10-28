@@ -1,6 +1,7 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
+import app.marcdev.earworm.DEFAULT_FILTER
 import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.applyFilter
 import app.marcdev.earworm.database.FavouriteItem
@@ -16,7 +17,14 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
   override fun getAllItems(filter: ItemFilter) {
     Timber.d("Log: getAllItems with Filter: Started")
-    model.getAllItemsAsync(filter)
+    Timber.i("Log: getAllItems: Input Filter = $filter")
+    if(filter != DEFAULT_FILTER.copy()) {
+      view.activateFilterIcon(true)
+      model.getAllItemsAsync(filter)
+    } else {
+      view.activateFilterIcon(false)
+      getAllItems()
+    }
   }
 
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>) {
@@ -45,7 +53,6 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
     view.updateRecycler(sortedItems)
     view.displayProgress(false)
-    Timber.i("Log: getAllItemsCallback: ${sortedItems.size}")
 
     if(sortedItems.size == 0) {
       view.displayNoFilteredResultsWarning(true)
@@ -61,7 +68,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
   override fun deleteItemCallback() {
     Timber.d("Log: deleteItemCallback: Started")
-    if(view.getActiveFilter() != ItemFilter(1, 0, 1900, 31, 12, 2099, true, true, true, "")) {
+    if(view.getActiveFilter() != DEFAULT_FILTER.copy()) {
       getAllItems(view.getActiveFilter())
     } else {
       getAllItems()

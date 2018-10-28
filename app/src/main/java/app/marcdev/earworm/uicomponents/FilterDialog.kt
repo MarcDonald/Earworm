@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.DatePicker
+import app.marcdev.earworm.DEFAULT_FILTER
 import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.R
 import app.marcdev.earworm.formatDateForDisplay
@@ -25,7 +26,7 @@ class FilterDialog(context: Context, private val presenter: MainFragmentPresente
   private lateinit var endDateDisplay: Chip
   private lateinit var startDatePickerDialog: Dialog
   private lateinit var endDatePickerDialog: Dialog
-  var activeFilter: ItemFilter = ItemFilter(1, 0, 1900, 31, 12, 2099, true, true, true, "")
+  var activeFilter: ItemFilter = DEFAULT_FILTER.copy()
 
   init {
     Timber.d("Log: FilterDialog Init: Started")
@@ -104,9 +105,9 @@ class FilterDialog(context: Context, private val presenter: MainFragmentPresente
     val startButton: MaterialButton = startDatePickerDialog.findViewById(R.id.btn_datepicker_filter_start_end)
     startButton.setOnClickListener {
       Timber.d("Log: startButtonOnClickListener: Started")
-      activeFilter.startDay = 1
-      activeFilter.startMonth = 1
-      activeFilter.startYear = 1900
+      activeFilter.startDay = DEFAULT_FILTER.startDay
+      activeFilter.startMonth = DEFAULT_FILTER.startMonth
+      activeFilter.startYear = DEFAULT_FILTER.startYear
       startDateDisplay.text = context.resources.getString(R.string.start)
       val todayCalendar = Calendar.getInstance()
       datePicker.updateDate(todayCalendar.get(Calendar.YEAR), todayCalendar.get(Calendar.MONTH), todayCalendar.get(Calendar.DAY_OF_MONTH))
@@ -143,9 +144,9 @@ class FilterDialog(context: Context, private val presenter: MainFragmentPresente
     endButton.text = context.resources.getString(R.string.end)
     endButton.setOnClickListener {
       Timber.d("Log: startButtonOnClickListener: Started")
-      activeFilter.endDay = 31
-      activeFilter.endMonth = 11
-      activeFilter.endYear = 2099
+      activeFilter.endDay = DEFAULT_FILTER.endDay
+      activeFilter.endMonth = DEFAULT_FILTER.endMonth
+      activeFilter.endYear = DEFAULT_FILTER.endYear
       endDateDisplay.text = context.resources.getString(R.string.end)
       val todayCalendar = Calendar.getInstance()
       datePicker.updateDate(todayCalendar.get(Calendar.YEAR), todayCalendar.get(Calendar.MONTH), todayCalendar.get(Calendar.DAY_OF_MONTH))

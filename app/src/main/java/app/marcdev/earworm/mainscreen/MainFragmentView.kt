@@ -22,4 +22,6 @@ interface MainFragmentView {
   fun getActiveFilter(): ItemFilter
 
   fun changeSearchIcon(isSearch: Boolean)
+
+  fun activateFilterIcon(isActive: Boolean)
 }

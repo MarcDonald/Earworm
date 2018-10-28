@@ -1,5 +1,9 @@
 package app.marcdev.earworm
 
+import android.content.Context
+import android.widget.ImageButton
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import app.marcdev.earworm.database.FavouriteItem
@@ -9,6 +13,7 @@ const val SONG = 0
 const val ALBUM = 1
 const val ARTIST = 2
 const val GENRE = 3
+val DEFAULT_FILTER = ItemFilter(1, 0, 1900, 31, 11, 2099, true, true, true, "")
 
 /**
  * Replaces a fragment in a frame with another fragment
@@ -33,6 +38,22 @@ fun formatDateForDisplay(day: Int, month: Int, year: Int): String {
   Timber.d("Log: formatDateForDisplay: Started with day = $day, month = $month, year = $year")
   // Add 1 to month to make it non-zero indexed (January will now be 1 rather than 0)
   return "$day/${month + 1}/$year"
+}
+
+/**
+ * Changes the color of a drawable in an ImageView to indicate whether it is activated or not
+ * @param context Context
+ * @param button The button to change the color of
+ * @param
+ */
+fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isActivated: Boolean) {
+  Timber.v("Log: changeColorOfImageButtonDrawable: Started")
+
+  if(isActivated) {
+    DrawableCompat.setTint(button.drawable, ContextCompat.getColor(context, R.color.colorAccent))
+  } else {
+    DrawableCompat.setTint(button.drawable, ContextCompat.getColor(context, R.color.black))
+  }
 }
 
 /**
