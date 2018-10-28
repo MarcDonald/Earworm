@@ -61,7 +61,7 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
  * @param allItems The complete list of items from the database
  * @param filter The filter to apply
  */
-fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): MutableList<FavouriteItem> {
+fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): List<FavouriteItem> {
   val filteredItems = mutableListOf<FavouriteItem>()
   filteredItems.addAll(allItems)
 
@@ -134,5 +134,13 @@ fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): Mutab
     }
   }
 
-  return filteredItems
+  return filterByDateDescending(filteredItems)
+}
+
+fun filterByDateDescending(items: MutableList<FavouriteItem>): List<FavouriteItem> {
+  return items.sortedWith(
+    compareBy(
+      { -it.year },
+      { -it.month },
+      { -it.day }))
 }

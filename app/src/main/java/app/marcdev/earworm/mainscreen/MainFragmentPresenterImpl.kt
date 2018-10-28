@@ -5,6 +5,7 @@ import app.marcdev.earworm.DEFAULT_FILTER
 import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.applyFilter
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.filterByDateDescending
 import timber.log.Timber
 
 class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context) : MainFragmentPresenter {
@@ -30,16 +31,12 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>) {
     Timber.d("Log: getAllItemsCallback: Started")
 
-    val sortedItems = items.sortedWith(
-      compareBy(
-        { it.year },
-        { it.month },
-        { it.day }))
+    val sortedItems = filterByDateDescending(items)
 
     view.updateRecycler(sortedItems)
     view.displayProgress(false)
 
-    if(items.size == 0) {
+    if(sortedItems.isEmpty()) {
       view.displayNoEntriesWarning(true)
     } else {
       view.displayNoEntriesWarning(false)
@@ -54,7 +51,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     view.updateRecycler(sortedItems)
     view.displayProgress(false)
 
-    if(sortedItems.size == 0) {
+    if(sortedItems.isEmpty()) {
       view.displayNoFilteredResultsWarning(true)
     } else {
       view.displayNoFilteredResultsWarning(false)
