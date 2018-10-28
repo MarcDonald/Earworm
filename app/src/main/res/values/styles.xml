@@ -42,6 +42,10 @@
     <item name="android:textAlignment">center</item>
   </style>
 
+  <style name="LightTheme.TextAppearance.NormalText" parent="TextAppearance.MaterialComponents.Body1">
+    <item name="android:textColor">@color/textOnPrimary</item>
+  </style>
+
   <!--Button Styles-->
   <style name="LightTheme.NoBackgroundImageButton">
     <item name="android:backgroundTint">@color/colorPrimary</item>

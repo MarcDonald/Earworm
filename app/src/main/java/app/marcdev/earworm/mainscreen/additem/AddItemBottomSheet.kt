@@ -11,8 +11,6 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import app.marcdev.earworm.*
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
@@ -174,9 +172,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private fun setupDefaults() {
     Timber.d("Log: setupDefaults: Started")
     type = SONG
-    changeColorOfImageButton(songButton, true)
-    changeColorOfImageButton(albumButton, false)
-    changeColorOfImageButton(artistButton, false)
+    changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
+    changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
+    changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
     dateChip.text = resources.getString(R.string.today)
   }
 
@@ -196,33 +194,33 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       Timber.d("Log: activateButton: Activating button $button")
       when(type) {
         SONG -> {
-          changeColorOfImageButton(songButton, false)
+          changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
         }
         ALBUM -> {
-          changeColorOfImageButton(albumButton, false)
+          changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
         }
         ARTIST -> {
-          changeColorOfImageButton(artistButton, false)
+          changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
         }
       }
 
       when(button) {
         songButton -> {
-          changeColorOfImageButton(songButton, true)
+          changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
           type = SONG
           primaryInput.hint = resources.getString(R.string.song_name)
           secondaryInput.hint = resources.getString(R.string.artist)
         }
 
         albumButton -> {
-          changeColorOfImageButton(albumButton, true)
+          changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
           type = ALBUM
           primaryInput.hint = resources.getString(R.string.album)
           secondaryInput.hint = resources.getString(R.string.artist)
         }
 
         artistButton -> {
-          changeColorOfImageButton(artistButton, true)
+          changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
           type = ARTIST
           primaryInput.hint = resources.getString(R.string.artist)
           secondaryInput.hint = resources.getString(R.string.genre)
@@ -231,16 +229,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       primaryInput.setText("")
       secondaryInput.setText("")
       primaryInput.requestFocus()
-    }
-  }
-
-  private fun changeColorOfImageButton(button: ImageButton, isActivated: Boolean) {
-    Timber.v("Log: changeColorOfImageButton: Started")
-
-    if(isActivated) {
-      DrawableCompat.setTint(button.drawable, ContextCompat.getColor(activity!!.applicationContext, R.color.colorAccent))
-    } else {
-      DrawableCompat.setTint(button.drawable, ContextCompat.getColor(activity!!.applicationContext, R.color.black))
     }
   }
 

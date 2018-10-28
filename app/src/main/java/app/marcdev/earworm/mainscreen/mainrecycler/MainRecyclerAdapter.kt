@@ -11,7 +11,7 @@ import timber.log.Timber
 
 class MainRecyclerAdapter(context: Context?, private val presenter: MainFragmentPresenter) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
 
-  private var items: MutableList<FavouriteItem> = mutableListOf()
+  private var items: List<FavouriteItem> = mutableListOf()
   private var inflater: LayoutInflater = LayoutInflater.from(context)
 
   override fun getItemViewType(position: Int): Int {
@@ -64,7 +64,7 @@ class MainRecyclerAdapter(context: Context?, private val presenter: MainFragment
     return items.size
   }
 
-  override fun updateItems(items: MutableList<FavouriteItem>) {
+  override fun updateItems(items: List<FavouriteItem>) {
     Timber.d("Log: updateItems: Started")
     this.items = items
     notifyDataSetChanged()
