@@ -4,6 +4,7 @@
   <string name="no_entries">You haven\'t made any entries yet. To add a new entry, click the button in the bottom
     right
   </string>
+  <string name="no_filtered_results">No results found that match that filter</string>
   <string name="empty">Please ensure all fields are filled before saving</string>
   <string name="empty_search">Please enter something to search for</string>
   <string name="today">Today</string>

@@ -34,6 +34,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+      <TextView
+        android:id="@+id/txt_noFilteredResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginStandard"
+        android:text="@string/no_filtered_results"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_noEntries" />
+
       <ProgressBar
         android:id="@+id/prog_main"
         android:layout_width="wrap_content"
@@ -41,7 +51,7 @@
         android:layout_margin="@dimen/marginStandard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_noEntries" />
+        app:layout_constraintTop_toBottomOf="@id/txt_noFilteredResults" />
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_main"

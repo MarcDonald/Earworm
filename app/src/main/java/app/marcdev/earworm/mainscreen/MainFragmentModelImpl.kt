@@ -1,6 +1,7 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
+import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.database.AppDatabase
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.repository.FavouriteItemRepository
@@ -29,6 +30,18 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, contex
       }.await()
 
       presenter.getAllItemsCallback(allItems)
+    }
+  }
+
+  override fun getAllItemsAsync(filter: ItemFilter) {
+    Timber.d("Log: getAllItemsAsync: Started")
+
+    GlobalScope.launch(Dispatchers.Main) {
+      val allItems = async(Dispatchers.IO) {
+        repository.getAllItems()
+      }.await()
+
+      presenter.getAllItemsCallback(allItems, filter)
     }
   }
 

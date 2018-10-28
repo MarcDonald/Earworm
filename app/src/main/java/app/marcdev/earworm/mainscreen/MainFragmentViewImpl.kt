@@ -10,6 +10,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
@@ -23,6 +24,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
+  private lateinit var noFilteredResultsWarning: TextView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
   private lateinit var filterDialog: FilterDialog
@@ -46,6 +48,8 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     fab.setOnClickListener(fabOnClickListener)
 
     this.noEntriesWarning = view.findViewById(R.id.txt_noEntries)
+    this.noFilteredResultsWarning = view.findViewById(R.id.txt_noFilteredResults)
+    this.noFilteredResultsWarning.visibility = View.GONE
     this.progressBar = view.findViewById(R.id.prog_main)
 
     this.searchInput = view.findViewById(R.id.edt_filter_input)
@@ -60,7 +64,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
 
-    this.filterDialog = FilterDialog(requireActivity())
+    this.filterDialog = FilterDialog(requireActivity(), presenter)
   }
 
   private val fabOnClickListener = View.OnClickListener {
@@ -119,7 +123,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   }
 
   override fun displayNoEntriesWarning(display: Boolean) {
-    Timber.d("Log: displayNoEntriesWarning: Started")
+    Timber.d("Log: displayNoEntriesWarning: Started with display = $display")
 
     if(display) {
       Timber.d("Log: displayNoEntriesWarning: Displaying")
@@ -155,7 +159,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   }
 
   override fun displayEditItemSheet(itemId: Int) {
-    Timber.d("Log: displayEditItemSheet: Started")
+    Timber.d("Log: displayEditItemSheet: Started with itemId = $itemId")
     val addDialog = AddItemBottomSheet()
     addDialog.bindRecyclerUpdateView(this)
 
@@ -169,5 +173,20 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   override fun displayEmptySearchToast() {
     Timber.d("Log: displayEmptySearchToast: Started")
     Toast.makeText(activity, resources.getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
+  }
+
+  override fun displayNoFilteredResultsWarning(display: Boolean) {
+    Timber.d("Log: displayNoFilteredResultsWarning: Started with display = $display")
+
+    if(display && (noEntriesWarning.visibility == View.VISIBLE)) {
+      this.noFilteredResultsWarning.visibility = View.VISIBLE
+    } else {
+      this.noFilteredResultsWarning.visibility = View.GONE
+    }
+  }
+
+  override fun getActiveFilter(): ItemFilter {
+    Timber.d("Log: getActiveFilter: Started")
+    return filterDialog.activeFilter
   }
 }
