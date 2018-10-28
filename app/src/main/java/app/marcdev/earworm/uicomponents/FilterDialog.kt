@@ -25,7 +25,7 @@ class FilterDialog(context: Context, private val presenter: MainFragmentPresente
   private lateinit var endDateDisplay: Chip
   private lateinit var startDatePickerDialog: Dialog
   private lateinit var endDatePickerDialog: Dialog
-  var activeFilter: ItemFilter = ItemFilter(1, 0, 1900, 31, 12, 2099, true, true, true)
+  var activeFilter: ItemFilter = ItemFilter(1, 0, 1900, 31, 12, 2099, true, true, true, "")
 
   init {
     Timber.d("Log: FilterDialog Init: Started")

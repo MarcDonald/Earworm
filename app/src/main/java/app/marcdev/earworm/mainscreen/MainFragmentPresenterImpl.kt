@@ -45,6 +45,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
     view.updateRecycler(sortedItems)
     view.displayProgress(false)
+    Timber.i("Log: getAllItemsCallback: ${sortedItems.size}")
 
     if(sortedItems.size == 0) {
       view.displayNoFilteredResultsWarning(true)
@@ -60,7 +61,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
   override fun deleteItemCallback() {
     Timber.d("Log: deleteItemCallback: Started")
-    if(view.getActiveFilter() != ItemFilter(1, 0, 1900, 31, 12, 2099, true, true, true)) {
+    if(view.getActiveFilter() != ItemFilter(1, 0, 1900, 31, 12, 2099, true, true, true, "")) {
       getAllItems(view.getActiveFilter())
     } else {
       getAllItems()
@@ -75,13 +76,15 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
   override fun search(input: String) {
     Timber.d("Log: search: Started with input = $input")
     if(input.isBlank()) {
-      view.displayEmptySearchToast()
+      val inputFilter = view.getActiveFilter()
+      inputFilter.searchTerm = ""
+      model.getAllItemsAsync(inputFilter)
+      view.changeSearchIcon(true)
     } else {
-      model.searchAsync(input.trim())
+      val inputFilter = view.getActiveFilter()
+      inputFilter.searchTerm = input.trim()
+      model.getAllItemsAsync(inputFilter)
+      view.changeSearchIcon(false)
     }
-  }
-
-  override fun searchCallback(items: MutableList<FavouriteItem>) {
-    // TODO
   }
 }

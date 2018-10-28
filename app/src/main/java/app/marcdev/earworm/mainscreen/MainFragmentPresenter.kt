@@ -20,6 +20,4 @@ interface MainFragmentPresenter {
   fun editItemClick(itemId: Int)
 
   fun search(input: String)
-
-  fun searchCallback(items: MutableList<FavouriteItem>)
 }

@@ -19,7 +19,7 @@ interface MainFragmentView {
 
   fun displayEditItemSheet(itemId: Int)
 
-  fun displayEmptySearchToast()
-
   fun getActiveFilter(): ItemFilter
+
+  fun changeSearchIcon(isSearch: Boolean)
 }

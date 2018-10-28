@@ -8,4 +8,5 @@ data class ItemFilter(var startDay: Int,
                       var endYear: Int,
                       var includeSongs: Boolean,
                       var includeAlbums: Boolean,
-                      var includeArtists: Boolean)
+                      var includeArtists: Boolean,
+                      var searchTerm: String)

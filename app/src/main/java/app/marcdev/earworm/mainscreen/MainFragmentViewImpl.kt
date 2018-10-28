@@ -1,6 +1,8 @@
 package app.marcdev.earworm.mainscreen
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -27,9 +29,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var noFilteredResultsWarning: TextView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
+  private lateinit var searchButton: ImageView
   private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
+  private var isSearchMode = true
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Timber.d("Log: onCreateView: Started")
@@ -54,8 +58,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     this.searchInput = view.findViewById(R.id.edt_filter_input)
     searchInput.setOnKeyListener(searchOnEnterListener)
+    searchInput.addTextChangedListener(searchOnTextChangedListener)
 
-    val searchButton: ImageView = view.findViewById(R.id.img_search)
+    this.searchButton = view.findViewById(R.id.img_search)
     searchButton.setOnClickListener(searchOnClickListener)
 
     val filterButton: ImageView = view.findViewById(R.id.img_filter)
@@ -78,6 +83,18 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     testIfSubmitButtonClicked(keyEvent, keyCode)
   }
 
+  private val searchOnTextChangedListener = object : TextWatcher {
+    override fun afterTextChanged(s: Editable?) {}
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+      if(s.isNullOrBlank()) {
+        presenter.search("")
+      }
+    }
+  }
+
   private fun testIfSubmitButtonClicked(keyEvent: KeyEvent, keyCode: Int): Boolean {
     Timber.d("Log: testIfSubmitButtonClicked: Submit button clicked")
     if((keyEvent.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -89,7 +106,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private val searchOnClickListener = View.OnClickListener {
     Timber.d("Log: Search Clicked")
-    presenter.search(searchInput.text.toString())
+    if(isSearchMode) {
+      presenter.search(searchInput.text.toString())
+    } else {
+      searchInput.setText("")
+    }
   }
 
   private val filterOnClickListener = View.OnClickListener {
@@ -170,15 +191,10 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
   }
 
-  override fun displayEmptySearchToast() {
-    Timber.d("Log: displayEmptySearchToast: Started")
-    Toast.makeText(activity, resources.getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
-  }
-
   override fun displayNoFilteredResultsWarning(display: Boolean) {
     Timber.d("Log: displayNoFilteredResultsWarning: Started with display = $display")
 
-    if(display && (noEntriesWarning.visibility == View.VISIBLE)) {
+    if(display && (noEntriesWarning.visibility == View.GONE)) {
       this.noFilteredResultsWarning.visibility = View.VISIBLE
     } else {
       this.noFilteredResultsWarning.visibility = View.GONE
@@ -188,5 +204,16 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   override fun getActiveFilter(): ItemFilter {
     Timber.d("Log: getActiveFilter: Started")
     return filterDialog.activeFilter
+  }
+
+  override fun changeSearchIcon(isSearch: Boolean) {
+    Timber.d("Log: changeSearchIcon: Started")
+    if(isSearch) {
+      searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_search_24px, null))
+      this.isSearchMode = true
+    } else {
+      searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, null))
+      this.isSearchMode = false
+    }
   }
 }

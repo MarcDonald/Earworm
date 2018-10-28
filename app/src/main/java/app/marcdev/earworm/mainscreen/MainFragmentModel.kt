@@ -10,6 +10,4 @@ interface MainFragmentModel {
   fun getAllItemsAsync(filter: ItemFilter)
 
   fun deleteItemAsync(item: FavouriteItem)
-
-  fun searchAsync(input: String)
 }

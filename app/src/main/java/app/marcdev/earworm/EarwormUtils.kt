@@ -103,6 +103,14 @@ fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): Mutab
     if(completeDateI < filterCompleteDateStart || completeDateI > filterCompleteDateEnd) {
       filteredItems.remove(allItems[x])
     }
+
+    if(!(allItems[x].albumName.contains(filter.searchTerm, true))
+       && !(allItems[x].artistName.contains(filter.searchTerm, true))
+       && !(allItems[x].songName.contains(filter.searchTerm, true))
+       && !(allItems[x].genre.contains(filter.searchTerm, true))
+    ) {
+      filteredItems.remove(allItems[x])
+    }
   }
 
   return filteredItems
