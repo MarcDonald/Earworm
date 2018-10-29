@@ -2,7 +2,7 @@ package app.marcdev.earworm.database
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import app.marcdev.earworm.EarwormUtils
+import app.marcdev.earworm.SONG
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -32,10 +32,12 @@ class DAOTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
-    val testDate = "01-01-2018"
-    val testType: Int = EarwormUtils.SONG
+    val testDay = 1
+    val testMonth = 1
+    val testYear = 2018
+    val testType: Int = SONG
 
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
@@ -52,11 +54,13 @@ class DAOTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
-    val testDate = "01-01-2018"
-    val testType: Int = EarwormUtils.SONG
+    val testDay = 1
+    val testMonth = 1
+    val testYear = 2018
+    val testType: Int = SONG
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
@@ -74,11 +78,13 @@ class DAOTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
-    val testDate = "01-01-2018"
-    val testType: Int = EarwormUtils.SONG
+    val testDay = 1
+    val testMonth = 1
+    val testYear = 2018
+    val testType: Int = SONG
     val testId = 1
 
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
     testItem.id = testId
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
@@ -101,14 +107,16 @@ class DAOTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
-    val testDate = "01-01-2018"
-    val testType: Int = EarwormUtils.SONG
+    val testDay = 1
+    val testMonth = 1
+    val testYear = 2018
+    val testType: Int = SONG
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
@@ -135,14 +143,16 @@ class DAOTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
-    val testDate = "01-01-2018"
-    val testType: Int = EarwormUtils.SONG
+    val testDay = 1
+    val testMonth = 1
+    val testYear = 2018
+    val testType: Int = SONG
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDate, testType)
+    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
