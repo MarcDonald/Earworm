@@ -1,11 +1,8 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.DEFAULT_FILTER
-import app.marcdev.earworm.ItemFilter
-import app.marcdev.earworm.applyFilter
+import app.marcdev.earworm.*
 import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.filterByDateDescending
 import timber.log.Timber
 
 class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context) : MainFragmentPresenter {
@@ -32,11 +29,12 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     Timber.d("Log: getAllItemsCallback: Started")
 
     val sortedItems = filterByDateDescending(items)
+    val itemsWithHeaders = addListHeaders(sortedItems)
 
-    view.updateRecycler(sortedItems)
+    view.updateRecycler(itemsWithHeaders)
     view.displayProgress(false)
 
-    if(sortedItems.isEmpty()) {
+    if(itemsWithHeaders.isEmpty()) {
       view.displayNoEntriesWarning(true)
     } else {
       view.displayNoEntriesWarning(false)
@@ -47,11 +45,12 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     Timber.d("Log: getAllItemsCallback: Started")
 
     val sortedItems = applyFilter(items, filter)
+    val itemsWithHeaders = addListHeaders(sortedItems)
 
-    view.updateRecycler(sortedItems)
+    view.updateRecycler(itemsWithHeaders)
     view.displayProgress(false)
 
-    if(sortedItems.isEmpty()) {
+    if(itemsWithHeaders.isEmpty()) {
       view.displayNoFilteredResultsWarning(true)
     } else {
       view.displayNoFilteredResultsWarning(false)

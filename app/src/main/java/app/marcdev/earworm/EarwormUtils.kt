@@ -13,6 +13,7 @@ const val SONG = 0
 const val ALBUM = 1
 const val ARTIST = 2
 const val GENRE = 3
+const val HEADER = 4
 val DEFAULT_FILTER = ItemFilter(1, 0, 1900, 31, 11, 2099, true, true, true, "")
 
 /**
@@ -61,7 +62,7 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
  * @param allItems The complete list of items from the database
  * @param filter The filter to apply
  */
-fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): List<FavouriteItem> {
+fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): MutableList<FavouriteItem> {
   val filteredItems = mutableListOf<FavouriteItem>()
   filteredItems.addAll(allItems)
 
@@ -137,10 +138,45 @@ fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): List<
   return filterByDateDescending(filteredItems)
 }
 
-fun filterByDateDescending(items: MutableList<FavouriteItem>): List<FavouriteItem> {
-  return items.sortedWith(
+fun filterByDateDescending(items: MutableList<FavouriteItem>): MutableList<FavouriteItem> {
+  val filteredItems = items.sortedWith(
     compareBy(
       { -it.year },
       { -it.month },
       { -it.day }))
+
+  return filteredItems.toMutableList()
+}
+
+fun addListHeaders(allItems: MutableList<FavouriteItem>): List<FavouriteItem> {
+  val listWithHeaders = mutableListOf<FavouriteItem>()
+  listWithHeaders.addAll(allItems)
+
+  var lastMonth = allItems.first().month + 1
+  var lastYear = allItems.first().year
+  val headersToAdd = mutableListOf<Pair<Int, FavouriteItem>>()
+
+  for(x in 0 until allItems.size) {
+    if(((allItems[x].month < lastMonth) && (allItems[x].year == lastYear))
+       || (allItems[x].month > lastMonth) && (allItems[x].year < lastYear)
+       || (allItems[x].year < lastYear)
+    ) {
+      Timber.i("Log: addListHeaders: x = $x")
+      val header = FavouriteItem("", "", "", "", 0, allItems[x].month, allItems[x].year, HEADER)
+      lastMonth = allItems[x].month
+      lastYear = allItems[x].year
+      headersToAdd.add(Pair(x, header))
+    }
+  }
+
+  for((add, x) in (0 until headersToAdd.size).withIndex()) {
+    listWithHeaders.add(headersToAdd[x].first + add, headersToAdd[x].second)
+  }
+
+  return listWithHeaders
+}
+
+fun getMonthName(month: Int, context: Context): String {
+  val monthArray = context.resources.getStringArray(R.array.months)
+  return monthArray[month]
 }

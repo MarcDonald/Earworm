@@ -25,6 +25,11 @@ class MainRecyclerAdapter(context: Context?, private val presenter: MainFragment
     lateinit var viewHolder: MainRecyclerViewHolder
 
     when(viewType) {
+      HEADER -> {
+        Timber.v("Log: onCreateViewHolder: Type == Header")
+        val view = inflater.inflate(R.layout.item_header, parent, false)
+        viewHolder = MainRecyclerViewHolderHeader(view)
+      }
       SONG -> {
         Timber.v("Log: onCreateViewHolder: Type == Song")
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
