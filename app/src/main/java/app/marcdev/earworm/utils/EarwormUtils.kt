@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.R
 import timber.log.Timber
 

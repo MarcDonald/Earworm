@@ -1,7 +1,7 @@
 package app.marcdev.earworm.mainscreen
 
-import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.utils.ItemFilter
 
 interface MainFragmentModel {
 

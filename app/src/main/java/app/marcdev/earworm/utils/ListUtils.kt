@@ -1,6 +1,5 @@
 package app.marcdev.earworm.utils
 
-import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.database.FavouriteItem
 import timber.log.Timber
 

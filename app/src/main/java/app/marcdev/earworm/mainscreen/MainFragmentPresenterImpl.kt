@@ -1,12 +1,8 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.utils.DEFAULT_FILTER
-import app.marcdev.earworm.utils.addListHeaders
-import app.marcdev.earworm.utils.applyFilter
-import app.marcdev.earworm.utils.sortByDateDescending
+import app.marcdev.earworm.utils.*
 import timber.log.Timber
 
 class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context) : MainFragmentPresenter {

@@ -1,11 +1,11 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.database.AppDatabase
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.repository.FavouriteItemRepository
 import app.marcdev.earworm.repository.FavouriteItemRepositoryImpl
+import app.marcdev.earworm.utils.ItemFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

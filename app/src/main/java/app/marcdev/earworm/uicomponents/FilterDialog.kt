@@ -7,10 +7,10 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.DatePicker
-import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.R
 import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import app.marcdev.earworm.utils.DEFAULT_FILTER
+import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.formatDateForDisplay
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip

@@ -1,4 +1,4 @@
-package app.marcdev.earworm
+package app.marcdev.earworm.utils
 
 data class ItemFilter(var startDay: Int,
                       var startMonth: Int,
