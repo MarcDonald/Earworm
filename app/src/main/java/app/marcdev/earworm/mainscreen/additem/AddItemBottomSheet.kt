@@ -11,9 +11,10 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import app.marcdev.earworm.*
+import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
+import app.marcdev.earworm.utils.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import timber.log.Timber

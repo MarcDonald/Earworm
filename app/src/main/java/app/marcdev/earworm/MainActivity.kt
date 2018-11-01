@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import app.marcdev.earworm.mainscreen.MainFragmentViewImpl
+import app.marcdev.earworm.utils.setFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {

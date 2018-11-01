@@ -2,10 +2,10 @@ package app.marcdev.earworm.repository
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import app.marcdev.earworm.SONG
 import app.marcdev.earworm.database.AppDatabase
 import app.marcdev.earworm.database.DAO
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.utils.SONG
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert

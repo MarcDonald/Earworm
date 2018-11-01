@@ -1,8 +1,12 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.*
+import app.marcdev.earworm.ItemFilter
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.utils.DEFAULT_FILTER
+import app.marcdev.earworm.utils.addListHeaders
+import app.marcdev.earworm.utils.applyFilter
+import app.marcdev.earworm.utils.sortByDateDescending
 import timber.log.Timber
 
 class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context) : MainFragmentPresenter {
@@ -28,7 +32,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>) {
     Timber.d("Log: getAllItemsCallback: Started")
 
-    val sortedItems = filterByDateDescending(items)
+    val sortedItems = sortByDateDescending(items)
     val itemsWithHeaders = addListHeaders(sortedItems)
 
     view.updateRecycler(itemsWithHeaders)

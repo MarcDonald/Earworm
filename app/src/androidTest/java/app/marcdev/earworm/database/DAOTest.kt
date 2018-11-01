@@ -2,7 +2,7 @@ package app.marcdev.earworm.database
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import app.marcdev.earworm.SONG
+import app.marcdev.earworm.utils.SONG
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before

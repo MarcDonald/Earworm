@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.getMonthName
+import app.marcdev.earworm.utils.getMonthName
 import timber.log.Timber
 
 open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder(itemView) {
