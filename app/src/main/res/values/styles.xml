@@ -37,6 +37,11 @@
     <item name="android:textColor">@color/textOnPrimary</item>
   </style>
 
+  <style name="LightTheme.TextAppearance.ItemTypeMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
+    <item name="android:textColor">@color/textOnPrimary</item>
+    <item name="android:textStyle">italic</item>
+  </style>
+
   <style name="LightTheme.TextAppearance.AlertDialogTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
     <item name="android:textColor">@color/textOnPrimary</item>
     <item name="android:textAlignment">center</item>

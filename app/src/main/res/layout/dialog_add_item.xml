@@ -18,6 +18,7 @@
       android:layout_marginEnd="@dimen/marginStandard"
       android:layout_marginBottom="@dimen/marginStandardHalf"
       android:hint="@string/song_name"
+      android:inputType="textCapSentences"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +32,7 @@
       android:layout_marginEnd="@dimen/marginStandard"
       android:layout_marginBottom="@dimen/marginStandard"
       android:hint="@string/artist"
+      android:inputType="textCapSentences"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/edt_item_primary_input" />
