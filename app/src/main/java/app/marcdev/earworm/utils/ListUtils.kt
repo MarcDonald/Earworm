@@ -109,8 +109,13 @@ fun addListHeaders(allItems: MutableList<FavouriteItem>): List<FavouriteItem> {
   val listWithHeaders = mutableListOf<FavouriteItem>()
   listWithHeaders.addAll(allItems)
 
-  var lastMonth = allItems.first().month + 1
-  var lastYear = allItems.first().year
+  var lastMonth = 12
+  var lastYear = 9999
+  if(allItems.isNotEmpty()) {
+    lastMonth = allItems.first().month + 1
+    lastYear = allItems.first().year
+  }
+
   val headersToAdd = mutableListOf<Pair<Int, FavouriteItem>>()
 
   for(x in 0 until allItems.size) {
@@ -118,7 +123,7 @@ fun addListHeaders(allItems: MutableList<FavouriteItem>): List<FavouriteItem> {
        || (allItems[x].month > lastMonth) && (allItems[x].year < lastYear)
        || (allItems[x].year < lastYear)
     ) {
-      Timber.i("Log: addListHeaders: x = $x")
+      Timber.v("Log: addListHeaders: x = $x")
       val header = FavouriteItem("", "", "", "", 0, allItems[x].month, allItems[x].year, HEADER)
       lastMonth = allItems[x].month
       lastYear = allItems[x].year
