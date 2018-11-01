@@ -11,6 +11,20 @@ open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder
 
   private var dateDisplay: TextView = itemView.findViewById(R.id.txt_header_title)
 
+  private val itemClickListener = View.OnClickListener {
+    // Does nothing but overrides default click listener
+  }
+
+  private val itemLongClickListener = View.OnLongClickListener {
+    // Does nothing but overrides default long click listener
+    return@OnLongClickListener true
+  }
+
+  init {
+    itemView.setOnClickListener(itemClickListener)
+    itemView.setOnLongClickListener(itemLongClickListener)
+  }
+
   override fun display(favouriteItemToDisplay: FavouriteItem) {
     Timber.d("Log: display: $favouriteItemToDisplay")
 
