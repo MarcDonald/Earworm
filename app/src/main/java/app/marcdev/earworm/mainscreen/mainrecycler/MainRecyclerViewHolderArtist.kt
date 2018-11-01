@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.formatDateForDisplay
+import app.marcdev.earworm.utils.formatDateForDisplay
 import timber.log.Timber
 
 class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(itemView) {

@@ -1,10 +1,10 @@
 package app.marcdev.earworm.mainscreen.additem
 
 import android.content.Context
-import app.marcdev.earworm.ALBUM
-import app.marcdev.earworm.ARTIST
-import app.marcdev.earworm.SONG
 import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.utils.ALBUM
+import app.marcdev.earworm.utils.ARTIST
+import app.marcdev.earworm.utils.SONG
 import timber.log.Timber
 import java.util.*
 
