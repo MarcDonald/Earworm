@@ -1,16 +1,16 @@
 package app.marcdev.earworm.mainscreen.additem
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
@@ -33,8 +33,10 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var datePicker: DatePicker
   private lateinit var datePickerOk: MaterialButton
   private lateinit var datePickerCancel: MaterialButton
+  private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
   private val dateChosen = Calendar.getInstance()
+  private val REQUEST_CODE = 1
   // If the itemID is anything other than -1 then it is in edit mode
   private var itemId: Int = -1
 
@@ -119,6 +121,10 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
     this.dateChip = view.findViewById(R.id.chip_add_item_date_display)
     dateChip.setOnClickListener(dateOnClickListener)
+
+    this.iconImageView = view.findViewById(R.id.img_add_icon)
+    iconImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_person_24px, null))
+    iconImageView.setOnClickListener(iconOnClickListener)
   }
 
   private val saveOnClickListener = View.OnClickListener {
@@ -169,6 +175,23 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     Timber.d("Log: ArtistClick: Clicked")
     activateButton(artistButton)
   }
+
+  private val iconOnClickListener = View.OnClickListener {
+    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+    intent.type = ("image/*")
+    intent.addCategory(Intent.CATEGORY_OPENABLE)
+    startActivityForResult(intent, REQUEST_CODE)
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+      val uri: Uri? = data!!.data
+      Timber.i("Log: onActivityResult: URI Path = ${uri!!.path}")
+    }
+  }
+
 
   private fun setupDefaults() {
     Timber.d("Log: setupDefaults: Started")
