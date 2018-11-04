@@ -95,7 +95,8 @@ fun sortByDateDescending(items: MutableList<FavouriteItem>): MutableList<Favouri
     compareBy(
       { -it.year },
       { -it.month },
-      { -it.day }))
+      { -it.day },
+      { -it.id!! }))
 
   return filteredItems.toMutableList()
 }
