@@ -15,6 +15,8 @@ import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import app.marcdev.earworm.utils.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import timber.log.Timber
@@ -41,6 +43,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private var itemId: Int = -1
 
   private var type: Int = 0
+  private var uriString: String = ""
   private var recyclerUpdateView: RecyclerUpdateView? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,6 +83,16 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
         primaryInput.setText(item.artistName)
         secondaryInput.setText(item.genre)
       }
+    }
+
+    if(item.imageUri.isNotBlank()) {
+      Glide.with(this)
+        .load(item.imageUri)
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(iconImageView)
+
+      uriString = item.imageUri
     }
 
     updateDateAndDisplay(item.day, item.month, item.year)
@@ -123,7 +136,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     dateChip.setOnClickListener(dateOnClickListener)
 
     this.iconImageView = view.findViewById(R.id.img_add_icon)
-    iconImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_person_24px, null))
     iconImageView.setOnClickListener(iconOnClickListener)
   }
 
@@ -131,10 +143,10 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     Timber.d("Log: SaveClick: Clicked")
     if(itemId == -1) {
       Timber.d("Log: saveOnClickListener: Adding new item")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null)
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null, uriString)
     } else {
       Timber.d("Log: saveOnClickListener: Updating item with id = $itemId")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId)
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId, uriString)
     }
   }
 
@@ -188,7 +200,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
     if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
       val uri: Uri? = data!!.data
-      Timber.i("Log: onActivityResult: URI Path = ${uri!!.path}")
+      Timber.i("Log: onActivityResult: URI = $uri")
+      Glide.with(this).load(uri).apply(RequestOptions().centerCrop()).into(iconImageView)
+      this.uriString = uri.toString()
     }
   }
 

@@ -44,7 +44,6 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
   private val editOnClickListener = View.OnClickListener {
     Timber.d("Log: editOnClickListener: Clicked")
     editDialog.dismiss()
-    Timber.i("Log: yeet: ${displayedItem.id!!}")
     presenter.editItemClick(displayedItem.id!!)
   }
 

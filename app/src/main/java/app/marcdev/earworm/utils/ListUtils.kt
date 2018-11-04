@@ -124,7 +124,7 @@ fun addListHeaders(allItems: MutableList<FavouriteItem>): List<FavouriteItem> {
        || (allItems[x].year < lastYear)
     ) {
       Timber.v("Log: addListHeaders: x = $x")
-      val header = FavouriteItem("", "", "", "", 0, allItems[x].month, allItems[x].year, HEADER)
+      val header = FavouriteItem("", "", "", "", 0, allItems[x].month, allItems[x].year, HEADER, "")
       lastMonth = allItems[x].month
       lastYear = allItems[x].year
       headersToAdd.add(Pair(x, header))

@@ -5,7 +5,7 @@ import java.util.*
 
 interface AddItemPresenter {
 
-  fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?)
+  fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?, imageUri: String)
 
   fun addItemCallback()
 

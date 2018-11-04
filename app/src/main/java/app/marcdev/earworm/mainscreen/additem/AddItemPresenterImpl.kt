@@ -16,7 +16,7 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
     model = AddItemModelImpl(this, context)
   }
 
-  override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?) {
+  override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?, imageUri: String) {
     Timber.d("Log: addItem: Started")
 
     if(primaryInput.isBlank() || secondaryInput.isBlank()) {
@@ -29,10 +29,10 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
       val year = dateChosen.get(Calendar.YEAR)
 
       val item: FavouriteItem = when(type) {
-        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type)
-        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type)
-        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type)
-        else -> FavouriteItem("", "", "", "", 0, 0, 0, type)
+        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type, imageUri)
+        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type, imageUri)
+        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type, imageUri)
+        else -> FavouriteItem("", "", "", "", 0, 0, 0, type, imageUri)
       }
 
       if(itemId != null) {
