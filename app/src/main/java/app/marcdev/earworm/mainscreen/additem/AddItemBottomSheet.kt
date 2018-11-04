@@ -175,17 +175,17 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private val songOnClickListener = View.OnClickListener {
     Timber.d("Log: SongClick: Clicked")
-    activateButton(songButton)
+    activateButtonIfNecessary(songButton)
   }
 
   private val albumOnClickListener = View.OnClickListener {
     Timber.d("Log: AlbumClick: Clicked")
-    activateButton(albumButton)
+    activateButtonIfNecessary(albumButton)
   }
 
   private val artistOnClickListener = View.OnClickListener {
     Timber.d("Log: ArtistClick: Clicked")
-    activateButton(artistButton)
+    activateButtonIfNecessary(artistButton)
   }
 
   private val iconOnClickListener = View.OnClickListener {
@@ -206,7 +206,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     }
   }
 
-
   private fun setupDefaults() {
     Timber.d("Log: setupDefaults: Started")
     type = SONG
@@ -216,58 +215,58 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     dateChip.text = resources.getString(R.string.today)
   }
 
-  private fun activateButton(button: ImageButton) {
-    Timber.d("Log: activateButton: Started")
-    var doUpdate = true
+  private fun activateButtonIfNecessary(button: ImageButton) {
+    Timber.d("Log: activateButtonIfNecessary: Started")
 
     if(type == SONG && button == songButton
        || type == ALBUM && button == albumButton
        || type == ARTIST && button == artistButton
     ) {
-      Timber.d("Log: activateButton: No need to update")
-      doUpdate = false
+      Timber.d("Log: activateButtonIfNecessary: No need to update")
+    } else {
+      activateButton(button)
+    }
+  }
+
+  private fun activateButton(button: ImageButton) {
+    Timber.d("Log: activateButtonIfNecessary: Activating button $button")
+    when(type) {
+      SONG -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
+      }
+      ALBUM -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
+      }
+      ARTIST -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
+      }
     }
 
-    if(doUpdate) {
-      Timber.d("Log: activateButton: Activating button $button")
-      when(type) {
-        SONG -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
-        }
-        ALBUM -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-        }
-        ARTIST -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
-        }
+    when(button) {
+      songButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
+        type = SONG
+        primaryInput.hint = resources.getString(R.string.song_name)
+        secondaryInput.hint = resources.getString(R.string.artist)
       }
 
-      when(button) {
-        songButton -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
-          type = SONG
-          primaryInput.hint = resources.getString(R.string.song_name)
-          secondaryInput.hint = resources.getString(R.string.artist)
-        }
-
-        albumButton -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
-          type = ALBUM
-          primaryInput.hint = resources.getString(R.string.album)
-          secondaryInput.hint = resources.getString(R.string.artist)
-        }
-
-        artistButton -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
-          type = ARTIST
-          primaryInput.hint = resources.getString(R.string.artist)
-          secondaryInput.hint = resources.getString(R.string.genre)
-        }
+      albumButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
+        type = ALBUM
+        primaryInput.hint = resources.getString(R.string.album)
+        secondaryInput.hint = resources.getString(R.string.artist)
       }
-      primaryInput.setText("")
-      secondaryInput.setText("")
-      primaryInput.requestFocus()
+
+      artistButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
+        type = ARTIST
+        primaryInput.hint = resources.getString(R.string.artist)
+        secondaryInput.hint = resources.getString(R.string.genre)
+      }
     }
+    primaryInput.setText("")
+    secondaryInput.setText("")
+    primaryInput.requestFocus()
   }
 
   private fun updateDateAndDisplay(day: Int, month: Int, year: Int) {
