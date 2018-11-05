@@ -13,6 +13,17 @@ class DAOTest {
   private var database: AppDatabase? = null
   private var dao: DAO? = null
 
+  // Default values
+  private val testName = "Test Song Name"
+  private val testAlbum = "Test Album Name"
+  private val testArtist = "Test Artist Name"
+  private val testGenre = "Test Genre Name"
+  private val testImageName = "testimagename.jpg"
+  private val testDay = 1
+  private val testMonth = 1
+  private val testYear = 2018
+  private val testType: Int = SONG
+
   @Before
   fun setUp() {
     database =
@@ -26,19 +37,13 @@ class DAOTest {
     database?.close()
   }
 
+  private fun createTestItem(): FavouriteItem {
+    return FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+  }
+
   @Test
   fun insertOneSong_getAllItems() {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testImageName = "testimagename.jpg"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
-
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem = createTestItem()
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
@@ -51,18 +56,8 @@ class DAOTest {
 
   @Test
   fun insertMultipleSongs_getAllItems() {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testImageName = "testimagename.jpg"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
-
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem1 = createTestItem()
+    val testItem2 = createTestItem()
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
@@ -76,18 +71,9 @@ class DAOTest {
 
   @Test
   fun insertOneSong_getItemById_deleteSong() {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testImageName = "testimagename.jpg"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
     val testId = 1
 
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem = createTestItem()
     testItem.id = testId
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
@@ -106,21 +92,12 @@ class DAOTest {
 
   @Test
   fun insertTwoSongs_deleteOneSong() {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testImageName = "testimagename.jpg"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem1 = createTestItem()
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem2 = createTestItem()
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
@@ -143,21 +120,12 @@ class DAOTest {
 
   @Test
   fun insertMultipleSongs_getOneById() {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testImageName = "testimagename.jpg"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem1 = createTestItem()
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem2 = createTestItem()
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
