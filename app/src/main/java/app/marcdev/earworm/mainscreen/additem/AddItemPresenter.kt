@@ -6,7 +6,7 @@ import java.util.*
 
 interface AddItemPresenter {
 
-  fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?, imageUri: String)
+  fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?)
 
   fun addItemCallback()
 
@@ -16,5 +16,5 @@ interface AddItemPresenter {
 
   fun saveFileToAppStorage(file: File)
 
-  fun saveFileToAppStorageCallback(exception: NoSuchFileException?)
+  fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?)
 }

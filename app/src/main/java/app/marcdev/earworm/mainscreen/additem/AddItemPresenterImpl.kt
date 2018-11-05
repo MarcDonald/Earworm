@@ -5,19 +5,21 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.utils.ALBUM
 import app.marcdev.earworm.utils.ARTIST
 import app.marcdev.earworm.utils.SONG
+import app.marcdev.earworm.utils.getArtworkDirectory
 import timber.log.Timber
 import java.io.File
 import java.util.*
 
-class AddItemPresenterImpl(private val view: AddItemView, context: Context) : AddItemPresenter {
+class AddItemPresenterImpl(private val view: AddItemView, private val context: Context) : AddItemPresenter {
 
   private val model: AddItemModel
+  private var imageName: String = ""
 
   init {
     model = AddItemModelImpl(this, context)
   }
 
-  override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?, imageUri: String) {
+  override fun addItem(primaryInput: String, secondaryInput: String, type: Int, dateChosen: Calendar, itemId: Int?) {
     Timber.d("Log: addItem: Started")
 
     if(primaryInput.isBlank() || secondaryInput.isBlank()) {
@@ -30,10 +32,10 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
       val year = dateChosen.get(Calendar.YEAR)
 
       val item: FavouriteItem = when(type) {
-        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type, imageUri)
-        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type, imageUri)
-        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type, imageUri)
-        else -> FavouriteItem("", "", "", "", 0, 0, 0, type, imageUri)
+        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type, imageName)
+        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type, imageName)
+        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type, imageName)
+        else -> FavouriteItem("", "", "", "", 0, 0, 0, type, imageName)
       }
 
       if(itemId != null) {
@@ -60,6 +62,7 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
 
     if(items.isNotEmpty()) {
       view.convertToEditMode(items.first())
+      view.displayImage(getArtworkDirectory(context) + items.first().imageName)
     } else {
       Timber.e("Log: getItemCallback: Returned empty list")
     }
@@ -70,10 +73,12 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
     model.saveFileToAppStorage(file)
   }
 
-  override fun saveFileToAppStorageCallback(exception: NoSuchFileException?) {
+  override fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?) {
     Timber.d("Log: saveFileToAppStorageCallback: Started")
-    if(exception != null) {
+    if(exception == null) {
       Timber.d("Log: saveFileToAppStorageCallback: Success")
+      this.imageName = fileName
+      view.displayImage(getArtworkDirectory(context) + fileName)
     } else {
       view.displayErrorToast()
     }

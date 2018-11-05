@@ -53,9 +53,9 @@ class AddItemModelImpl(private val presenter: AddItemPresenter, private val cont
     val toFile = File(toPath)
     try {
       file.copyTo(toFile, true)
-      presenter.saveFileToAppStorageCallback(null)
+      presenter.saveFileToAppStorageCallback(file.name, null)
     } catch(e: NoSuchFileException) {
-      presenter.saveFileToAppStorageCallback(e)
+      presenter.saveFileToAppStorageCallback("", e)
       Timber.e("Log: saveFileToAppStorage: $e")
     }
   }

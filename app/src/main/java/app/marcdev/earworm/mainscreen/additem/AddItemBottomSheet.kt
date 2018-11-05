@@ -48,7 +48,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private var itemId: Int = -1
 
   private var type: Int = 0
-  private var imageName: String = ""
   private var recyclerUpdateView: RecyclerUpdateView? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,16 +87,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
         primaryInput.setText(item.artistName)
         secondaryInput.setText(item.genre)
       }
-    }
-
-    if(item.imageName.isNotBlank()) {
-      Glide.with(this)
-        .load(getArtworkDirectory(requireContext()) + item.imageName)
-        .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
-        .into(iconImageView)
-
-      this.imageName = item.imageName
     }
 
     updateDateAndDisplay(item.day, item.month, item.year)
@@ -148,10 +137,10 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     Timber.d("Log: SaveClick: Clicked")
     if(itemId == -1) {
       Timber.d("Log: saveOnClickListener: Adding new item")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null, imageName)
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null)
     } else {
       Timber.d("Log: saveOnClickListener: Updating item with id = $itemId")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId, imageName)
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId)
     }
   }
 
@@ -219,11 +208,6 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       val file = File(photoPath)
       presenter.saveFileToAppStorage(file)
 
-      Glide.with(this)
-        .load(getArtworkDirectory(requireContext()) + file.name)
-        .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
-        .into(iconImageView)
     }
   }
 
@@ -330,6 +314,14 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     }
     Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
     dismiss()
+  }
+
+  override fun displayImage(imagePath: String) {
+    Glide.with(this)
+      .load(imagePath)
+      .apply(RequestOptions().centerCrop())
+      .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+      .into(iconImageView)
   }
 
   override fun displayEmptyToast() {

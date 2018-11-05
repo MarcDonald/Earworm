@@ -11,4 +11,6 @@ interface AddItemView {
   fun convertToEditMode(item: FavouriteItem)
 
   fun displayErrorToast()
+
+  fun displayImage(imagePath: String)
 }
