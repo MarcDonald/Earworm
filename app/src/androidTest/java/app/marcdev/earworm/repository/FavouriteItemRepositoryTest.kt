@@ -134,4 +134,107 @@ class FavouriteItemRepositoryTest {
     val returnedItemsWhenSearchedById1: MutableList<FavouriteItem> = repository!!.getItem(testId1)
     Assert.assertEquals(1, returnedItemsWhenSearchedById1.size)
   }
+
+  @Test
+  fun insertMultipleItemsUsingDifferentImages_countEach() = runBlocking {
+    val testImage1 = "testImage1.jpg"
+    val testImage2 = "testImage2.jpg"
+
+    val testItem1 = createTestItem()
+    testItem1.imageName = testImage1
+
+    val testItem2 = createTestItem()
+    testItem2.imageName = testImage2
+
+    val testItem3 = createTestItem()
+    testItem3.imageName = testImage2
+
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem3)
+
+    val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
+
+    val returnedValueWhenSearchedForTestImage2: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2)
+  }
+
+  @Test
+  fun insertMultipleItemsUsingDifferentImages_countEachAndDelete() = runBlocking {
+    val testImage1 = "testImage1.jpg"
+    val testImage2 = "testImage2.jpg"
+    val testId1 = 1
+    val testId2 = 2
+    val testId3 = 3
+
+    val testItem1 = createTestItem()
+    testItem1.imageName = testImage1
+    testItem1.id = testId1
+
+    val testItem2 = createTestItem()
+    testItem2.imageName = testImage2
+    testItem2.id = testId2
+
+    val testItem3 = createTestItem()
+    testItem3.imageName = testImage2
+    testItem3.id = testId3
+
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem3)
+
+    val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
+
+    val returnedValueWhenSearchedForTestImage2: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2)
+
+    repository!!.deleteItem(testId2)
+
+    val returnedValueWhenSearchedForTestImage1AfterDelete: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1AfterDelete)
+
+    val returnedValueWhenSearchedForTestImage2AfterDelete: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage2AfterDelete)
+  }
+
+  @Test
+  fun insertMultipleItemsUsingDifferentImages_countEachAndDeleteOneCompletely() = runBlocking {
+    val testImage1 = "testImage1.jpg"
+    val testImage2 = "testImage2.jpg"
+    val testId1 = 1
+    val testId2 = 2
+    val testId3 = 3
+
+    val testItem1 = createTestItem()
+    testItem1.imageName = testImage1
+    testItem1.id = testId1
+
+    val testItem2 = createTestItem()
+    testItem2.imageName = testImage2
+    testItem2.id = testId2
+
+    val testItem3 = createTestItem()
+    testItem3.imageName = testImage2
+    testItem3.id = testId3
+
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem3)
+
+    val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
+
+    val returnedValueWhenSearchedForTestImage2: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2)
+
+    repository!!.deleteItem(testId1)
+
+    val returnedValueWhenSearchedForTestImage1AfterDelete: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(0, returnedValueWhenSearchedForTestImage1AfterDelete)
+
+    val returnedValueWhenSearchedForTestImage2AfterDelete: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2AfterDelete)
+  }
 }

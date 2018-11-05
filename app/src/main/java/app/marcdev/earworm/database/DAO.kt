@@ -19,4 +19,7 @@ interface DAO {
 
   @Query("DELETE FROM favourite_items where id = :id")
   fun deleteItemById(id: Int)
+
+  @Query("SELECT COUNT(*) FROM favourite_items WHERE imageName = :imageName")
+  fun getNumberOfEntriesUsingImage(imageName: String): Int
 }

@@ -11,4 +11,6 @@ interface FavouriteItemRepository {
   suspend fun getItem(id: Int): MutableList<FavouriteItem>
 
   suspend fun deleteItem(id: Int)
+
+  suspend fun countUsesOfImage(imageName: String): Int
 }
