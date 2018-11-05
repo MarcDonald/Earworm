@@ -4,11 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 
-
-@Database(entities = [FavouriteItem::class], version = 3)
+@Database(entities = [FavouriteItem::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
   abstract fun dao(): DAO
@@ -27,17 +24,10 @@ abstract class AppDatabase : RoomDatabase() {
       synchronized(this) {
 
         val instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "AppDatabase.db")
-          .addMigrations(MIGRATION_2_3).build()
+          .fallbackToDestructiveMigration().build()
 
         INSTANCE = instance
         return instance
-      }
-    }
-
-    private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
-      override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL("ALTER TABLE favourite_items " +
-                         "ADD COLUMN imageUri TEXT NOT NULL DEFAULT '';")
       }
     }
   }

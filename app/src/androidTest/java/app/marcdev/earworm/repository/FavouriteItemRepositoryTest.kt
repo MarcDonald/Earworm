@@ -39,13 +39,14 @@ class FavouriteItemRepositoryTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
+    val testImageName = "testimagename.jpg"
     val testDay = 1
     val testMonth = 1
     val testYear = 2018
     val testType: Int = SONG
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
@@ -63,13 +64,14 @@ class FavouriteItemRepositoryTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
+    val testImageName = "testimagename.jpg"
     val testDay = 1
     val testMonth = 1
     val testYear = 2018
     val testType: Int = SONG
     val testId = 1
 
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
     testItem.id = testId
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getItem(testId)
@@ -92,6 +94,7 @@ class FavouriteItemRepositoryTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
+    val testImageName = "testimagename.jpg"
     val testDay = 1
     val testMonth = 1
     val testYear = 2018
@@ -99,9 +102,9 @@ class FavouriteItemRepositoryTest {
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
@@ -128,6 +131,7 @@ class FavouriteItemRepositoryTest {
     val testAlbum = "Test Album Name"
     val testArtist = "Test Artist Name"
     val testGenre = "Test Genre Name"
+    val testImageName = "testimagename.jpg"
     val testDay = 1
     val testMonth = 1
     val testYear = 2018
@@ -135,9 +139,9 @@ class FavouriteItemRepositoryTest {
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()

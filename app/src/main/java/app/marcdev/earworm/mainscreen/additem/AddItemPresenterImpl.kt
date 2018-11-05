@@ -6,6 +6,7 @@ import app.marcdev.earworm.utils.ALBUM
 import app.marcdev.earworm.utils.ARTIST
 import app.marcdev.earworm.utils.SONG
 import timber.log.Timber
+import java.io.File
 import java.util.*
 
 class AddItemPresenterImpl(private val view: AddItemView, context: Context) : AddItemPresenter {
@@ -61,6 +62,20 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
       view.convertToEditMode(items.first())
     } else {
       Timber.e("Log: getItemCallback: Returned empty list")
+    }
+  }
+
+  override fun saveFileToAppStorage(file: File) {
+    Timber.d("Log: saveFileToAppStorage: Started")
+    model.saveFileToAppStorage(file)
+  }
+
+  override fun saveFileToAppStorageCallback(exception: NoSuchFileException?) {
+    Timber.d("Log: saveFileToAppStorageCallback: Started")
+    if(exception != null) {
+      Timber.d("Log: saveFileToAppStorageCallback: Success")
+    } else {
+      view.displayErrorToast()
     }
   }
 }

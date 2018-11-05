@@ -65,3 +65,14 @@ fun getMonthName(month: Int, context: Context): String {
   val monthArray = context.resources.getStringArray(R.array.months)
   return monthArray[month]
 }
+
+/**
+ * Gets the path of the application's image storage
+ * @param context Context
+ */
+fun getArtworkDirectory(context: Context): String {
+  Timber.d("Log: getArtworkDirectory: Started")
+  val returnValue = context.filesDir.path + "/artwork/"
+  Timber.d("Log: getArtworkDirectory: Returning $returnValue")
+  return returnValue
+}

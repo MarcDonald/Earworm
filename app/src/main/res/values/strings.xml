@@ -18,6 +18,7 @@
   <string name="end_date">End Date</string>
   <string name="end">End</string>
   <string name="start">Start</string>
+  <string name="error">An Error Occurred</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>

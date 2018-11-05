@@ -6,6 +6,7 @@ import android.widget.TextView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.utils.formatDateForDisplay
+import app.marcdev.earworm.utils.getArtworkDirectory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import timber.log.Timber
@@ -24,9 +25,9 @@ class MainRecyclerViewHolderSong(itemView: View) : MainRecyclerViewHolder(itemVi
     val date = formatDateForDisplay(favouriteItemToDisplay.day, favouriteItemToDisplay.month, favouriteItemToDisplay.year)
     songDateDisplay.text = date
 
-    if(favouriteItemToDisplay.imageUri.isNotBlank()) {
+    if(favouriteItemToDisplay.imageName.isNotBlank()) {
       Glide.with(itemView)
-        .load(favouriteItemToDisplay.imageUri)
+        .load(getArtworkDirectory(itemView.context) + favouriteItemToDisplay.imageName)
         .apply(RequestOptions().centerCrop())
         .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, null)))
         .into(songImageDisplay)

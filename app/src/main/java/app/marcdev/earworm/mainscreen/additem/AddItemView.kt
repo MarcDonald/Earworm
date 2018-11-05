@@ -9,4 +9,6 @@ interface AddItemView {
   fun displayEmptyToast()
 
   fun convertToEditMode(item: FavouriteItem)
+
+  fun displayErrorToast()
 }

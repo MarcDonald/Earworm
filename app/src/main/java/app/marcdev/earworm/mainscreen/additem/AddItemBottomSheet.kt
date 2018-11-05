@@ -1,16 +1,19 @@
 package app.marcdev.earworm.mainscreen.additem
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
@@ -19,7 +22,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
+import java.io.File
 import java.util.*
 
 class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
@@ -38,12 +44,11 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
   private val dateChosen = Calendar.getInstance()
-  private val REQUEST_CODE = 1
   // If the itemID is anything other than -1 then it is in edit mode
   private var itemId: Int = -1
 
   private var type: Int = 0
-  private var uriString: String = ""
+  private var imageName: String = ""
   private var recyclerUpdateView: RecyclerUpdateView? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -85,14 +90,14 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       }
     }
 
-    if(item.imageUri.isNotBlank()) {
+    if(item.imageName.isNotBlank()) {
       Glide.with(this)
-        .load(item.imageUri)
+        .load(getArtworkDirectory(requireContext()) + item.imageName)
         .apply(RequestOptions().centerCrop())
         .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
         .into(iconImageView)
 
-      uriString = item.imageUri
+      this.imageName = item.imageName
     }
 
     updateDateAndDisplay(item.day, item.month, item.year)
@@ -143,10 +148,10 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     Timber.d("Log: SaveClick: Clicked")
     if(itemId == -1) {
       Timber.d("Log: saveOnClickListener: Adding new item")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null, uriString)
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null, imageName)
     } else {
       Timber.d("Log: saveOnClickListener: Updating item with id = $itemId")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId, uriString)
+      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId, imageName)
     }
   }
 
@@ -189,20 +194,36 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   }
 
   private val iconOnClickListener = View.OnClickListener {
-    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-    intent.type = ("image/*")
-    intent.addCategory(Intent.CATEGORY_OPENABLE)
-    startActivityForResult(intent, REQUEST_CODE)
+    Timber.d("Log: IconClick: Started")
+
+    if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      askForStoragePermissions()
+    } else {
+      FilePickerBuilder.instance.setMaxCount(1)
+        .setActivityTheme(R.style.LibAppTheme)
+        .pickPhoto(this)
+    }
+  }
+
+  private fun askForStoragePermissions() {
+    Timber.d("Log: askForStoragePermissions: Started")
+    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
 
-    if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-      val uri: Uri? = data!!.data
-      Timber.i("Log: onActivityResult: URI = $uri")
-      Glide.with(this).load(uri).apply(RequestOptions().centerCrop()).into(iconImageView)
-      this.uriString = uri.toString()
+    if(requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+      val photoPathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+      val photoPath = photoPathArray[0]
+      val file = File(photoPath)
+      presenter.saveFileToAppStorage(file)
+
+      Glide.with(this)
+        .load(getArtworkDirectory(requireContext()) + file.name)
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(iconImageView)
     }
   }
 
@@ -314,5 +335,10 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   override fun displayEmptyToast() {
     Timber.d("Log: displayEmptyToast: Started")
     Toast.makeText(activity, resources.getString(R.string.empty), Toast.LENGTH_SHORT).show()
+  }
+
+  override fun displayErrorToast() {
+    Timber.d("Log: displayErrorToast: Started")
+    Toast.makeText(activity, resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
   }
 }

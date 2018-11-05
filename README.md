@@ -17,3 +17,8 @@ Used for image loading and caching
 Used for all the icons within the app
 
 Apache 2 License
+
+###[Android File Picker](https://github.com/DroidNinja/Android-FilePicker)
+Used for selecting an image
+
+Apache 2 License
