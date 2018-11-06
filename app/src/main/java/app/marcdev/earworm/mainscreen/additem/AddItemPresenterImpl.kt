@@ -13,7 +13,7 @@ import java.util.*
 class AddItemPresenterImpl(private val view: AddItemView, private val context: Context) : AddItemPresenter {
 
   private val model: AddItemModel
-  private var imageName: String = ""
+  var imageFilePath: String = ""
 
   init {
     model = AddItemModelImpl(this, context)
@@ -30,6 +30,16 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
       val day = dateChosen.get(Calendar.DAY_OF_MONTH)
       val month = dateChosen.get(Calendar.MONTH)
       val year = dateChosen.get(Calendar.YEAR)
+
+      var imageName = ""
+
+      if(imageFilePath != "") {
+        Timber.d("Log: addItem: imageFilePath = $imageFilePath")
+
+        val imageFile = File(imageFilePath)
+        imageName = imageFile.name
+        model.saveFileToAppStorage(imageFile)
+      }
 
       val item: FavouriteItem = when(type) {
         SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type, imageName)
@@ -68,19 +78,16 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
     }
   }
 
-  override fun saveFileToAppStorage(file: File) {
-    Timber.d("Log: saveFileToAppStorage: Started")
-    model.saveFileToAppStorage(file)
-  }
-
   override fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?) {
     Timber.d("Log: saveFileToAppStorageCallback: Started")
-    if(exception == null) {
-      Timber.d("Log: saveFileToAppStorageCallback: Success")
-      this.imageName = fileName
-      view.displayImage(getArtworkDirectory(context) + fileName)
-    } else {
+    if(exception != null) {
       view.displayErrorToast()
     }
+  }
+
+  override fun updateFilePath(filePath: String) {
+    Timber.d("Log: updateFilePath: Started")
+
+    this.imageFilePath = filePath
   }
 }

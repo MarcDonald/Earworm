@@ -25,7 +25,6 @@ import com.google.android.material.chip.Chip
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
-import java.io.File
 import java.util.*
 
 class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
@@ -205,9 +204,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     if(requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
       val photoPathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
       val photoPath = photoPathArray[0]
-      val file = File(photoPath)
-      presenter.saveFileToAppStorage(file)
+      presenter.updateFilePath(photoPath)
 
+      displayImage(photoPath)
     }
   }
 
@@ -317,6 +316,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   }
 
   override fun displayImage(imagePath: String) {
+    Timber.d("Log: displayImage: Started")
     Glide.with(this)
       .load(imagePath)
       .apply(RequestOptions().centerCrop())

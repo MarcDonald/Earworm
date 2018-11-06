@@ -1,7 +1,6 @@
 package app.marcdev.earworm.mainscreen.additem
 
 import app.marcdev.earworm.database.FavouriteItem
-import java.io.File
 import java.util.*
 
 interface AddItemPresenter {
@@ -14,7 +13,7 @@ interface AddItemPresenter {
 
   fun getItemCallback(items: MutableList<FavouriteItem>)
 
-  fun saveFileToAppStorage(file: File)
-
   fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?)
+
+  fun updateFilePath(filePath: String)
 }
