@@ -88,7 +88,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       }
     }
 
-    presenter.updateFilePath(getArtworkDirectory(requireContext()) + item.imageName)
+    if(item.imageName.isNotBlank()) {
+      presenter.updateFilePath(getArtworkDirectory(requireContext()) + item.imageName)
+    }
     updateDateAndDisplay(item.day, item.month, item.year)
   }
 
@@ -317,7 +319,8 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   }
 
   override fun displayImage(imagePath: String) {
-    Timber.d("Log: displayImage: Started")
+    Timber.d("Log: displayImage: Started with imagePath = $imagePath")
+
     Glide.with(this)
       .load(imagePath)
       .apply(RequestOptions().centerCrop())

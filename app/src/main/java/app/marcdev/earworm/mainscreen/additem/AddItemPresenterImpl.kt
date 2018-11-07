@@ -13,8 +13,8 @@ import java.util.*
 class AddItemPresenterImpl(private val view: AddItemView, private val context: Context) : AddItemPresenter {
 
   private val model: AddItemModel
-  var imageFilePath: String = ""
-  var oldImageFilePath: String = ""
+  private var imageFilePath: String = ""
+  private var oldImageFilePath: String = ""
 
   init {
     model = AddItemModelImpl(this, context)
@@ -34,7 +34,7 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
 
       var imageName = ""
 
-      if(imageFilePath != "") {
+      if(imageFilePath.isNotBlank()) {
         Timber.d("Log: addItem: imageFilePath = $imageFilePath")
 
         val imageFile = File(imageFilePath)
@@ -73,7 +73,9 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
 
     if(items.isNotEmpty()) {
       view.convertToEditMode(items.first())
-      view.displayImage(getArtworkDirectory(context) + items.first().imageName)
+      if(items.first().imageName.isNotBlank()) {
+        view.displayImage(getArtworkDirectory(context) + items.first().imageName)
+      }
     } else {
       Timber.e("Log: getItemCallback: Returned empty list")
     }
@@ -94,7 +96,7 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
     Timber.d("Log: updateFilePath: oldImageFilePath = $oldImageFilePath")
     Timber.d("Log: updateFilePath: imageFilePath = $imageFilePath")
 
-    if(oldImageFilePath != "") {
+    if(oldImageFilePath.isNotBlank()) {
       model.countUsesOfImage(oldImageFilePath)
     }
   }

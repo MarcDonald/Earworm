@@ -26,6 +26,7 @@ class MainRecyclerViewHolderSong(itemView: View) : MainRecyclerViewHolder(itemVi
     songDateDisplay.text = date
 
     if(favouriteItemToDisplay.imageName.isNotBlank()) {
+      Timber.d("Log: display: ${favouriteItemToDisplay.imageName}")
       Glide.with(itemView)
         .load(getArtworkDirectory(itemView.context) + favouriteItemToDisplay.imageName)
         .apply(RequestOptions().centerCrop())
