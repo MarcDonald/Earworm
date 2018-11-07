@@ -51,12 +51,18 @@ class AddItemModelImpl(private val presenter: AddItemPresenter, private val cont
     val toPath = getArtworkDirectory(context) + file.name
     Timber.d("Log: saveFileToAppStorage: fileName = ${file.name}")
     val toFile = File(toPath)
-    try {
-      file.copyTo(toFile, true)
+    if(toFile.compareTo(file) != 0) {
+      Timber.d("Log: saveFileToAppStorage: External file, saving")
+      try {
+        file.copyTo(toFile, true)
+        presenter.saveFileToAppStorageCallback(file.name, null)
+      } catch(e: NoSuchFileException) {
+        presenter.saveFileToAppStorageCallback("", e)
+        Timber.e("Log: saveFileToAppStorage: $e")
+      }
+    } else {
+      Timber.d("Log: saveFileToAppStorage: Internal file of same path, not saving")
       presenter.saveFileToAppStorageCallback(file.name, null)
-    } catch(e: NoSuchFileException) {
-      presenter.saveFileToAppStorageCallback("", e)
-      Timber.e("Log: saveFileToAppStorage: $e")
     }
   }
 
