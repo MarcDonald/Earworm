@@ -20,4 +20,6 @@ interface MainFragmentPresenter {
   fun editItemClick(itemId: Int)
 
   fun search(input: String)
+
+  fun countUsesOfImageCallback(item: FavouriteItem, uses: Int)
 }

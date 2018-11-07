@@ -59,7 +59,13 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
 
   override fun deleteItem(item: FavouriteItem) {
     Timber.d("Log: deleteItem: Started")
-    model.deleteItemAsync(item)
+    if(item.imageName != "") {
+      Timber.d("Log: deleteItem: Item has an image, checking if used elsewhere")
+      model.countUsesOfImage(item)
+    } else {
+      Timber.d("Log: deleteItem: Item does not have an image, deleting item")
+      model.deleteItemAsync(item)
+    }
   }
 
   override fun deleteItemCallback() {
@@ -69,6 +75,17 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     } else {
       getAllItems()
     }
+  }
+
+  override fun countUsesOfImageCallback(item: FavouriteItem, uses: Int) {
+    Timber.d("Log: countUsesOfImageCallback: Started with imageName = ${item.imageName} and uses = $uses")
+
+    if(uses <= 1) {
+      val filePath = getArtworkDirectory(context) + item.imageName
+      model.deleteImage(filePath)
+    }
+
+    model.deleteItemAsync(item)
   }
 
   override fun editItemClick(itemId: Int) {
