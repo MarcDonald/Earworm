@@ -12,7 +12,8 @@ data class FavouriteItem(
   var day: Int,
   var month: Int,
   var year: Int,
-  var type: Int
+  var type: Int,
+  var imageName: String
 ) {
 
   @PrimaryKey(autoGenerate = true)

@@ -18,6 +18,17 @@ class FavouriteItemRepositoryTest {
   private var repository: FavouriteItemRepository? = null
   private var dao: DAO? = null
 
+  // Default values
+  private val testName = "Test Song Name"
+  private val testAlbum = "Test Album Name"
+  private val testArtist = "Test Artist Name"
+  private val testGenre = "Test Genre Name"
+  private val testImageName = "testimagename.jpg"
+  private val testDay = 1
+  private val testMonth = 1
+  private val testYear = 2018
+  private val testType: Int = SONG
+
   @Before
   fun setUp() {
     database =
@@ -33,19 +44,14 @@ class FavouriteItemRepositoryTest {
     database!!.close()
   }
 
+  private fun createTestItem(): FavouriteItem {
+    return FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType, testImageName)
+  }
+
   @Test
   fun insertMultipleSongs_getAllItems() = runBlocking {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
-
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem1 = createTestItem()
+    val testItem2 = createTestItem()
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
@@ -59,17 +65,9 @@ class FavouriteItemRepositoryTest {
 
   @Test
   fun insertOneSong_getItemById_deleteSong() = runBlocking {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
     val testId = 1
 
-    val testItem = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem = createTestItem()
     testItem.id = testId
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getItem(testId)
@@ -88,20 +86,12 @@ class FavouriteItemRepositoryTest {
 
   @Test
   fun insertTwoSongs_deleteOneSong() = runBlocking {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem1 = createTestItem()
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem2 = createTestItem()
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
@@ -124,20 +114,12 @@ class FavouriteItemRepositoryTest {
 
   @Test
   fun insertMultipleSongs_getOneById() = runBlocking {
-    val testName = "Test Song Name"
-    val testAlbum = "Test Album Name"
-    val testArtist = "Test Artist Name"
-    val testGenre = "Test Genre Name"
-    val testDay = 1
-    val testMonth = 1
-    val testYear = 2018
-    val testType: Int = SONG
     val testId1 = 1
     val testId2 = 2
 
-    val testItem1 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem1 = createTestItem()
     testItem1.id = testId1
-    val testItem2 = FavouriteItem(testName, testAlbum, testArtist, testGenre, testDay, testMonth, testYear, testType)
+    val testItem2 = createTestItem()
     testItem2.id = testId2
 
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
@@ -151,5 +133,108 @@ class FavouriteItemRepositoryTest {
 
     val returnedItemsWhenSearchedById1: MutableList<FavouriteItem> = repository!!.getItem(testId1)
     Assert.assertEquals(1, returnedItemsWhenSearchedById1.size)
+  }
+
+  @Test
+  fun insertMultipleItemsUsingDifferentImages_countEach() = runBlocking {
+    val testImage1 = "testImage1.jpg"
+    val testImage2 = "testImage2.jpg"
+
+    val testItem1 = createTestItem()
+    testItem1.imageName = testImage1
+
+    val testItem2 = createTestItem()
+    testItem2.imageName = testImage2
+
+    val testItem3 = createTestItem()
+    testItem3.imageName = testImage2
+
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem3)
+
+    val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
+
+    val returnedValueWhenSearchedForTestImage2: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2)
+  }
+
+  @Test
+  fun insertMultipleItemsUsingDifferentImages_countEachAndDelete() = runBlocking {
+    val testImage1 = "testImage1.jpg"
+    val testImage2 = "testImage2.jpg"
+    val testId1 = 1
+    val testId2 = 2
+    val testId3 = 3
+
+    val testItem1 = createTestItem()
+    testItem1.imageName = testImage1
+    testItem1.id = testId1
+
+    val testItem2 = createTestItem()
+    testItem2.imageName = testImage2
+    testItem2.id = testId2
+
+    val testItem3 = createTestItem()
+    testItem3.imageName = testImage2
+    testItem3.id = testId3
+
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem3)
+
+    val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
+
+    val returnedValueWhenSearchedForTestImage2: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2)
+
+    repository!!.deleteItem(testId2)
+
+    val returnedValueWhenSearchedForTestImage1AfterDelete: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1AfterDelete)
+
+    val returnedValueWhenSearchedForTestImage2AfterDelete: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage2AfterDelete)
+  }
+
+  @Test
+  fun insertMultipleItemsUsingDifferentImages_countEachAndDeleteOneCompletely() = runBlocking {
+    val testImage1 = "testImage1.jpg"
+    val testImage2 = "testImage2.jpg"
+    val testId1 = 1
+    val testId2 = 2
+    val testId3 = 3
+
+    val testItem1 = createTestItem()
+    testItem1.imageName = testImage1
+    testItem1.id = testId1
+
+    val testItem2 = createTestItem()
+    testItem2.imageName = testImage2
+    testItem2.id = testId2
+
+    val testItem3 = createTestItem()
+    testItem3.imageName = testImage2
+    testItem3.id = testId3
+
+    repository!!.insertOrUpdateItem(testItem1)
+    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.insertOrUpdateItem(testItem3)
+
+    val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
+
+    val returnedValueWhenSearchedForTestImage2: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2)
+
+    repository!!.deleteItem(testId1)
+
+    val returnedValueWhenSearchedForTestImage1AfterDelete: Int = repository!!.countUsesOfImage(testImage1)
+    Assert.assertEquals(0, returnedValueWhenSearchedForTestImage1AfterDelete)
+
+    val returnedValueWhenSearchedForTestImage2AfterDelete: Int = repository!!.countUsesOfImage(testImage2)
+    Assert.assertEquals(2, returnedValueWhenSearchedForTestImage2AfterDelete)
   }
 }

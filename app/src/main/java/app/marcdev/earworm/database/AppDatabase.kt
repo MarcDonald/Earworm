@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [FavouriteItem::class], version = 2)
+@Database(entities = [FavouriteItem::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
   abstract fun dao(): DAO
@@ -17,7 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
     fun getDatabase(context: Context): AppDatabase {
       val tempInstance = INSTANCE
 
-      if (tempInstance != null) {
+      if(tempInstance != null) {
         return tempInstance
       }
 

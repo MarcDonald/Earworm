@@ -12,4 +12,10 @@ interface AddItemPresenter {
   fun getItem(itemId: Int)
 
   fun getItemCallback(items: MutableList<FavouriteItem>)
+
+  fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?)
+
+  fun updateFilePath(filePath: String)
+
+  fun countUsesOfImageCallback(filePath: String, uses: Int)
 }

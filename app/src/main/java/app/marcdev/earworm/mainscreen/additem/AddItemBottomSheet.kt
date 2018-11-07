@@ -1,22 +1,29 @@
 package app.marcdev.earworm.mainscreen.additem
 
+import android.Manifest
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import app.marcdev.earworm.R
 import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import app.marcdev.earworm.utils.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
 import java.util.*
 
@@ -33,6 +40,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var datePicker: DatePicker
   private lateinit var datePickerOk: MaterialButton
   private lateinit var datePickerCancel: MaterialButton
+  private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
   private val dateChosen = Calendar.getInstance()
   // If the itemID is anything other than -1 then it is in edit mode
@@ -80,6 +88,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       }
     }
 
+    if(item.imageName.isNotBlank()) {
+      presenter.updateFilePath(getArtworkDirectory(requireContext()) + item.imageName)
+    }
     updateDateAndDisplay(item.day, item.month, item.year)
   }
 
@@ -119,6 +130,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
     this.dateChip = view.findViewById(R.id.chip_add_item_date_display)
     dateChip.setOnClickListener(dateOnClickListener)
+
+    this.iconImageView = view.findViewById(R.id.img_add_icon)
+    iconImageView.setOnClickListener(iconOnClickListener)
   }
 
   private val saveOnClickListener = View.OnClickListener {
@@ -157,17 +171,46 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private val songOnClickListener = View.OnClickListener {
     Timber.d("Log: SongClick: Clicked")
-    activateButton(songButton)
+    activateButtonIfNecessary(songButton)
   }
 
   private val albumOnClickListener = View.OnClickListener {
     Timber.d("Log: AlbumClick: Clicked")
-    activateButton(albumButton)
+    activateButtonIfNecessary(albumButton)
   }
 
   private val artistOnClickListener = View.OnClickListener {
     Timber.d("Log: ArtistClick: Clicked")
-    activateButton(artistButton)
+    activateButtonIfNecessary(artistButton)
+  }
+
+  private val iconOnClickListener = View.OnClickListener {
+    Timber.d("Log: IconClick: Started")
+
+    if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      askForStoragePermissions()
+    } else {
+      FilePickerBuilder.instance.setMaxCount(1)
+        .setActivityTheme(R.style.LibAppTheme)
+        .pickPhoto(this)
+    }
+  }
+
+  private fun askForStoragePermissions() {
+    Timber.d("Log: askForStoragePermissions: Started")
+    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if(requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+      val photoPathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+      val photoPath = photoPathArray[0]
+      presenter.updateFilePath(photoPath)
+
+      displayImage(photoPath)
+    }
   }
 
   private fun setupDefaults() {
@@ -179,58 +222,58 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     dateChip.text = resources.getString(R.string.today)
   }
 
-  private fun activateButton(button: ImageButton) {
-    Timber.d("Log: activateButton: Started")
-    var doUpdate = true
+  private fun activateButtonIfNecessary(button: ImageButton) {
+    Timber.d("Log: activateButtonIfNecessary: Started")
 
     if(type == SONG && button == songButton
        || type == ALBUM && button == albumButton
        || type == ARTIST && button == artistButton
     ) {
-      Timber.d("Log: activateButton: No need to update")
-      doUpdate = false
+      Timber.d("Log: activateButtonIfNecessary: No need to update")
+    } else {
+      activateButton(button)
+    }
+  }
+
+  private fun activateButton(button: ImageButton) {
+    Timber.d("Log: activateButtonIfNecessary: Activating button $button")
+    when(type) {
+      SONG -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
+      }
+      ALBUM -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
+      }
+      ARTIST -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
+      }
     }
 
-    if(doUpdate) {
-      Timber.d("Log: activateButton: Activating button $button")
-      when(type) {
-        SONG -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
-        }
-        ALBUM -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-        }
-        ARTIST -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
-        }
+    when(button) {
+      songButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
+        type = SONG
+        primaryInput.hint = resources.getString(R.string.song_name)
+        secondaryInput.hint = resources.getString(R.string.artist)
       }
 
-      when(button) {
-        songButton -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
-          type = SONG
-          primaryInput.hint = resources.getString(R.string.song_name)
-          secondaryInput.hint = resources.getString(R.string.artist)
-        }
-
-        albumButton -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
-          type = ALBUM
-          primaryInput.hint = resources.getString(R.string.album)
-          secondaryInput.hint = resources.getString(R.string.artist)
-        }
-
-        artistButton -> {
-          changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
-          type = ARTIST
-          primaryInput.hint = resources.getString(R.string.artist)
-          secondaryInput.hint = resources.getString(R.string.genre)
-        }
+      albumButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
+        type = ALBUM
+        primaryInput.hint = resources.getString(R.string.album)
+        secondaryInput.hint = resources.getString(R.string.artist)
       }
-      primaryInput.setText("")
-      secondaryInput.setText("")
-      primaryInput.requestFocus()
+
+      artistButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
+        type = ARTIST
+        primaryInput.hint = resources.getString(R.string.artist)
+        secondaryInput.hint = resources.getString(R.string.genre)
+      }
     }
+    primaryInput.setText("")
+    secondaryInput.setText("")
+    primaryInput.requestFocus()
   }
 
   private fun updateDateAndDisplay(day: Int, month: Int, year: Int) {
@@ -275,8 +318,23 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     dismiss()
   }
 
+  override fun displayImage(imagePath: String) {
+    Timber.d("Log: displayImage: Started with imagePath = $imagePath")
+
+    Glide.with(this)
+      .load(imagePath)
+      .apply(RequestOptions().centerCrop())
+      .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+      .into(iconImageView)
+  }
+
   override fun displayEmptyToast() {
     Timber.d("Log: displayEmptyToast: Started")
     Toast.makeText(activity, resources.getString(R.string.empty), Toast.LENGTH_SHORT).show()
+  }
+
+  override fun displayErrorToast() {
+    Timber.d("Log: displayErrorToast: Started")
+    Toast.makeText(activity, resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
   }
 }

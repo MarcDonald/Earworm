@@ -18,8 +18,9 @@
       android:layout_marginEnd="@dimen/marginStandard"
       android:layout_marginBottom="@dimen/marginStandardHalf"
       android:hint="@string/song_name"
+      android:inputType="textCapSentences"
+      app:layout_constraintStart_toEndOf="@id/img_add_icon"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -31,9 +32,21 @@
       android:layout_marginEnd="@dimen/marginStandard"
       android:layout_marginBottom="@dimen/marginStandard"
       android:hint="@string/artist"
+      android:inputType="textCapSentences"
+      app:layout_constraintStart_toEndOf="@id/img_add_icon"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/edt_item_primary_input" />
+
+    <ImageView
+      android:id="@+id/img_add_icon"
+      android:layout_width="@dimen/addItemImageSize"
+      android:layout_height="@dimen/addItemImageSize"
+      android:background="?selectableItemBackground"
+      android:src="@drawable/ic_add_a_photo_24px"
+      android:layout_marginStart="@dimen/marginStandard"
+      android:layout_marginTop="@dimen/marginStandard"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
       android:id="@+id/btn_add_item_save"

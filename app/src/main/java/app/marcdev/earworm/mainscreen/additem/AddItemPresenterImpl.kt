@@ -5,12 +5,16 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.utils.ALBUM
 import app.marcdev.earworm.utils.ARTIST
 import app.marcdev.earworm.utils.SONG
+import app.marcdev.earworm.utils.getArtworkDirectory
 import timber.log.Timber
+import java.io.File
 import java.util.*
 
-class AddItemPresenterImpl(private val view: AddItemView, context: Context) : AddItemPresenter {
+class AddItemPresenterImpl(private val view: AddItemView, private val context: Context) : AddItemPresenter {
 
   private val model: AddItemModel
+  private var imageFilePath: String = ""
+  private var oldImageFilePath: String = ""
 
   init {
     model = AddItemModelImpl(this, context)
@@ -28,11 +32,21 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
       val month = dateChosen.get(Calendar.MONTH)
       val year = dateChosen.get(Calendar.YEAR)
 
+      var imageName = ""
+
+      if(imageFilePath.isNotBlank()) {
+        Timber.d("Log: addItem: imageFilePath = $imageFilePath")
+
+        val imageFile = File(imageFilePath)
+        imageName = imageFile.name
+        model.saveFileToAppStorage(imageFile)
+      }
+
       val item: FavouriteItem = when(type) {
-        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type)
-        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type)
-        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type)
-        else -> FavouriteItem("", "", "", "", 0, 0, 0, type)
+        SONG -> FavouriteItem(primaryInput, "", secondaryInput, "", day, month, year, type, imageName)
+        ALBUM -> FavouriteItem("", primaryInput, secondaryInput, "", day, month, year, type, imageName)
+        ARTIST -> FavouriteItem("", "", primaryInput, secondaryInput, day, month, year, type, imageName)
+        else -> FavouriteItem("", "", "", "", 0, 0, 0, type, imageName)
       }
 
       if(itemId != null) {
@@ -59,8 +73,42 @@ class AddItemPresenterImpl(private val view: AddItemView, context: Context) : Ad
 
     if(items.isNotEmpty()) {
       view.convertToEditMode(items.first())
+      if(items.first().imageName.isNotBlank()) {
+        view.displayImage(getArtworkDirectory(context) + items.first().imageName)
+      }
     } else {
       Timber.e("Log: getItemCallback: Returned empty list")
+    }
+  }
+
+  override fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?) {
+    Timber.d("Log: saveFileToAppStorageCallback: Started")
+    if(exception != null) {
+      view.displayErrorToast()
+    }
+  }
+
+  override fun updateFilePath(filePath: String) {
+    Timber.d("Log: updateFilePath: Started")
+
+    this.oldImageFilePath = imageFilePath
+    this.imageFilePath = filePath
+    Timber.d("Log: updateFilePath: oldImageFilePath = $oldImageFilePath")
+    Timber.d("Log: updateFilePath: imageFilePath = $imageFilePath")
+
+    if(oldImageFilePath.isNotBlank()) {
+      model.countUsesOfImage(oldImageFilePath)
+    }
+  }
+
+  override fun countUsesOfImageCallback(filePath: String, uses: Int) {
+    Timber.d("Log: countUsesOfImageCallback: Started with filePath = $filePath and uses = $uses")
+
+    if(uses <= 1) {
+      Timber.d("Log: countUsesOfImageCallback: No other uses, deleting image at $filePath")
+      model.deleteImage(filePath)
+    } else {
+      Timber.d("Log: countUsesOfImageCallback: Used elsewhere, not deleting")
     }
   }
 }

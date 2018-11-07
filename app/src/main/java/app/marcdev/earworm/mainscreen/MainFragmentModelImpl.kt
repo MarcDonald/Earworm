@@ -6,13 +6,15 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.repository.FavouriteItemRepository
 import app.marcdev.earworm.repository.FavouriteItemRepositoryImpl
 import app.marcdev.earworm.utils.ItemFilter
+import app.marcdev.earworm.utils.getArtworkDirectory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 
-class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, context: Context) : MainFragmentModel {
+class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, private val context: Context) : MainFragmentModel {
 
   private var repository: FavouriteItemRepository
 
@@ -54,6 +56,34 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, contex
       }.await()
 
       presenter.deleteItemCallback()
+    }
+  }
+
+  override fun countUsesOfImage(item: FavouriteItem) {
+    Timber.d("Log: countUsesOfImage: Started with item = $item")
+    val filePath = getArtworkDirectory(context) + item.imageName
+    val file = File(filePath)
+    val fileName = file.name
+
+    GlobalScope.launch(Dispatchers.Main) {
+      val uses = async(Dispatchers.IO) {
+        repository.countUsesOfImage(fileName)
+      }.await()
+
+      presenter.countUsesOfImageCallback(item, uses)
+    }
+  }
+
+  override fun deleteImage(filePath: String) {
+    Timber.d("Log: deleteImage: Started with filePath = $filePath")
+
+    val file = File(filePath)
+    if(file.exists()) {
+      Timber.d("Log: deleteImage: File exists, deleting")
+      val deletionStatus = file.delete()
+      Timber.d("Log: deleteImage: Deletion: $deletionStatus")
+    } else {
+      Timber.w("Log: deleteImage: File doesn't exist")
     }
   }
 }

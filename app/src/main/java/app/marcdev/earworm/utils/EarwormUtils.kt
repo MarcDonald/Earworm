@@ -2,8 +2,6 @@ package app.marcdev.earworm.utils
 
 import android.content.Context
 import android.widget.ImageButton
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import app.marcdev.earworm.R
@@ -51,9 +49,9 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
   Timber.v("Log: changeColorOfImageButtonDrawable: Started")
 
   if(isActivated) {
-    DrawableCompat.setTint(button.drawable, ContextCompat.getColor(context, R.color.colorAccent))
+    button.setColorFilter(context.getColor(R.color.colorAccent))
   } else {
-    DrawableCompat.setTint(button.drawable, ContextCompat.getColor(context, R.color.black))
+    button.setColorFilter(context.getColor(R.color.black))
   }
 }
 
@@ -66,4 +64,15 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
 fun getMonthName(month: Int, context: Context): String {
   val monthArray = context.resources.getStringArray(R.array.months)
   return monthArray[month]
+}
+
+/**
+ * Gets the path of the application's image storage
+ * @param context Context
+ */
+fun getArtworkDirectory(context: Context): String {
+  Timber.d("Log: getArtworkDirectory: Started")
+  val returnValue = context.filesDir.path + "/artwork/"
+  Timber.d("Log: getArtworkDirectory: Returning $returnValue")
+  return returnValue
 }

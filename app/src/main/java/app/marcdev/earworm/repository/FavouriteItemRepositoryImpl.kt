@@ -20,4 +20,8 @@ class FavouriteItemRepositoryImpl(private val dao: DAO) : FavouriteItemRepositor
   override suspend fun deleteItem(id: Int) {
     return dao.deleteItemById(id)
   }
+
+  override suspend fun countUsesOfImage(imageName: String): Int {
+    return dao.getNumberOfEntriesUsingImage(imageName)
+  }
 }
