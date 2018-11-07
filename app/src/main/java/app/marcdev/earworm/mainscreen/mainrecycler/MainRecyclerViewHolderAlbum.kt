@@ -33,6 +33,14 @@ class MainRecyclerViewHolderAlbum(itemView: View) : MainRecyclerViewHolder(itemV
         .apply(RequestOptions().centerCrop())
         .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, null)))
         .into(albumImageDisplay)
+    } else {
+      Timber.d("Log: display: No image to display")
+
+      Glide.with(itemView)
+        .load(itemView.resources.getDrawable(R.drawable.ic_album_24px, null))
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(albumImageDisplay)
     }
   }
 }

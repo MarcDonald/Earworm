@@ -33,6 +33,14 @@ class MainRecyclerViewHolderArtist(itemView: View) : MainRecyclerViewHolder(item
         .apply(RequestOptions().centerCrop())
         .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, null)))
         .into(artistImageDisplay)
+    } else {
+      Timber.d("Log: display: No image to display")
+
+      Glide.with(itemView)
+        .load(itemView.resources.getDrawable(R.drawable.ic_person_24px, null))
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(artistImageDisplay)
     }
   }
 }
