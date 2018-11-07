@@ -88,6 +88,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       }
     }
 
+    presenter.updateFilePath(getArtworkDirectory(requireContext()) + item.imageName)
     updateDateAndDisplay(item.day, item.month, item.year)
   }
 

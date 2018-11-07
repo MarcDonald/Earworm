@@ -14,6 +14,7 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
 
   private val model: AddItemModel
   var imageFilePath: String = ""
+  var oldImageFilePath: String = ""
 
   init {
     model = AddItemModelImpl(this, context)
@@ -88,6 +89,24 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
   override fun updateFilePath(filePath: String) {
     Timber.d("Log: updateFilePath: Started")
 
+    this.oldImageFilePath = imageFilePath
     this.imageFilePath = filePath
+    Timber.d("Log: updateFilePath: oldImageFilePath = $oldImageFilePath")
+    Timber.d("Log: updateFilePath: imageFilePath = $imageFilePath")
+
+    if(oldImageFilePath != "") {
+      model.countUsesOfImage(oldImageFilePath)
+    }
+  }
+
+  override fun countUsesOfImageCallback(filePath: String, uses: Int) {
+    Timber.d("Log: countUsesOfImageCallback: Started with filePath = $filePath and uses = $uses")
+
+    if(uses <= 1) {
+      Timber.d("Log: countUsesOfImageCallback: No other uses, deleting image at $filePath")
+      model.deleteImage(filePath)
+    } else {
+      Timber.d("Log: countUsesOfImageCallback: Used elsewhere, not deleting")
+    }
   }
 }

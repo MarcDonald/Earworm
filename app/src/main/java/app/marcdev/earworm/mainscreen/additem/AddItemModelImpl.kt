@@ -59,4 +59,31 @@ class AddItemModelImpl(private val presenter: AddItemPresenter, private val cont
       Timber.e("Log: saveFileToAppStorage: $e")
     }
   }
+
+  override fun countUsesOfImage(filePath: String) {
+    Timber.d("Log: countUsesOfImage: Started with filePath = $filePath")
+    val file = File(filePath)
+    val fileName = file.name
+
+    GlobalScope.launch(Dispatchers.Main) {
+      val uses = async(Dispatchers.IO) {
+        repository.countUsesOfImage(fileName)
+      }.await()
+
+      presenter.countUsesOfImageCallback(filePath, uses)
+    }
+  }
+
+  override fun deleteImage(filePath: String) {
+    Timber.d("Log: deleteImage: Started with filePath = $filePath")
+
+    val file = File(filePath)
+    if(file.exists()) {
+      Timber.d("Log: deleteImage: File exists, deleting")
+      val deletionStatus = file.delete()
+      Timber.d("Log: deleteImage: Deletion: $deletionStatus")
+    } else {
+      Timber.w("Log: deleteImage: File doesn't exist")
+    }
+  }
 }

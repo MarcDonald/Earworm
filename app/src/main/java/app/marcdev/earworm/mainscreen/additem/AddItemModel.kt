@@ -10,4 +10,8 @@ interface AddItemModel {
   fun getItemAsync(itemId: Int)
 
   fun saveFileToAppStorage(file: File)
+
+  fun countUsesOfImage(filePath: String)
+
+  fun deleteImage(filePath: String)
 }

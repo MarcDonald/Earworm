@@ -16,4 +16,6 @@ interface AddItemPresenter {
   fun saveFileToAppStorageCallback(fileName: String, exception: NoSuchFileException?)
 
   fun updateFilePath(filePath: String)
+
+  fun countUsesOfImageCallback(filePath: String, uses: Int)
 }
