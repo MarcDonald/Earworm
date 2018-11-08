@@ -1,6 +1,7 @@
 package app.marcdev.earworm.utils
 
 import android.content.Context
+import android.preference.PreferenceManager
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -43,15 +44,15 @@ fun formatDateForDisplay(day: Int, month: Int, year: Int): String {
  * Changes the color of a drawable in an ImageView to indicate whether it is activated or not
  * @param context Context
  * @param button The button to change the color of
- * @param
+ * @param isActivated Whether or not the button should be put into the activated state
  */
 fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isActivated: Boolean) {
   Timber.v("Log: changeColorOfImageButtonDrawable: Started")
 
-  if(isActivated) {
-    button.setColorFilter(context.getColor(R.color.colorAccent))
-  } else {
-    button.setColorFilter(context.getColor(R.color.black))
+  when {
+    isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
+    isDarkMode(context) -> button.setColorFilter(context.getColor(R.color.white70))
+    else -> button.setColorFilter(context.getColor(R.color.black))
   }
 }
 
@@ -75,4 +76,19 @@ fun getArtworkDirectory(context: Context): String {
   val returnValue = context.filesDir.path + "/artwork/"
   Timber.d("Log: getArtworkDirectory: Returning $returnValue")
   return returnValue
+}
+
+/**
+ * Checks the shared preferences to see if the user has selected dark mode
+ * @param context Context
+ */
+fun isDarkMode(context: Context): Boolean {
+  val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+  val theme = prefs.getString("pref_theme", context.resources.getString(R.string.light))
+
+  return when(theme) {
+    context.resources.getString(R.string.light) -> false
+    context.resources.getString(R.string.dark) -> true
+    else -> false
+  }
 }

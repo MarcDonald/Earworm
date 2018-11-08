@@ -5,5 +5,5 @@
     android:topLeftRadius="@dimen/roundedCornerRadius"
     android:topRightRadius="@dimen/roundedCornerRadius" />
   <padding android:top="@dimen/marginStandard" />
-  <solid android:color="@color/colorPrimary" />
+  <solid android:color="?attr/backgroundColor" />
 </shape>

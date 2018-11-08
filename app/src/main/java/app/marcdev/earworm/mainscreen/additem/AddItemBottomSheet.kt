@@ -195,7 +195,8 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       askForStoragePermissions()
     } else {
       FilePickerBuilder.instance.setMaxCount(1)
-        .setActivityTheme(R.style.LibAppTheme)
+        .setActivityTheme(R.style.Earworm_DarkTheme)
+        .setActivityTitle(resources.getString(R.string.choose_an_image))
         .pickPhoto(this)
     }
   }

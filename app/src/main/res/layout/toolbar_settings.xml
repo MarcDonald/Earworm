@@ -20,7 +20,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/settings"
-      android:textAppearance="@style/LightTheme.TextAppearance.ToolbarTitle"
+      android:textAppearance="@style/Earworm.TextAppearance.ToolbarTitle"
       android:layout_margin="@dimen/toolbarIconMargin"
       android:gravity="center"
       app:layout_constraintEnd_toEndOf="parent"

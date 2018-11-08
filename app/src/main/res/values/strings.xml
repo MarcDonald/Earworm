@@ -39,6 +39,8 @@
   <string name="edit">Edit</string>
   <string name="delete">Delete</string>
   <string name="confirm_image_deletion">Are you sure you want to remove this image?</string>
+  <string name="add_an_image">Add an Image</string>
+  <string name="choose_an_image">Choose an Image</string>
 
   <!--Settings-->
   <string name="settings">Settings</string>

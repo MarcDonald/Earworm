@@ -6,7 +6,7 @@
   android:orientation="vertical">
 
   <androidx.cardview.widget.CardView
-    style="@style/LightTheme.CardView"
+    style="@style/Earworm.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,7 +23,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/genre"
-        android:textAppearance="@style/LightTheme.TextAppearance.ItemNameMainDisplay"
+        android:textAppearance="@style/Earworm.TextAppearance.ItemNameMainDisplay"
         app:layout_constraintBottom_toTopOf="@+id/txt_genreDate"
         app:layout_constraintEnd_toStartOf="@id/txt_genre_type"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/genre"
-        android:textAppearance="@style/LightTheme.TextAppearance.ItemTypeMainDisplay"
+        android:textAppearance="@style/Earworm.TextAppearance.ItemTypeMainDisplay"
         app:layout_constraintBottom_toTopOf="@+id/txt_genreDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

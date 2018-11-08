@@ -22,6 +22,7 @@ import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
+import app.marcdev.earworm.utils.isDarkMode
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
@@ -34,6 +35,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var searchInput: EditText
   private lateinit var searchButton: ImageButton
   private lateinit var filterButton: ImageButton
+  private lateinit var settingsButton: ImageButton
   private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
@@ -42,8 +44,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Timber.d("Log: onCreateView: Started")
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
+
     presenter = MainFragmentPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
+
+    if(isDarkMode(requireContext())) {
+      Timber.d("Log: onCreateView: Is dark mode, converting")
+      convertToDarkMode()
+    }
+
     setupRecycler(view)
     fillData()
 
@@ -75,7 +84,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     this.filterDialog = FilterDialog(requireActivity(), presenter)
 
-    val settingsButton = view.findViewById<ImageButton>(R.id.img_settings)
+    this.settingsButton = view.findViewById(R.id.img_settings)
     settingsButton.setOnClickListener(settingsOnClickListener)
   }
 
@@ -236,5 +245,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     Timber.d("Log: activateFilterIcon: Started with isActive = $isActive")
 
     changeColorOfImageButtonDrawable(context!!, filterButton, isActive)
+  }
+
+  private fun convertToDarkMode() {
+    changeColorOfImageButtonDrawable(requireContext(), filterButton, false)
+    changeColorOfImageButtonDrawable(requireContext(), settingsButton, false)
+    changeColorOfImageButtonDrawable(requireContext(), searchButton, false)
   }
 }
