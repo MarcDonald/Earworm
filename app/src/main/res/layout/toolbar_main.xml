@@ -27,6 +27,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageButton
+      android:id="@+id/img_settings"
+      android:background="?selectableItemBackground"
+      android:layout_width="@dimen/toolbarIconSize"
+      android:layout_height="@dimen/toolbarIconSize"
+      android:layout_marginEnd="@dimen/marginStandard"
+      android:layout_marginTop="@dimen/toolbarIconMargin"
+      android:layout_marginBottom="@dimen/toolbarIconMargin"
+      android:padding="@dimen/marginStandard"
+      android:src="@drawable/ic_settings_24px"
+      android:contentDescription="@string/settings"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.appcompat.widget.Toolbar>

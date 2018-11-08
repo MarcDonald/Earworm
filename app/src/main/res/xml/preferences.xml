@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <PreferenceCategory android:title="@string/appearance">
+    <ListPreference
+      android:key="pref_theme"
+      android:entries="@array/themes"
+      android:entryValues="@array/themes"
+      android:defaultValue="@string/light"
+      android:title="@string/theme_selection" />
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/behaviour">
+    <Preference
+      android:key="pref_show_tips"
+      android:title="@string/reset_tips" />
+  </PreferenceCategory>
+
+</PreferenceScreen>

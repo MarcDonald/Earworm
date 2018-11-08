@@ -22,11 +22,11 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
   private val snackbarActionListener = View.OnClickListener {
     Timber.d("Log: snackbarActionListener: Clicked")
-    prefs.edit().putBoolean("show_long_click_tip", false).apply()
+    prefs.edit().putBoolean("pref_show_tips", false).apply()
   }
 
   private val itemClickListener = View.OnClickListener {
-    if(prefs.getBoolean("show_long_click_tip", true)) {
+    if(prefs.getBoolean("pref_show_tips", true)) {
       val snackbar = Snackbar.make(it, itemView.resources.getString(R.string.long_click_hint), Snackbar.LENGTH_SHORT)
       snackbar.setAction(itemView.resources.getString(R.string.dont_show), snackbarActionListener)
       snackbar.show()
@@ -37,7 +37,7 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
     editDialog.show()
 
     // TODO move this to a settings menu
-    prefs.edit().putBoolean("show_long_click_tip", true).apply()
+    prefs.edit().putBoolean("pref_show_tips", true).apply()
     return@OnLongClickListener true
   }
 

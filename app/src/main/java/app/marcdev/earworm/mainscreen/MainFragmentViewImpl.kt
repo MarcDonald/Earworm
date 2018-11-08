@@ -1,5 +1,6 @@
 package app.marcdev.earworm.mainscreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
 import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
+import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
@@ -72,6 +74,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
 
     this.filterDialog = FilterDialog(requireActivity(), presenter)
+
+    val settingsButton = view.findViewById<ImageButton>(R.id.img_settings)
+    settingsButton.setOnClickListener(settingsOnClickListener)
   }
 
   private val fabOnClickListener = View.OnClickListener {
@@ -81,14 +86,22 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
   }
 
+  private val settingsOnClickListener = View.OnClickListener {
+    Timber.d("Log: Settings Clicked")
+    val intent = Intent(requireContext(), SettingsActivity::class.java)
+    startActivity(intent)
+  }
+
   private val searchOnEnterListener: View.OnKeyListener = View.OnKeyListener { _: View, keyCode: Int, keyEvent: KeyEvent ->
     testIfSubmitButtonClicked(keyEvent, keyCode)
   }
 
   private val searchOnTextChangedListener = object : TextWatcher {
-    override fun afterTextChanged(s: Editable?) {}
+    override fun afterTextChanged(s: Editable?) { /* Necessary */
+    }
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { /* Necessary */
+    }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
       if(s.isNullOrBlank()) {
