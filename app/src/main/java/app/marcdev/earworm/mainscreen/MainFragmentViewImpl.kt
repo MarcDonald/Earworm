@@ -20,9 +20,10 @@ import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
+import app.marcdev.earworm.utils.DARK_THEME
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
-import app.marcdev.earworm.utils.isDarkMode
+import app.marcdev.earworm.utils.getTheme
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
@@ -48,7 +49,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     presenter = MainFragmentPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
 
-    if(isDarkMode(requireContext())) {
+    if(getTheme(requireContext()) == DARK_THEME) {
       Timber.d("Log: onCreateView: Is dark mode, converting")
       convertToDarkMode()
     }

@@ -4,28 +4,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import app.marcdev.earworm.mainscreen.MainFragmentViewImpl
-import app.marcdev.earworm.utils.isDarkMode
+import app.marcdev.earworm.utils.DARK_THEME
+import app.marcdev.earworm.utils.LIGHT_THEME
+import app.marcdev.earworm.utils.getTheme
 import app.marcdev.earworm.utils.setFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
   private lateinit var mainFrame: CoordinatorLayout
-  private var activityInDarkMode: Boolean = false
+  private var activityTheme: Int = -1
 
   override fun onCreate(savedInstanceState: Bundle?) {
     Timber.d("Log: onCreate: Started")
 
-    /* Theme changes must be done before super.onCreate otherwise it will be overriden with the value
+    /* Theme changes must be done before super.onCreate otherwise it will be overridden with the value
       in the manifest */
-    if(isDarkMode(applicationContext)) {
+    if(getTheme(applicationContext) == DARK_THEME) {
       Timber.v("Log: onCreate: Is dark mode")
       setTheme(R.style.Earworm_DarkTheme)
-      activityInDarkMode = true
+      activityTheme = DARK_THEME
     } else {
       Timber.v("Log: onCreate: Is not dark mode")
       setTheme(R.style.Earworm_LightTheme)
-      activityInDarkMode = false
+      activityTheme = LIGHT_THEME
     }
 
     super.onCreate(savedInstanceState)
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
   override fun onResume() {
     super.onResume()
-    if(isDarkMode(applicationContext) != activityInDarkMode) {
+    if(getTheme(applicationContext) != activityTheme) {
       Timber.d("Log: onResume: Theme was changed, recreating activity")
       recreate()
     }

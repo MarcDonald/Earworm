@@ -14,6 +14,8 @@ const val ARTIST = 2
 const val GENRE = 3
 const val HEADER = 4
 val DEFAULT_FILTER = ItemFilter(1, 0, 1900, 31, 11, 2099, true, true, true, "")
+const val LIGHT_THEME = 0
+const val DARK_THEME = 1
 
 /**
  * Replaces a fragment in a frame with another fragment
@@ -51,7 +53,7 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
 
   when {
     isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
-    isDarkMode(context) -> button.setColorFilter(context.getColor(R.color.white70))
+    getTheme(context) == DARK_THEME -> button.setColorFilter(context.getColor(R.color.white70))
     else -> button.setColorFilter(context.getColor(R.color.black))
   }
 }
@@ -82,13 +84,13 @@ fun getArtworkDirectory(context: Context): String {
  * Checks the shared preferences to see if the user has selected dark mode
  * @param context Context
  */
-fun isDarkMode(context: Context): Boolean {
+fun getTheme(context: Context): Int {
   val prefs = PreferenceManager.getDefaultSharedPreferences(context)
   val theme = prefs.getString("pref_theme", context.resources.getString(R.string.light))
 
   return when(theme) {
-    context.resources.getString(R.string.light) -> false
-    context.resources.getString(R.string.dark) -> true
-    else -> false
+    context.resources.getString(R.string.light) -> LIGHT_THEME
+    context.resources.getString(R.string.dark) -> DARK_THEME
+    else -> -1
   }
 }
