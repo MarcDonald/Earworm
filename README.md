@@ -13,12 +13,12 @@ Used for image loading and caching
 [License](https://github.com/bumptech/glide/blob/master/LICENSE)
 
 
-###[Material Design Icons](https://github.com/google/material-design-icons)
+### [Material Design Icons](https://github.com/google/material-design-icons)
 Used for all the icons within the app
 
 Apache 2 License
 
-###[Android File Picker](https://github.com/DroidNinja/Android-FilePicker)
+### [Android File Picker](https://github.com/DroidNinja/Android-FilePicker)
 Used for selecting an image
 
 Apache 2 License

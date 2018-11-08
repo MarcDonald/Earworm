@@ -37,6 +37,7 @@
   <string name="edit_or_delete">Edit or Delete Item</string>
   <string name="edit">Edit</string>
   <string name="delete">Delete</string>
+  <string name="confirm_image_deletion">Are you sure you want to remove this image?</string>
 
   <string-array name="months">
     <item>January</item>

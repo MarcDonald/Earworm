@@ -99,6 +99,11 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
     if(oldImageFilePath.isNotBlank()) {
       model.countUsesOfImage(oldImageFilePath)
     }
+
+    if(imageFilePath.isBlank()) {
+      view.displayImage("")
+      model.countUsesOfImage(oldImageFilePath)
+    }
   }
 
   override fun countUsesOfImageCallback(filePath: String, uses: Int) {

@@ -42,6 +42,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var datePickerCancel: MaterialButton
   private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
+  private lateinit var confirmDeleteDialog: Dialog
   private val dateChosen = Calendar.getInstance()
   // If the itemID is anything other than -1 then it is in edit mode
   private var itemId: Int = -1
@@ -133,6 +134,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
     this.iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
+    iconImageView.setOnLongClickListener(iconOnLongClickListener)
+
+    initEditDialog()
   }
 
   private val saveOnClickListener = View.OnClickListener {
@@ -194,6 +198,35 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
         .setActivityTheme(R.style.LibAppTheme)
         .pickPhoto(this)
     }
+  }
+
+  private val iconOnLongClickListener = View.OnLongClickListener {
+    Timber.d("Log: IconLongClick: Started")
+
+    confirmDeleteDialog.show()
+    return@OnLongClickListener true
+  }
+
+  private fun initEditDialog() {
+    this.confirmDeleteDialog = Dialog(requireContext())
+    confirmDeleteDialog.setContentView(R.layout.dialog_delete_image)
+    confirmDeleteDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    val confirmDeleteButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_confirm)
+    confirmDeleteButton.setOnClickListener(confirmDeleteOnClickListener)
+    val cancelButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_cancel)
+    cancelButton.setOnClickListener(cancelDeleteOnClickListener)
+  }
+
+  private val confirmDeleteOnClickListener = View.OnClickListener {
+    Timber.d("Log: ConfirmDelete: Clicked")
+    presenter.updateFilePath("")
+    confirmDeleteDialog.dismiss()
+  }
+
+  private val cancelDeleteOnClickListener = View.OnClickListener {
+    Timber.d("Log: CancelDelete: Clicked")
+    confirmDeleteDialog.dismiss()
   }
 
   private fun askForStoragePermissions() {
@@ -321,11 +354,19 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   override fun displayImage(imagePath: String) {
     Timber.d("Log: displayImage: Started with imagePath = $imagePath")
 
-    Glide.with(this)
-      .load(imagePath)
-      .apply(RequestOptions().centerCrop())
-      .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
-      .into(iconImageView)
+    if(imagePath.isBlank()) {
+      Glide.with(this)
+        .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, null))
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(iconImageView)
+    } else {
+      Glide.with(this)
+        .load(imagePath)
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(iconImageView)
+    }
   }
 
   override fun displayEmptyToast() {
