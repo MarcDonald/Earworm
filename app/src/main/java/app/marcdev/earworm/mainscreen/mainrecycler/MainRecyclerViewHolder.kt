@@ -35,9 +35,6 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
   private val itemLongClickListener = View.OnLongClickListener {
     editDialog.show()
-
-    // TODO move this to a settings menu
-    prefs.edit().putBoolean("pref_show_tips", true).apply()
     return@OnLongClickListener true
   }
 
