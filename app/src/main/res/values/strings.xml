@@ -48,6 +48,19 @@
   <string name="theme_selection">Theme Selection</string>
   <string name="behaviour">Behaviour</string>
   <string name="reset_tips">Reset Tips</string>
+  <string name="app_info">App Info</string>
+  <string name="version">Version</string>
+  <string name="licenses">Licenses</string>
+  <string name="github">Github</string>
+
+  <!--Libraries-->
+  <string name="glide">Glide</string>
+  <string name="timber">Timber</string>
+  <string name="material_design_icons">Material Design Icons</string>
+  <string name="material_design_components">Material Components for Android</string>
+  <string name="android_file_picker">Android File picker</string>
+  <string name="apache_2">Apache 2</string>
+  <string name="glide_license">BSD, part MIT and Apache 2.0. See the LICENSE file for details</string>
 
   <!--Themes-->
   <string name="light">Light</string>

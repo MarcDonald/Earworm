@@ -23,6 +23,7 @@
       </intent-filter>
     </activity>
     <activity android:name=".settingsscreen.SettingsActivity" />
+    <activity android:name=".settingsscreen.LicensesActivity" />
   </application>
 
 </manifest>
