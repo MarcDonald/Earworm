@@ -67,7 +67,7 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
 
   when {
     isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
-    (getTheme(context) == DARK_THEME && !isActivated) -> button.setColorFilter(context.getColor(R.color.white70))
+    (getTheme(context) == DARK_THEME && !isActivated) -> button.setColorFilter(context.getColor(R.color.white60))
     else -> button.setColorFilter(context.getColor(R.color.black))
   }
 }
@@ -84,7 +84,7 @@ fun changeColorOfDrawable(context: Context, drawable: Drawable, isActivated: Boo
 
   when {
     isActivated -> drawable.setColorFilter(context.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-    (getTheme(context) == DARK_THEME && !isActivated) -> drawable.setColorFilter((context.getColor(R.color.white70)), PorterDuff.Mode.SRC_IN)
+    (getTheme(context) == DARK_THEME && !isActivated) -> drawable.setColorFilter((context.getColor(R.color.white60)), PorterDuff.Mode.SRC_IN)
     else -> drawable.setColorFilter((context.getColor(R.color.black)), PorterDuff.Mode.SRC_IN)
   }
 }

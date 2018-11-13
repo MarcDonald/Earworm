@@ -135,6 +135,8 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     this.iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
     iconImageView.setOnLongClickListener(iconOnLongClickListener)
+    // Convert to dark mode if needed
+    changeColorOfDrawable(requireContext(), iconImageView.drawable, false)
 
     initEditDialog()
   }

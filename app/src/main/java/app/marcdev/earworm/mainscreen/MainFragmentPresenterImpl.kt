@@ -42,7 +42,7 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
   }
 
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>, filter: ItemFilter) {
-    Timber.d("Log: getAllItemsCallback: Started")
+    Timber.d("Log: getAllItemsCallback: Started with filter = $filter")
 
     val sortedItems = applyFilter(items, filter)
     val itemsWithHeaders = addListHeaders(sortedItems)
