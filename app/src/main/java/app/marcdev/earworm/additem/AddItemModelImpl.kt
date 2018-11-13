@@ -1,4 +1,4 @@
-package app.marcdev.earworm.mainscreen.additem
+package app.marcdev.earworm.additem
 
 import android.content.Context
 import app.marcdev.earworm.database.AppDatabase

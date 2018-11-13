@@ -6,6 +6,7 @@
     <item name="colorPrimaryLight">@color/lightThemeColorPrimaryLight</item>
     <item name="colorPrimaryDark">@color/lightThemeColorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorSecondary">@color/colorAccent</item>
     <item name="primaryTextColor">@color/lightThemePrimaryText</item>
     <item name="secondaryTextColor">@color/lightThemeSecondaryText</item>
     <item name="hintTextColor">@color/lightThemeHintText</item>
@@ -36,7 +37,8 @@
     <item name="snackbarStyle">@style/Earworm.Snackbar</item>
     <item name="chipBackgroundColor">@color/darkThemeColorPrimaryLight</item>
     <item name="snackbarBackgroundColor">@color/darkThemeColorPrimaryDark</item>
-    <item name="android:navigationBarColor">@color/darkThemeColorPrimary</item>
+    <item name="navigationBarColor">@color/darkThemeColorPrimary</item>
+    <item name="android:navigationBarColor">?attr/navigationBarColor</item>
   </style>
 
   <!--Text Styles-->
@@ -75,7 +77,7 @@
   <!--Dialog Styles-->
   <style name="Earworm.BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
     <item name="android:statusBarColor">@android:color/transparent</item>
-    <item name="android:navigationBarColor">?android:navigationBarColor</item>
+    <item name="android:navigationBarColor">?attr/navigationBarColor</item>
     <item name="android:windowIsFloating">false</item>
     <item name="bottomSheetStyle">@style/Earworm.BottomDialogTheme</item>
     <item name="android:windowSoftInputMode">adjustResize</item>

@@ -53,7 +53,7 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
 
   when {
     isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
-    getTheme(context) == DARK_THEME -> button.setColorFilter(context.getColor(R.color.white70))
+    (getTheme(context) == DARK_THEME && !isActivated) -> button.setColorFilter(context.getColor(R.color.white70))
     else -> button.setColorFilter(context.getColor(R.color.black))
   }
 }

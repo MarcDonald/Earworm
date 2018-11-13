@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
+import app.marcdev.earworm.additem.AddItemBottomSheet
+import app.marcdev.earworm.additem.RecyclerUpdateView
 import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
-import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog

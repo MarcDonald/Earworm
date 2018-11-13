@@ -1,4 +1,4 @@
-package app.marcdev.earworm.mainscreen.additem
+package app.marcdev.earworm.additem
 
 import android.Manifest
 import android.app.Activity
@@ -271,34 +271,29 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private fun activateButton(button: ImageButton) {
     Timber.d("Log: activateButtonIfNecessary: Activating button $button")
-    when(type) {
-      SONG -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
-      }
-      ALBUM -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-      }
-      ARTIST -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
-      }
-    }
 
     when(button) {
       songButton -> {
         changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
         type = SONG
         primaryInput.hint = resources.getString(R.string.song_name)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
 
       albumButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
         changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
         type = ALBUM
         primaryInput.hint = resources.getString(R.string.album)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
 
       artistButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
         changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
         type = ARTIST
         primaryInput.hint = resources.getString(R.string.artist)
