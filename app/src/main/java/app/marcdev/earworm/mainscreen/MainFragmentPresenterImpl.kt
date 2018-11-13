@@ -18,11 +18,10 @@ class MainFragmentPresenterImpl(val view: MainFragmentView, val context: Context
     Timber.i("Log: getAllItems: Input Filter = $filter")
     if(filter != DEFAULT_FILTER.copy()) {
       view.activateFilterIcon(true)
-      model.getAllItemsAsync(filter)
     } else {
       view.activateFilterIcon(false)
-      getAllItems()
     }
+    model.getAllItemsAsync(filter)
   }
 
   override fun getAllItemsCallback(items: MutableList<FavouriteItem>) {
