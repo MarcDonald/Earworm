@@ -27,8 +27,8 @@
       <ImageView
         android:id="@+id/img_noEntries"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/noEntriesImageTopMargin"
-        android:layout_height="@dimen/noEntriesImage"
+        android:layout_marginTop="@dimen/warningDisplayImageTopMargin"
+        android:layout_height="@dimen/warningDisplayImage"
         android:contentDescription="@string/no_entries"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,9 +39,9 @@
         android:id="@+id/txt_noEntries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/noEntriesTextTopMargin"
-        android:layout_marginStart="@dimen/noEntriesTextSideMargin"
-        android:layout_marginEnd="@dimen/noEntriesTextSideMargin"
+        android:layout_marginTop="@dimen/warningTextTopMargin"
+        android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
+        android:layout_marginEnd="@dimen/warningDisplayTextSideMargins"
         android:text="@string/no_entries"
         style="@style/Earworm.TextAppearance.NormalText"
         android:textAlignment="center"
@@ -50,15 +50,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_noEntries" />
 
+      <ImageView
+        android:id="@+id/img_noFilteredResults"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/warningDisplayImageTopMargin"
+        android:layout_height="@dimen/warningDisplayImage"
+        android:contentDescription="@string/no_filtered_results"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_sentiment_dissatisfied_black_24dp" />
+
       <TextView
         android:id="@+id/txt_noFilteredResults"
+        style="@style/Earworm.TextAppearance.NormalText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/marginStandard"
+        android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
+        android:layout_marginTop="@dimen/warningTextTopMargin"
+        android:layout_marginEnd="@dimen/warningDisplayTextSideMargins"
         android:text="@string/no_filtered_results"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/img_noFilteredResults" />
 
       <ProgressBar
         android:id="@+id/prog_main"
@@ -67,7 +82,7 @@
         android:layout_margin="@dimen/marginStandard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_noFilteredResults" />
+        app:layout_constraintTop_toTopOf="parent" />
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_main"

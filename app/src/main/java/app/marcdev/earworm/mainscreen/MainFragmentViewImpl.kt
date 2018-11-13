@@ -30,6 +30,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var noEntriesWarning: TextView
   private lateinit var noEntriesWarningImage: ImageView
   private lateinit var noFilteredResultsWarning: TextView
+  private lateinit var noFilteredResultsWarningImage: ImageView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
   private lateinit var searchButton: ImageButton
@@ -65,8 +66,12 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     this.noEntriesWarning = view.findViewById(R.id.txt_noEntries)
     this.noEntriesWarningImage = view.findViewById(R.id.img_noEntries)
+
     this.noFilteredResultsWarning = view.findViewById(R.id.txt_noFilteredResults)
     this.noFilteredResultsWarning.visibility = View.GONE
+    this.noFilteredResultsWarningImage = view.findViewById(R.id.img_noFilteredResults)
+    this.noFilteredResultsWarningImage.visibility = View.GONE
+
     this.progressBar = view.findViewById(R.id.prog_main)
 
     this.searchInput = view.findViewById(R.id.edt_filter_input)
@@ -222,8 +227,10 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     if(display && (noEntriesWarning.visibility == View.GONE)) {
       this.noFilteredResultsWarning.visibility = View.VISIBLE
+      this.noFilteredResultsWarningImage.visibility = View.VISIBLE
     } else {
       this.noFilteredResultsWarning.visibility = View.GONE
+      this.noFilteredResultsWarningImage.visibility = View.GONE
     }
   }
 
@@ -254,5 +261,6 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     changeColorOfImageButtonDrawable(requireContext(), settingsButton, false)
     changeColorOfImageButtonDrawable(requireContext(), searchButton, false)
     changeColorOfDrawable(requireContext(), noEntriesWarningImage.drawable, false)
+    changeColorOfDrawable(requireContext(), noFilteredResultsWarningImage.drawable, false)
   }
 }
