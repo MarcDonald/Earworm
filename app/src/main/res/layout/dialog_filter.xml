@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  style="@style/LightTheme.DialogTheme"
+  style="@style/Earworm.DialogTheme"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content">
 
@@ -15,7 +15,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/marginStandard"
       android:text="@string/between"
-      android:textAppearance="@style/LightTheme.TextAppearance.AlertDialogTitle"
+      android:textAppearance="@style/Earworm.TextAppearance.AlertDialogTitle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
@@ -34,13 +34,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
         android:text="@string/start_date"
-        android:textAppearance="@style/LightTheme.TextAppearance.NormalText"
+        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
       <com.google.android.material.chip.Chip
         android:id="@+id/chip_filter_start"
+        style="@style/Earworm.ActionChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -67,17 +68,19 @@
         android:layout_margin="@dimen/marginStandard"
         android:gravity="end"
         android:text="@string/end_date"
-        android:textAppearance="@style/LightTheme.TextAppearance.NormalText"
+        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
       <com.google.android.material.chip.Chip
         android:id="@+id/chip_filter_end"
+        style="@style/Earworm.ActionChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
         android:text="@string/end"
+        android:textColor="?attr/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +93,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/marginStandard"
       android:text="@string/include"
-      android:textAppearance="@style/LightTheme.TextAppearance.AlertDialogTitle"
+      android:textAppearance="@style/Earworm.TextAppearance.AlertDialogTitle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/con_filter_start_date" />
@@ -109,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/song"
-        android:textAppearance="@style/LightTheme.TextAppearance.NormalText"
+        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -137,7 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/album"
-        android:textAppearance="@style/LightTheme.TextAppearance.NormalText"
+        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -165,7 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/artist"
-        android:textAppearance="@style/LightTheme.TextAppearance.NormalText"
+        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

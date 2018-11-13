@@ -11,5 +11,5 @@
     android:left="@dimen/marginStandard"
     android:right="@dimen/marginStandard"
     android:top="@dimen/marginStandard" />
-  <solid android:color="@color/colorPrimary" />
+  <solid android:color="?attr/backgroundColor" />
 </shape>

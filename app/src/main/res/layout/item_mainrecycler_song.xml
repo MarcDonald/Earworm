@@ -6,7 +6,7 @@
   android:orientation="vertical">
 
   <androidx.cardview.widget.CardView
-    style="@style/LightTheme.CardView"
+    style="@style/Earworm.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,6 +23,7 @@
         android:layout_marginTop="@dimen/marginStandard"
         android:layout_marginBottom="8dp"
         android:src="@drawable/ic_music_note_24px"
+        android:contentDescription="@string/song"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +36,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/song_name"
-        android:textAppearance="@style/LightTheme.TextAppearance.ItemNameMainDisplay"
+        android:textAppearance="@style/Earworm.TextAppearance.ItemNameMainDisplay"
         app:layout_constraintBottom_toTopOf="@+id/txt_songDate"
         app:layout_constraintEnd_toStartOf="@id/txt_song_type"
         app:layout_constraintStart_toEndOf="@id/img_song_icon"
@@ -49,7 +50,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/song"
-        android:textAppearance="@style/LightTheme.TextAppearance.ItemTypeMainDisplay"
+        android:textAppearance="@style/Earworm.TextAppearance.ItemTypeMainDisplay"
         app:layout_constraintBottom_toTopOf="@+id/txt_songDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

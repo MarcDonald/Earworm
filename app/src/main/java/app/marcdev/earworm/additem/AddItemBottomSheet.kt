@@ -1,4 +1,4 @@
-package app.marcdev.earworm.mainscreen.additem
+package app.marcdev.earworm.additem
 
 import android.Manifest
 import android.app.Activity
@@ -42,6 +42,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var datePickerCancel: MaterialButton
   private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
+  private lateinit var confirmDeleteDialog: Dialog
   private val dateChosen = Calendar.getInstance()
   // If the itemID is anything other than -1 then it is in edit mode
   private var itemId: Int = -1
@@ -133,6 +134,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
     this.iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
+    iconImageView.setOnLongClickListener(iconOnLongClickListener)
+
+    initEditDialog()
   }
 
   private val saveOnClickListener = View.OnClickListener {
@@ -191,9 +195,39 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
       askForStoragePermissions()
     } else {
       FilePickerBuilder.instance.setMaxCount(1)
-        .setActivityTheme(R.style.LibAppTheme)
+        .setActivityTheme(R.style.Earworm_DarkTheme)
+        .setActivityTitle(resources.getString(R.string.choose_an_image))
         .pickPhoto(this)
     }
+  }
+
+  private val iconOnLongClickListener = View.OnLongClickListener {
+    Timber.d("Log: IconLongClick: Started")
+
+    confirmDeleteDialog.show()
+    return@OnLongClickListener true
+  }
+
+  private fun initEditDialog() {
+    this.confirmDeleteDialog = Dialog(requireContext())
+    confirmDeleteDialog.setContentView(R.layout.dialog_delete_image)
+    confirmDeleteDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    val confirmDeleteButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_confirm)
+    confirmDeleteButton.setOnClickListener(confirmDeleteOnClickListener)
+    val cancelButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_cancel)
+    cancelButton.setOnClickListener(cancelDeleteOnClickListener)
+  }
+
+  private val confirmDeleteOnClickListener = View.OnClickListener {
+    Timber.d("Log: ConfirmDelete: Clicked")
+    presenter.updateFilePath("")
+    confirmDeleteDialog.dismiss()
+  }
+
+  private val cancelDeleteOnClickListener = View.OnClickListener {
+    Timber.d("Log: CancelDelete: Clicked")
+    confirmDeleteDialog.dismiss()
   }
 
   private fun askForStoragePermissions() {
@@ -237,34 +271,29 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
 
   private fun activateButton(button: ImageButton) {
     Timber.d("Log: activateButtonIfNecessary: Activating button $button")
-    when(type) {
-      SONG -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
-      }
-      ALBUM -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-      }
-      ARTIST -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
-      }
-    }
 
     when(button) {
       songButton -> {
         changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
         type = SONG
         primaryInput.hint = resources.getString(R.string.song_name)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
 
       albumButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
         changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
         type = ALBUM
         primaryInput.hint = resources.getString(R.string.album)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
 
       artistButton -> {
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
+        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
         changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
         type = ARTIST
         primaryInput.hint = resources.getString(R.string.artist)
@@ -321,11 +350,19 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   override fun displayImage(imagePath: String) {
     Timber.d("Log: displayImage: Started with imagePath = $imagePath")
 
-    Glide.with(this)
-      .load(imagePath)
-      .apply(RequestOptions().centerCrop())
-      .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
-      .into(iconImageView)
+    if(imagePath.isBlank()) {
+      Glide.with(this)
+        .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, null))
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(iconImageView)
+    } else {
+      Glide.with(this)
+        .load(imagePath)
+        .apply(RequestOptions().centerCrop())
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .into(iconImageView)
+    }
   }
 
   override fun displayEmptyToast() {

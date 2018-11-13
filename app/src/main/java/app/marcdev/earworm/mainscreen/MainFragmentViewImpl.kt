@@ -1,5 +1,6 @@
 package app.marcdev.earworm.mainscreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,13 +14,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
+import app.marcdev.earworm.additem.AddItemBottomSheet
+import app.marcdev.earworm.additem.RecyclerUpdateView
 import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.mainscreen.additem.AddItemBottomSheet
-import app.marcdev.earworm.mainscreen.additem.RecyclerUpdateView
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
+import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
+import app.marcdev.earworm.utils.DARK_THEME
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
+import app.marcdev.earworm.utils.getTheme
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
@@ -32,6 +36,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var searchInput: EditText
   private lateinit var searchButton: ImageButton
   private lateinit var filterButton: ImageButton
+  private lateinit var settingsButton: ImageButton
   private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
@@ -40,8 +45,15 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Timber.d("Log: onCreateView: Started")
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
+
     presenter = MainFragmentPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
+
+    if(getTheme(requireContext()) == DARK_THEME) {
+      Timber.d("Log: onCreateView: Is dark mode, converting")
+      convertToDarkMode()
+    }
+
     setupRecycler(view)
     fillData()
 
@@ -72,6 +84,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
 
     this.filterDialog = FilterDialog(requireActivity(), presenter)
+
+    this.settingsButton = view.findViewById(R.id.img_settings)
+    settingsButton.setOnClickListener(settingsOnClickListener)
   }
 
   private val fabOnClickListener = View.OnClickListener {
@@ -81,14 +96,22 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
   }
 
+  private val settingsOnClickListener = View.OnClickListener {
+    Timber.d("Log: Settings Clicked")
+    val intent = Intent(requireContext(), SettingsActivity::class.java)
+    startActivity(intent)
+  }
+
   private val searchOnEnterListener: View.OnKeyListener = View.OnKeyListener { _: View, keyCode: Int, keyEvent: KeyEvent ->
     testIfSubmitButtonClicked(keyEvent, keyCode)
   }
 
   private val searchOnTextChangedListener = object : TextWatcher {
-    override fun afterTextChanged(s: Editable?) {}
+    override fun afterTextChanged(s: Editable?) { /* Necessary */
+    }
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { /* Necessary */
+    }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
       if(s.isNullOrBlank()) {
@@ -223,5 +246,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     Timber.d("Log: activateFilterIcon: Started with isActive = $isActive")
 
     changeColorOfImageButtonDrawable(context!!, filterButton, isActive)
+  }
+
+  private fun convertToDarkMode() {
+    changeColorOfImageButtonDrawable(requireContext(), filterButton, false)
+    changeColorOfImageButtonDrawable(requireContext(), settingsButton, false)
+    changeColorOfImageButtonDrawable(requireContext(), searchButton, false)
   }
 }

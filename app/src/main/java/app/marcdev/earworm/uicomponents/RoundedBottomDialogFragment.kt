@@ -9,7 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 open class RoundedBottomDialogFragment : BottomSheetDialogFragment() {
 
   override fun getTheme(): Int {
-    return R.style.LightTheme_BottomSheetDialogTheme
+    return R.style.Earworm_BottomSheetDialogTheme
   }
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

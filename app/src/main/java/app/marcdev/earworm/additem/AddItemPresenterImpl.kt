@@ -1,4 +1,4 @@
-package app.marcdev.earworm.mainscreen.additem
+package app.marcdev.earworm.additem
 
 import android.content.Context
 import app.marcdev.earworm.database.FavouriteItem
@@ -97,6 +97,11 @@ class AddItemPresenterImpl(private val view: AddItemView, private val context: C
     Timber.d("Log: updateFilePath: imageFilePath = $imageFilePath")
 
     if(oldImageFilePath.isNotBlank()) {
+      model.countUsesOfImage(oldImageFilePath)
+    }
+
+    if(imageFilePath.isBlank()) {
+      view.displayImage("")
       model.countUsesOfImage(oldImageFilePath)
     }
   }

@@ -19,6 +19,7 @@
   <string name="end">End</string>
   <string name="start">Start</string>
   <string name="error">An Error Occurred</string>
+  <string name="back">Back</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
@@ -37,6 +38,25 @@
   <string name="edit_or_delete">Edit or Delete Item</string>
   <string name="edit">Edit</string>
   <string name="delete">Delete</string>
+  <string name="confirm_image_deletion">Are you sure you want to remove this image?</string>
+  <string name="add_an_image">Add an Image</string>
+  <string name="choose_an_image">Choose an Image</string>
+
+  <!--Settings-->
+  <string name="settings">Settings</string>
+  <string name="appearance">Appearance</string>
+  <string name="theme_selection">Theme Selection</string>
+  <string name="behaviour">Behaviour</string>
+  <string name="reset_tips">Reset Tips</string>
+
+  <!--Themes-->
+  <string name="light">Light</string>
+  <string name="dark">Dark</string>
+
+  <string-array name="themes">
+    <item>@string/light</item>
+    <item>@string/dark</item>
+  </string-array>
 
   <string-array name="months">
     <item>January</item>
