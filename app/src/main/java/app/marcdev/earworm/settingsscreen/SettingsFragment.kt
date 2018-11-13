@@ -11,6 +11,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import app.marcdev.earworm.BuildConfig
 import app.marcdev.earworm.R
+import app.marcdev.earworm.utils.*
 import timber.log.Timber
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -22,17 +23,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
     setPreferencesFromResource(R.xml.preferences, rootKey)
     this.prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
 
-    bindPreferenceSummaryToValue(findPreference("pref_theme"))
-    findPreference("pref_show_tips").onPreferenceClickListener = resetTipsListener
+    bindPreferenceSummaryToValue(findPreference(PREF_THEME))
+    findPreference(PREF_SHOW_TIPS).onPreferenceClickListener = resetTipsListener
 
-    val versionPref = findPreference("pref_build_number")
+    val versionPref = findPreference(PREF_BUILD_NUMBER)
     versionPref.summary = BuildConfig.VERSION_NAME
     versionPref.onPreferenceClickListener = versionClickListener
 
-    val licensesPref = findPreference("pref_licenses")
+    val licensesPref = findPreference(PREF_LICENSES)
     licensesPref.onPreferenceClickListener = licensesOnClickListener
 
-    val githubPref = findPreference("pref_github")
+    val githubPref = findPreference(PREF_GITHUB)
     githubPref.onPreferenceClickListener = githubOnClickListener
   }
 
@@ -47,22 +48,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
   private val resetTipsListener = Preference.OnPreferenceClickListener {
     Timber.d("Log: ResetTipsClick: Clicked")
-    prefs.edit().putBoolean("pref_show_tips", true).apply()
+    prefs.edit().putBoolean(PREF_SHOW_TIPS, true).apply()
+    Toast.makeText(requireContext(), resources.getString(R.string.reset_tips_confirmation), Toast.LENGTH_LONG).show()
     return@OnPreferenceClickListener true
   }
 
   private val versionClickListener = Preference.OnPreferenceClickListener {
+    Timber.d("Log: versionClick: Started")
     Toast.makeText(requireContext(), "${BuildConfig.VERSION_CODE}", Toast.LENGTH_SHORT).show()
     true
   }
 
   private val licensesOnClickListener = Preference.OnPreferenceClickListener {
+    Timber.d("Log: licensesClick: Started")
     val intent = Intent(requireContext(), LicensesActivity::class.java)
     startActivity(intent)
     true
   }
 
   private val githubOnClickListener = Preference.OnPreferenceClickListener {
+    Timber.d("Log: githubClick: Started")
     val uriUrl = Uri.parse("https://github.com/MarcDonald/Earworm")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl

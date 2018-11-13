@@ -32,6 +32,7 @@ class SettingsActivity : AppCompatActivity() {
   }
 
   private fun bindViews() {
+    Timber.v("Log: bindViews: Started")
     val backButton = findViewById<ImageButton>(R.id.img_backFromSettings)
     backButton.setOnClickListener(backOnClickListener)
 

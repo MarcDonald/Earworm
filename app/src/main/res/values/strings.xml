@@ -48,6 +48,7 @@
   <string name="theme_selection">Theme Selection</string>
   <string name="behaviour">Behaviour</string>
   <string name="reset_tips">Reset Tips</string>
+  <string name="reset_tips_confirmation">Tips have been reset</string>
   <string name="app_info">App Info</string>
   <string name="version">Version</string>
   <string name="licenses">Licenses</string>
