@@ -13,4 +13,8 @@
   <dimen name="bottomSheetTopPadding">8dp</dimen>
   <dimen name="addItemImageSize">90dp</dimen>
   <dimen name="mainDisplayImageIconSize">56dp</dimen>
+  <dimen name="noEntriesImage">150dp</dimen>
+  <dimen name="noEntriesImageTopMargin">50dp</dimen>
+  <dimen name="noEntriesTextTopMargin">32dp</dimen>
+  <dimen name="noEntriesTextSideMargin">16dp</dimen>
 </resources>

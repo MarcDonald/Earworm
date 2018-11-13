@@ -20,10 +20,7 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
-import app.marcdev.earworm.utils.DARK_THEME
-import app.marcdev.earworm.utils.ItemFilter
-import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
-import app.marcdev.earworm.utils.getTheme
+import app.marcdev.earworm.utils.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
@@ -31,6 +28,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
+  private lateinit var noEntriesWarningImage: ImageView
   private lateinit var noFilteredResultsWarning: TextView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
@@ -66,6 +64,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     fab.setOnClickListener(fabOnClickListener)
 
     this.noEntriesWarning = view.findViewById(R.id.txt_noEntries)
+    this.noEntriesWarningImage = view.findViewById(R.id.img_noEntries)
     this.noFilteredResultsWarning = view.findViewById(R.id.txt_noFilteredResults)
     this.noFilteredResultsWarning.visibility = View.GONE
     this.progressBar = view.findViewById(R.id.prog_main)
@@ -174,9 +173,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     if(display) {
       Timber.d("Log: displayNoEntriesWarning: Displaying")
       noEntriesWarning.visibility = View.VISIBLE
+      noEntriesWarningImage.visibility = View.VISIBLE
     } else {
       Timber.d("Log: displayNoEntriesWarning: Hiding")
       noEntriesWarning.visibility = View.GONE
+      noEntriesWarningImage.visibility = View.GONE
     }
   }
 
@@ -252,5 +253,6 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     changeColorOfImageButtonDrawable(requireContext(), filterButton, false)
     changeColorOfImageButtonDrawable(requireContext(), settingsButton, false)
     changeColorOfImageButtonDrawable(requireContext(), searchButton, false)
+    changeColorOfDrawable(requireContext(), noEntriesWarningImage.drawable, false)
   }
 }

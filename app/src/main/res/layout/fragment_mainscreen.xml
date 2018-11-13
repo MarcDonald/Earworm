@@ -24,15 +24,31 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent">
 
+      <ImageView
+        android:id="@+id/img_noEntries"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/noEntriesImageTopMargin"
+        android:layout_height="@dimen/noEntriesImage"
+        android:contentDescription="@string/no_entries"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_library_music_black_24dp" />
+
       <TextView
         android:id="@+id/txt_noEntries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/marginStandard"
+        android:layout_marginTop="@dimen/noEntriesTextTopMargin"
+        android:layout_marginStart="@dimen/noEntriesTextSideMargin"
+        android:layout_marginEnd="@dimen/noEntriesTextSideMargin"
         android:text="@string/no_entries"
+        style="@style/Earworm.TextAppearance.NormalText"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_noEntries" />
 
       <TextView
         android:id="@+id/txt_noFilteredResults"
@@ -42,7 +58,7 @@
         android:text="@string/no_filtered_results"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_noEntries" />
+        app:layout_constraintTop_toTopOf="parent" />
 
       <ProgressBar
         android:id="@+id/prog_main"
