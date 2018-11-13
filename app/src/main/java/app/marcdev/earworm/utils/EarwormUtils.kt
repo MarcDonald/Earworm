@@ -1,6 +1,8 @@
 package app.marcdev.earworm.utils
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.preference.PreferenceManager
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
@@ -54,7 +56,8 @@ fun formatDateForDisplay(day: Int, month: Int, year: Int): String {
 }
 
 /**
- * Changes the color of a drawable in an ImageView to indicate whether it is activated or not
+ * Changes the color of a drawable in an ImageView to indicate whether it is activated or not.
+ * Deactivated will change the color to either black or 70% white depending on the theme
  * @param context Context
  * @param button The button to change the color of
  * @param isActivated Whether or not the button should be put into the activated state
@@ -66,6 +69,23 @@ fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isAc
     isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
     (getTheme(context) == DARK_THEME && !isActivated) -> button.setColorFilter(context.getColor(R.color.white70))
     else -> button.setColorFilter(context.getColor(R.color.black))
+  }
+}
+
+/**
+ * Changes the color of a drawable to indicate whether it is activated or not. Deactivated will
+ * change the color to either black or 70% white depending on the theme
+ * @param context Context
+ * @param drawable The drawable to change the color of
+ * @param isActivated Whether or not the button should be put into the activated state
+ */
+fun changeColorOfDrawable(context: Context, drawable: Drawable, isActivated: Boolean) {
+  Timber.v("Log: changeColorOfDrawable: Started")
+
+  when {
+    isActivated -> drawable.setColorFilter(context.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+    (getTheme(context) == DARK_THEME && !isActivated) -> drawable.setColorFilter((context.getColor(R.color.white70)), PorterDuff.Mode.SRC_IN)
+    else -> drawable.setColorFilter((context.getColor(R.color.black)), PorterDuff.Mode.SRC_IN)
   }
 }
 

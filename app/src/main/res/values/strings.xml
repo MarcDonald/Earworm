@@ -51,6 +51,7 @@
   <string name="reset_tips_confirmation">Tips have been reset</string>
   <string name="app_info">App Info</string>
   <string name="version">Version</string>
+  <string name="build_code">Build Code</string>
   <string name="licenses">Licenses</string>
   <string name="github">Github</string>
 

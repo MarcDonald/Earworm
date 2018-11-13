@@ -2,30 +2,35 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <PreferenceCategory android:title="@string/appearance">
     <ListPreference
+      android:key="pref_theme"
       android:defaultValue="@string/light"
       android:entries="@array/themes"
       android:entryValues="@array/themes"
-      android:key="pref_theme"
+      android:icon="@drawable/ic_color_lens_black_24dp"
       android:title="@string/theme_selection" />
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/behaviour">
     <Preference
       android:key="pref_show_tips"
-      android:title="@string/reset_tips" />
+      android:title="@string/reset_tips"
+      android:icon="@drawable/ic_help_black_24dp" />
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/app_info">
     <Preference
       android:key="pref_licenses"
+      android:icon="@drawable/ic_description_black_24dp"
       android:title="@string/licenses" />
 
     <Preference
       android:key="pref_github"
+      android:icon="@drawable/ic_code_black_24dp"
       android:title="@string/github" />
 
     <Preference
       android:key="pref_build_number"
+      android:icon="@drawable/ic_build_black_24dp"
       android:title="@string/version" />
   </PreferenceCategory>
 

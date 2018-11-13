@@ -23,18 +23,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
     setPreferencesFromResource(R.xml.preferences, rootKey)
     this.prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
 
-    bindPreferenceSummaryToValue(findPreference(PREF_THEME))
-    findPreference(PREF_SHOW_TIPS).onPreferenceClickListener = resetTipsListener
+    val themePref = findPreference(PREF_THEME)
+    bindPreferenceSummaryToValue(themePref)
+    changeColorOfDrawable(requireContext(), themePref.icon, false)
+
+    val tipsPref = findPreference(PREF_SHOW_TIPS)
+    tipsPref.onPreferenceClickListener = resetTipsListener
+    changeColorOfDrawable(requireContext(), tipsPref.icon, false)
 
     val versionPref = findPreference(PREF_BUILD_NUMBER)
     versionPref.summary = BuildConfig.VERSION_NAME
     versionPref.onPreferenceClickListener = versionClickListener
+    changeColorOfDrawable(requireContext(), versionPref.icon, false)
 
     val licensesPref = findPreference(PREF_LICENSES)
     licensesPref.onPreferenceClickListener = licensesOnClickListener
+    changeColorOfDrawable(requireContext(), licensesPref.icon, false)
 
     val githubPref = findPreference(PREF_GITHUB)
     githubPref.onPreferenceClickListener = githubOnClickListener
+    changeColorOfDrawable(requireContext(), githubPref.icon, false)
   }
 
   private fun bindPreferenceSummaryToValue(preference: Preference) {
@@ -55,7 +63,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
   private val versionClickListener = Preference.OnPreferenceClickListener {
     Timber.d("Log: versionClick: Started")
-    Toast.makeText(requireContext(), "${BuildConfig.VERSION_CODE}", Toast.LENGTH_SHORT).show()
+    val versionCodeString = resources.getString(R.string.build_code)
+    Toast.makeText(requireContext(), "$versionCodeString: ${BuildConfig.VERSION_CODE}", Toast.LENGTH_SHORT).show()
     true
   }
 
