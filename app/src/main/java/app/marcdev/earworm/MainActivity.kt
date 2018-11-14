@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
 
     bindViews()
+
     setDefaultFragment()
   }
 
@@ -45,6 +46,14 @@ class MainActivity : AppCompatActivity() {
   private fun setDefaultFragment() {
     Timber.v("Log: setDefaultFragment: Started")
     val fragment = MainFragmentViewImpl()
+
+    if(intent.action == "app.marcdev.earworm.intent.ADD_ITEM") {
+      Timber.d("Log: onCreate: Started from Add Item app shortcut")
+      val args = Bundle()
+      args.putBoolean("add_item", true)
+      fragment.arguments = args
+    }
+
     setFragment(fragment, supportFragmentManager, R.id.frame_main)
   }
 

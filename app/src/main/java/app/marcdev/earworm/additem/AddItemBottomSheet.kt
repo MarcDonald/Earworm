@@ -56,11 +56,11 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     presenter = AddItemPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
 
-    if(arguments != null) {
+    arguments?.let {
       Timber.d("Log: onCreateView: Arguments not null")
       this.itemId = arguments!!.getInt("item_id")
       presenter.getItem(itemId)
-    } else {
+    } ?: run {
       Timber.d("Log: onCreateView: Arguments null")
       setupDefaults()
     }

@@ -56,6 +56,13 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     setupRecycler(view)
     fillData()
 
+    // If arguments is not null, see if the app has been opened from an app shortcut
+    arguments?.let {
+      if(arguments!!.getBoolean("add_item", false)) {
+        fabOnClickListener.onClick(view)
+      }
+    }
+
     return view
   }
 
