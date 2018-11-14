@@ -28,6 +28,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     matchSummaryToSelection(themePref, PreferenceManager.getDefaultSharedPreferences(themePref.context).getString(themePref.key, "")!!)
     changeColorOfDrawable(requireContext(), themePref.icon, false)
 
+    val clearInputsPref = findPreference(PREF_CLEAR_INPUTS)
+    clearInputsPref.onPreferenceChangeListener = clearInputsChangeListener
+    matchSummaryToSelection(clearInputsPref, PreferenceManager.getDefaultSharedPreferences(clearInputsPref.context).getString(clearInputsPref.key, "")!!)
+    changeColorOfDrawable(requireContext(), clearInputsPref.icon, false)
+
     val tipsPref = findPreference(PREF_SHOW_TIPS)
     tipsPref.onPreferenceClickListener = resetTipsListener
     changeColorOfDrawable(requireContext(), tipsPref.icon, false)
@@ -47,7 +52,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
   }
 
   private val themeChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+    Timber.d("Log: themeChangeListener: Theme changed to $newValue")
     requireActivity().recreate()
+    matchSummaryToSelection(preference, newValue.toString())
+    true
+  }
+
+  private val clearInputsChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+    Timber.d("Log: clearInputsChangeListener: Value changed to $newValue")
     matchSummaryToSelection(preference, newValue.toString())
     true
   }

@@ -29,6 +29,7 @@ const val PREF_SHOW_TIPS = "pref_show_tips"
 const val PREF_BUILD_NUMBER = "pref_build_number"
 const val PREF_LICENSES = "pref_licenses"
 const val PREF_GITHUB = "pref_github"
+const val PREF_CLEAR_INPUTS = "pref_clear_inputs_on_type_change"
 
 /**
  * Replaces a fragment in a frame with another fragment

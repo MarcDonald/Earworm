@@ -20,6 +20,11 @@
   <string name="start">Start</string>
   <string name="error">An Error Occurred</string>
   <string name="back">Back</string>
+  <string name="add">Add</string>
+  <string name="add_an_entry">Add an Entry</string>
+  <string name="shortcut_disabled">Shortcut Disabled</string>
+  <string name="yes">Yes</string>
+  <string name="no">No</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>
@@ -48,12 +53,18 @@
   <string name="theme_selection">Theme Selection</string>
   <string name="behaviour">Behaviour</string>
   <string name="reset_tips">Reset Tips</string>
+  <string name="clear_inputs_on_type_change">Clear Inputs on Type Change</string>
   <string name="reset_tips_confirmation">Tips have been reset</string>
   <string name="app_info">App Info</string>
   <string name="version">Version</string>
   <string name="build_code">Build Code</string>
   <string name="licenses">Licenses</string>
   <string name="github">Github</string>
+
+  <string-array name="yes_or_no">
+    <item>@string/yes</item>
+    <item>@string/no</item>
+  </string-array>
 
   <!--Libraries-->
   <string name="glide">Glide</string>

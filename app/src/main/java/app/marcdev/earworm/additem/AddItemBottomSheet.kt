@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -302,9 +303,12 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
         secondaryInput.hint = resources.getString(R.string.genre)
       }
     }
-    primaryInput.setText("")
-    secondaryInput.setText("")
-    primaryInput.requestFocus()
+
+    if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(PREF_CLEAR_INPUTS, resources.getString(R.string.yes)) == resources.getString(R.string.yes)) {
+      primaryInput.setText("")
+      secondaryInput.setText("")
+      primaryInput.requestFocus()
+    }
   }
 
   private fun updateDateAndDisplay(day: Int, month: Int, year: Int) {
