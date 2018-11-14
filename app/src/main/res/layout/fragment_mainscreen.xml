@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/toolbar_main" />
+
+    <include layout="@layout/toolbar_filter" />
+  </com.google.android.material.appbar.AppBarLayout>
+
+  <androidx.core.widget.NestedScrollView
+    android:id="@+id/scroll_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <ImageView
+        android:id="@+id/img_noEntries"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/warningDisplayImageTopMargin"
+        android:layout_height="@dimen/warningDisplayImage"
+        android:contentDescription="@string/no_entries"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_library_music_black_24dp" />
+
+      <TextView
+        android:id="@+id/txt_noEntries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/warningTextTopMargin"
+        android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
+        android:layout_marginEnd="@dimen/warningDisplayTextSideMargins"
+        android:text="@string/no_entries"
+        style="@style/Earworm.TextAppearance.NormalText"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_noEntries" />
+
+      <ImageView
+        android:id="@+id/img_noFilteredResults"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/warningDisplayImageTopMargin"
+        android:layout_height="@dimen/warningDisplayImage"
+        android:contentDescription="@string/no_filtered_results"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_sentiment_dissatisfied_black_24dp" />
+
+      <TextView
+        android:id="@+id/txt_noFilteredResults"
+        style="@style/Earworm.TextAppearance.NormalText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
+        android:layout_marginTop="@dimen/warningTextTopMargin"
+        android:layout_marginEnd="@dimen/warningDisplayTextSideMargins"
+        android:text="@string/no_filtered_results"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_noFilteredResults" />
+
+      <ProgressBar
+        android:id="@+id/prog_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginStandard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/prog_main" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fab_main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="@dimen/fabMargin"
+    android:src="@drawable/ic_add_24px"
+    app:fabSize="normal" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

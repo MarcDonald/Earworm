@@ -1,0 +1,122 @@
+<resources>
+
+  <!-- Light application theme. -->
+  <style name="Earworm.LightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="colorPrimary">@color/lightThemeColorPrimary</item>
+    <item name="colorPrimaryLight">@color/lightThemeColorPrimaryLight</item>
+    <item name="colorPrimaryDark">@color/lightThemeColorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorSecondary">@color/colorAccent</item>
+    <item name="primaryTextColor">@color/lightThemePrimaryText</item>
+    <item name="secondaryTextColor">@color/lightThemeSecondaryText</item>
+    <item name="hintTextColor">@color/lightThemeHintText</item>
+    <item name="backgroundColor">@color/lightThemeColorPrimary</item>
+    <item name="bottomSheetBackground">@drawable/rounded_bottom_sheet_background</item>
+    <item name="dialogBackground">@drawable/rounded_dialog_background</item>
+    <item name="cardViewBackgroundColor">@color/lightThemeColorPrimaryLight</item>
+    <item name="transparentButtonBackground">@color/lightThemeColorPrimary</item>
+    <item name="toolbarStyle">@style/Earworm.LightToolbar</item>
+    <item name="chipBackgroundColor">@color/lightThemeColorPrimaryDark</item>
+  </style>
+
+  <!-- Dark application theme. -->
+  <style name="Earworm.DarkTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <item name="colorPrimary">@color/darkThemeColorPrimary</item>
+    <item name="colorPrimaryLight">@color/darkThemeColorPrimaryLight</item>
+    <item name="colorPrimaryDark">@color/darkThemeColorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="primaryTextColor">@color/darkThemePrimaryText</item>
+    <item name="secondaryTextColor">@color/darkThemeSecondaryText</item>
+    <item name="hintTextColor">@color/darkThemeHintText</item>
+    <item name="backgroundColor">@color/darkThemeColorPrimary</item>
+    <item name="bottomSheetBackground">@drawable/rounded_bottom_sheet_background</item>
+    <item name="dialogBackground">@drawable/rounded_dialog_background</item>
+    <item name="cardViewBackgroundColor">@color/darkThemeColorPrimaryLight</item>
+    <item name="transparentButtonBackground">@color/darkThemeColorPrimary</item>
+    <item name="toolbarStyle">@style/Earworm.DarkToolbar</item>
+    <item name="snackbarStyle">@style/Earworm.Snackbar</item>
+    <item name="chipBackgroundColor">@color/darkThemeColorPrimaryLight</item>
+    <item name="snackbarBackgroundColor">@color/darkThemeColorPrimaryDark</item>
+    <item name="navigationBarColor">@color/darkThemeColorPrimary</item>
+    <item name="android:navigationBarColor">?attr/navigationBarColor</item>
+  </style>
+
+  <!--Text Styles-->
+  <style name="Earworm.TextAppearance.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <item name="android:textColor">?attr/primaryTextColor</item>
+  </style>
+
+  <style name="Earworm.TextAppearance.ItemNameMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
+    <item name="android:textColor">?attr/primaryTextColor</item>
+  </style>
+
+  <style name="Earworm.TextAppearance.ItemTypeMainDisplay" parent="TextAppearance.MaterialComponents.Headline5">
+    <item name="android:textColor">?attr/primaryTextColor</item>
+    <item name="android:textStyle">italic</item>
+  </style>
+
+  <style name="Earworm.TextAppearance.AlertDialogTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <item name="android:textColor">?attr/primaryTextColor</item>
+    <item name="android:textAlignment">center</item>
+  </style>
+
+  <style name="Earworm.TextAppearance.NormalText" parent="TextAppearance.MaterialComponents.Body1">
+    <item name="android:textColor">?attr/primaryTextColor</item>
+  </style>
+
+  <style name="Earworm.TextAppearance.EditText" parent="Base.Widget.AppCompat.EditText">
+    <item name="android:textColor">?attr/primaryTextColor</item>
+    <item name="android:textColorHint">?attr/hintTextColor</item>
+  </style>
+
+  <!--Button Styles-->
+  <style name="NoBackgroundImageButton">
+    <item name="android:backgroundTint">?attr/transparentButtonBackground</item>
+  </style>
+
+  <!--Dialog Styles-->
+  <style name="Earworm.BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">?attr/navigationBarColor</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="bottomSheetStyle">@style/Earworm.BottomDialogTheme</item>
+    <item name="android:windowSoftInputMode">adjustResize</item>
+  </style>
+
+  <style name="Earworm.BottomDialogTheme" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <item name="android:background">?attr/bottomSheetBackground</item>
+  </style>
+
+  <style name="Earworm.DialogTheme" parent="Theme.MaterialComponents.Dialog">
+    <item name="android:background">?attr/dialogBackground</item>
+  </style>
+
+  <!--Card View-->
+  <style name="Earworm.CardView" parent="CardView.Light">
+    <item name="android:layout_margin">@dimen/marginStandard</item>"
+    <item name="cardCornerRadius">@dimen/cardCornerRadius</item>
+    <item name="cardBackgroundColor">?attr/cardViewBackgroundColor</item>
+  </style>
+
+  <!--Toolbars-->
+  <!--Toolbars are separate light and dark due to the light theme using the primary color and the dark-->
+  <!--theme using the primaryDark color-->
+  <style name="Earworm.DarkToolbar" parent="Base.Widget.AppCompat.Toolbar">
+    <item name="android:backgroundTint">?attr/colorPrimaryDark</item>
+  </style>
+
+  <style name="Earworm.LightToolbar" parent="Base.Widget.AppCompat.Toolbar">
+    <item name="android:backgroundTint">?attr/colorPrimary</item>
+  </style>
+
+  <!--Chips-->
+  <style name="Earworm.ActionChip" parent="Widget.MaterialComponents.Chip.Action">
+    <item name="chipBackgroundColor">?attr/chipBackgroundColor</item>
+    <item name="android:textColor">?attr/primaryTextColor</item>
+  </style>
+
+  <!--Snackbar-->
+  <style name="Earworm.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+    <item name="android:backgroundTint">?attr/snackbarBackgroundColor</item>
+  </style>
+</resources>

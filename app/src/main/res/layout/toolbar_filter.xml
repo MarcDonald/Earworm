@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/toolbar_main"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/appBarHeight"
+  android:background="@color/colorPrimary"
+  app:contentInsetEnd="0dp"
+  app:contentInsetLeft="0dp"
+  app:contentInsetRight="0dp"
+  app:contentInsetStart="0dp">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ImageButton
+      android:id="@+id/img_filter"
+      android:background="?selectableItemBackground"
+      android:layout_width="@dimen/toolbarIconSize"
+      android:layout_height="@dimen/toolbarIconSize"
+      android:layout_marginStart="@dimen/marginStandard"
+      android:layout_marginTop="@dimen/toolbarIconMargin"
+      android:layout_marginBottom="@dimen/toolbarIconMargin"
+      android:padding="@dimen/marginStandard"
+      android:src="@drawable/ic_filter_list_24px"
+      android:contentDescription="@string/filter"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+      android:id="@+id/edt_filter_input"
+      style="@style/Earworm.TextAppearance.EditText"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/marginStandard"
+      android:layout_marginTop="@dimen/toolbarIconMargin"
+      android:layout_marginEnd="@dimen/toolbarIconMarginSmall"
+      android:layout_marginBottom="@dimen/toolbarIconMargin"
+      android:inputType="text"
+      android:hint="@string/search"
+      android:autofillHints="@string/search"
+      android:singleLine="true"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/img_search"
+      app:layout_constraintStart_toEndOf="@id/img_filter"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+      android:id="@+id/img_search"
+      android:background="?selectableItemBackground"
+      android:layout_width="@dimen/toolbarIconSize"
+      android:layout_height="@dimen/toolbarIconSize"
+      android:layout_marginTop="@dimen/toolbarIconMargin"
+      android:layout_marginEnd="@dimen/toolbarIconMarginSmall"
+      android:layout_marginBottom="@dimen/toolbarIconMargin"
+      android:padding="@dimen/marginStandard"
+      android:src="@drawable/ic_search_24px"
+      android:contentDescription="@string/search"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.appcompat.widget.Toolbar>
