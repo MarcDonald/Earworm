@@ -20,10 +20,7 @@ import app.marcdev.earworm.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
-import app.marcdev.earworm.utils.DARK_THEME
-import app.marcdev.earworm.utils.ItemFilter
-import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
-import app.marcdev.earworm.utils.getTheme
+import app.marcdev.earworm.utils.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
@@ -31,7 +28,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
+  private lateinit var noEntriesWarningImage: ImageView
   private lateinit var noFilteredResultsWarning: TextView
+  private lateinit var noFilteredResultsWarningImage: ImageView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
   private lateinit var searchButton: ImageButton
@@ -57,6 +56,13 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     setupRecycler(view)
     fillData()
 
+    // If arguments is not null, see if the app has been opened from an app shortcut
+    arguments?.let {
+      if(arguments!!.getBoolean("add_item", false)) {
+        fabOnClickListener.onClick(view)
+      }
+    }
+
     return view
   }
 
@@ -66,8 +72,13 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     fab.setOnClickListener(fabOnClickListener)
 
     this.noEntriesWarning = view.findViewById(R.id.txt_noEntries)
+    this.noEntriesWarningImage = view.findViewById(R.id.img_noEntries)
+
     this.noFilteredResultsWarning = view.findViewById(R.id.txt_noFilteredResults)
     this.noFilteredResultsWarning.visibility = View.GONE
+    this.noFilteredResultsWarningImage = view.findViewById(R.id.img_noFilteredResults)
+    this.noFilteredResultsWarningImage.visibility = View.GONE
+
     this.progressBar = view.findViewById(R.id.prog_main)
 
     this.searchInput = view.findViewById(R.id.edt_filter_input)
@@ -174,9 +185,11 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     if(display) {
       Timber.d("Log: displayNoEntriesWarning: Displaying")
       noEntriesWarning.visibility = View.VISIBLE
+      noEntriesWarningImage.visibility = View.VISIBLE
     } else {
       Timber.d("Log: displayNoEntriesWarning: Hiding")
       noEntriesWarning.visibility = View.GONE
+      noEntriesWarningImage.visibility = View.GONE
     }
   }
 
@@ -221,8 +234,10 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     if(display && (noEntriesWarning.visibility == View.GONE)) {
       this.noFilteredResultsWarning.visibility = View.VISIBLE
+      this.noFilteredResultsWarningImage.visibility = View.VISIBLE
     } else {
       this.noFilteredResultsWarning.visibility = View.GONE
+      this.noFilteredResultsWarningImage.visibility = View.GONE
     }
   }
 
@@ -252,5 +267,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     changeColorOfImageButtonDrawable(requireContext(), filterButton, false)
     changeColorOfImageButtonDrawable(requireContext(), settingsButton, false)
     changeColorOfImageButtonDrawable(requireContext(), searchButton, false)
+    changeColorOfDrawable(requireContext(), noEntriesWarningImage.drawable, false)
+    changeColorOfDrawable(requireContext(), noFilteredResultsWarningImage.drawable, false)
   }
 }

@@ -3,16 +3,43 @@
   <PreferenceCategory android:title="@string/appearance">
     <ListPreference
       android:key="pref_theme"
+      android:defaultValue="@string/light"
       android:entries="@array/themes"
       android:entryValues="@array/themes"
-      android:defaultValue="@string/light"
+      android:icon="@drawable/ic_color_lens_black_24dp"
       android:title="@string/theme_selection" />
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/behaviour">
+    <ListPreference
+      android:key="pref_clear_inputs_on_type_change"
+      android:title="@string/clear_inputs_on_type_change"
+      android:defaultValue="@string/yes"
+      android:entryValues="@array/yes_or_no"
+      android:entries="@array/yes_or_no"
+      android:icon="@drawable/ic_backspace_black_24dp" />
+
     <Preference
       android:key="pref_show_tips"
-      android:title="@string/reset_tips" />
+      android:title="@string/reset_tips"
+      android:icon="@drawable/ic_help_black_24dp" />
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/app_info">
+    <Preference
+      android:key="pref_licenses"
+      android:icon="@drawable/ic_description_black_24dp"
+      android:title="@string/licenses" />
+
+    <Preference
+      android:key="pref_github"
+      android:icon="@drawable/ic_code_black_24dp"
+      android:title="@string/github" />
+
+    <Preference
+      android:key="pref_build_number"
+      android:icon="@drawable/ic_build_black_24dp"
+      android:title="@string/version" />
   </PreferenceCategory>
 
 </PreferenceScreen>

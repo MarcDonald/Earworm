@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,11 +56,11 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     presenter = AddItemPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
 
-    if(arguments != null) {
+    arguments?.let {
       Timber.d("Log: onCreateView: Arguments not null")
       this.itemId = arguments!!.getInt("item_id")
       presenter.getItem(itemId)
-    } else {
+    } ?: run {
       Timber.d("Log: onCreateView: Arguments null")
       setupDefaults()
     }
@@ -135,6 +136,8 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     this.iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
     iconImageView.setOnLongClickListener(iconOnLongClickListener)
+    // Convert to dark mode if needed
+    changeColorOfDrawable(requireContext(), iconImageView.drawable, false)
 
     initEditDialog()
   }
@@ -300,9 +303,12 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
         secondaryInput.hint = resources.getString(R.string.genre)
       }
     }
-    primaryInput.setText("")
-    secondaryInput.setText("")
-    primaryInput.requestFocus()
+
+    if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(PREF_CLEAR_INPUTS, resources.getString(R.string.yes)) == resources.getString(R.string.yes)) {
+      primaryInput.setText("")
+      secondaryInput.setText("")
+      primaryInput.requestFocus()
+    }
   }
 
   private fun updateDateAndDisplay(day: Int, month: Int, year: Int) {
