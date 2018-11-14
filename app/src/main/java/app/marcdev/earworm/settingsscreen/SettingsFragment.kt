@@ -24,7 +24,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
     this.prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
 
     val themePref = findPreference(PREF_THEME)
-    bindPreferenceSummaryToValue(themePref)
+    themePref.onPreferenceChangeListener = themeChangeListener
+    matchSummaryToSelection(themePref, PreferenceManager.getDefaultSharedPreferences(themePref.context).getString(themePref.key, "")!!)
     changeColorOfDrawable(requireContext(), themePref.icon, false)
 
     val tipsPref = findPreference(PREF_SHOW_TIPS)
@@ -45,13 +46,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     changeColorOfDrawable(requireContext(), githubPref.icon, false)
   }
 
-  private fun bindPreferenceSummaryToValue(preference: Preference) {
-    preference.onPreferenceChangeListener = bindPreferenceSummaryToValueListener
-
-    bindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-      PreferenceManager
-        .getDefaultSharedPreferences(preference.context)
-        .getString(preference.key, ""))
+  private val themeChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+    requireActivity().recreate()
+    matchSummaryToSelection(preference, newValue.toString())
+    true
   }
 
   private val resetTipsListener = Preference.OnPreferenceClickListener {
@@ -84,13 +82,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
     true
   }
 
-  private val bindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
-    Timber.d("Log: BindPreferenceSummaryToValue: Started")
-    val stringValue = value.toString()
-    Timber.d("Log: BindPreferenceSummaryToValue: Value = $stringValue")
+  private fun matchSummaryToSelection(preference: Preference, value: String) {
+    Timber.d("Log: themeOnChangeListener: Started")
+    Timber.d("Log: themeOnChangeListener: Value = $value")
 
     if(preference is ListPreference) {
-      val index = preference.findIndexOfValue(stringValue)
+      val index = preference.findIndexOfValue(value)
 
       preference.setSummary(
         if(index >= 0) {
@@ -102,9 +99,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         })
 
     } else {
-      Timber.d("Log: BindPreferenceSummaryToValue: Setting summary to $stringValue")
-      preference.summary = stringValue
+      Timber.d("Log: BindPreferenceSummaryToValue: Setting summary to $value")
+      preference.summary = value
     }
-    true
   }
 }
