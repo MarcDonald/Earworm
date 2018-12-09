@@ -30,7 +30,7 @@
 
     <ImageButton
       android:id="@+id/img_settings"
-      android:background="?selectableItemBackground"
+      android:background="?selectableItemBackgroundBorderless"
       android:layout_width="@dimen/toolbarIconSize"
       android:layout_height="@dimen/toolbarIconSize"
       android:layout_marginEnd="@dimen/marginStandard"

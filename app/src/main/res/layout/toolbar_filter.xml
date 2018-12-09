@@ -18,7 +18,7 @@
 
     <ImageButton
       android:id="@+id/img_filter"
-      android:background="?selectableItemBackground"
+      android:background="?selectableItemBackgroundBorderless"
       android:layout_width="@dimen/toolbarIconSize"
       android:layout_height="@dimen/toolbarIconSize"
       android:layout_marginStart="@dimen/marginStandard"
@@ -51,7 +51,7 @@
 
     <ImageButton
       android:id="@+id/img_search"
-      android:background="?selectableItemBackground"
+      android:background="?selectableItemBackgroundBorderless"
       android:layout_width="@dimen/toolbarIconSize"
       android:layout_height="@dimen/toolbarIconSize"
       android:layout_marginTop="@dimen/toolbarIconMargin"
