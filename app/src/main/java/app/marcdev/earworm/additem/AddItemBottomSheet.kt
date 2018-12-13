@@ -12,7 +12,10 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import app.marcdev.earworm.R
@@ -33,9 +36,9 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private lateinit var saveButton: MaterialButton
   private lateinit var primaryInput: EditText
   private lateinit var secondaryInput: EditText
-  private lateinit var songButton: ImageButton
-  private lateinit var albumButton: ImageButton
-  private lateinit var artistButton: ImageButton
+  private lateinit var songButton: ImageView
+  private lateinit var albumButton: ImageView
+  private lateinit var artistButton: ImageView
   private lateinit var presenter: AddItemPresenter
   private lateinit var datePickerDialog: Dialog
   private lateinit var datePicker: DatePicker
@@ -253,13 +256,13 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
   private fun setupDefaults() {
     Timber.d("Log: setupDefaults: Started")
     type = SONG
-    changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
-    changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-    changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
+    changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, true)
+    changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, false)
+    changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, false)
     dateChip.text = resources.getString(R.string.today)
   }
 
-  private fun activateButtonIfNecessary(button: ImageButton) {
+  private fun activateButtonIfNecessary(button: ImageView) {
     Timber.d("Log: activateButtonIfNecessary: Started")
 
     if(type == SONG && button == songButton
@@ -272,32 +275,32 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     }
   }
 
-  private fun activateButton(button: ImageButton) {
+  private fun activateButton(button: ImageView) {
     Timber.d("Log: activateButtonIfNecessary: Activating button $button")
 
     when(button) {
       songButton -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, true)
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, true)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, false)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, false)
         type = SONG
         primaryInput.hint = resources.getString(R.string.song_name)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
 
       albumButton -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, true)
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, false)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, false)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, true)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, false)
         type = ALBUM
         primaryInput.hint = resources.getString(R.string.album)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
 
       artistButton -> {
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, songButton, false)
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, albumButton, false)
-        changeColorOfImageButtonDrawable(activity!!.applicationContext, artistButton, true)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, false)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, false)
+        changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, true)
         type = ARTIST
         primaryInput.hint = resources.getString(R.string.artist)
         secondaryInput.hint = resources.getString(R.string.genre)

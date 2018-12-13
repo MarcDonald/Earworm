@@ -4,13 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.utils.DARK_THEME
-import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
+import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import app.marcdev.earworm.utils.getTheme
 import timber.log.Timber
 
@@ -41,10 +41,10 @@ class LicensesActivity : AppCompatActivity() {
 
   private fun bindViews() {
     Timber.v("Log: bindViews: Started")
-    val backButton = findViewById<ImageButton>(R.id.img_backFromSettings)
+    val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
     backButton.setOnClickListener(backOnClickListener)
     if(isDarkMode) {
-      changeColorOfImageButtonDrawable(applicationContext, backButton, false)
+      changeColorOfImageViewDrawable(applicationContext, backButton, false)
     }
 
     val toolbarTitle = findViewById<TextView>(R.id.txt_settingsToolbarTitle)

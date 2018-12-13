@@ -33,9 +33,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var noFilteredResultsWarningImage: ImageView
   private lateinit var progressBar: ProgressBar
   private lateinit var searchInput: EditText
-  private lateinit var searchButton: ImageButton
-  private lateinit var filterButton: ImageButton
-  private lateinit var settingsButton: ImageButton
+  private lateinit var searchButton: ImageView
+  private lateinit var filterButton: ImageView
+  private lateinit var settingsButton: ImageView
   private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   private lateinit var presenter: MainFragmentPresenter
@@ -260,13 +260,13 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   override fun activateFilterIcon(isActive: Boolean) {
     Timber.d("Log: activateFilterIcon: Started with isActive = $isActive")
 
-    changeColorOfImageButtonDrawable(context!!, filterButton, isActive)
+    changeColorOfImageViewDrawable(context!!, filterButton, isActive)
   }
 
   private fun convertToDarkMode() {
-    changeColorOfImageButtonDrawable(requireContext(), filterButton, false)
-    changeColorOfImageButtonDrawable(requireContext(), settingsButton, false)
-    changeColorOfImageButtonDrawable(requireContext(), searchButton, false)
+    changeColorOfImageViewDrawable(requireContext(), filterButton, false)
+    changeColorOfImageViewDrawable(requireContext(), settingsButton, false)
+    changeColorOfImageViewDrawable(requireContext(), searchButton, false)
     changeColorOfDrawable(requireContext(), noEntriesWarningImage.drawable, false)
     changeColorOfDrawable(requireContext(), noFilteredResultsWarningImage.drawable, false)
   }

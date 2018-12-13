@@ -2,11 +2,11 @@ package app.marcdev.earworm.settingsscreen
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import app.marcdev.earworm.R
 import app.marcdev.earworm.utils.DARK_THEME
-import app.marcdev.earworm.utils.changeColorOfImageButtonDrawable
+import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import app.marcdev.earworm.utils.getTheme
 import app.marcdev.earworm.utils.setFragment
 import timber.log.Timber
@@ -33,12 +33,12 @@ class SettingsActivity : AppCompatActivity() {
 
   private fun bindViews() {
     Timber.v("Log: bindViews: Started")
-    val backButton = findViewById<ImageButton>(R.id.img_backFromSettings)
+    val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
     backButton.setOnClickListener(backOnClickListener)
 
     if(getTheme(applicationContext) == DARK_THEME) {
       Timber.v("Log: bindViews: Converting to dark mode")
-      changeColorOfImageButtonDrawable(applicationContext, backButton, false)
+      changeColorOfImageViewDrawable(applicationContext, backButton, false)
     }
   }
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.preference.PreferenceManager
-import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import app.marcdev.earworm.R
@@ -63,8 +63,8 @@ fun formatDateForDisplay(day: Int, month: Int, year: Int): String {
  * @param button The button to change the color of
  * @param isActivated Whether or not the button should be put into the activated state
  */
-fun changeColorOfImageButtonDrawable(context: Context, button: ImageButton, isActivated: Boolean) {
-  Timber.v("Log: changeColorOfImageButtonDrawable: Started")
+fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActivated: Boolean) {
+  Timber.v("Log: changeColorOfImageViewDrawable: Started")
 
   when {
     isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))

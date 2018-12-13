@@ -4,9 +4,10 @@
   <dimen name="marginStandardHalf">4dp</dimen>
   <dimen name="fabMargin">16dp</dimen>
   <dimen name="appBarHeight">56dp</dimen>
-  <dimen name="toolbarIconSize">48dp</dimen>
+  <dimen name="toolbarIconSize">36dp</dimen>
   <dimen name="toolbarIconMargin">16dp</dimen>
   <dimen name="toolbarIconMarginSmall">8dp</dimen>
+  <dimen name="toolbarIconPadding">6dp</dimen>
   <dimen name="roundedCornerRadius">16dp</dimen>
   <dimen name="cardCornerRadius">8dp</dimen>
   <dimen name="bottomSheetCornerRadius">8dp</dimen>

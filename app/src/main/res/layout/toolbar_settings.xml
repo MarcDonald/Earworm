@@ -28,7 +28,7 @@
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toBottomOf="parent" />
 
-    <ImageButton
+    <ImageView
       android:id="@+id/img_backFromSettings"
       android:background="?selectableItemBackgroundBorderless"
       android:layout_width="@dimen/toolbarIconSize"
@@ -36,7 +36,7 @@
       android:layout_marginStart="@dimen/marginStandard"
       android:layout_marginTop="@dimen/toolbarIconMargin"
       android:layout_marginBottom="@dimen/toolbarIconMargin"
-      android:padding="@dimen/marginStandard"
+      android:padding="@dimen/toolbarIconPadding"
       android:src="@drawable/ic_arrow_back_24px"
       android:contentDescription="@string/back"
       app:layout_constraintBottom_toBottomOf="parent"
