@@ -17,6 +17,8 @@
     <item name="transparentButtonBackground">@color/lightThemeColorPrimary</item>
     <item name="toolbarStyle">@style/Earworm.LightToolbar</item>
     <item name="chipBackgroundColor">@color/lightThemeColorPrimaryDark</item>
+    <item name="colorPositive">@color/positive</item>
+    <item name="colorNegative">@color/negative</item>
   </style>
 
   <!-- Dark application theme. -->
@@ -39,6 +41,8 @@
     <item name="snackbarBackgroundColor">@color/darkThemeColorPrimaryDark</item>
     <item name="navigationBarColor">@color/darkThemeColorPrimary</item>
     <item name="android:navigationBarColor">?attr/navigationBarColor</item>
+    <item name="colorPositive">@color/positive</item>
+    <item name="colorNegative">@color/negative</item>
   </style>
 
   <!--Text Styles-->
@@ -74,8 +78,20 @@
     <item name="android:backgroundTint">?attr/transparentButtonBackground</item>
   </style>
 
+  <style name="PositiveButton">
+    <item name="android:backgroundTint">?attr/colorPositive</item>
+  </style>
+
+  <style name="NegativeButton">
+    <item name="android:backgroundTint">?attr/colorNegative</item>
+  </style>
+
   <!--Dialog Styles-->
   <style name="Earworm.BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorSecondary">@color/colorAccent</item>
+    <item name="colorPositive">@color/positive</item>
+    <item name="colorNegative">@color/negative</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:navigationBarColor">?attr/navigationBarColor</item>
     <item name="android:windowIsFloating">false</item>
@@ -88,6 +104,10 @@
   </style>
 
   <style name="Earworm.DialogTheme" parent="Theme.MaterialComponents.Dialog">
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorSecondary">@color/colorAccent</item>
+    <item name="colorPositive">@color/positive</item>
+    <item name="colorNegative">@color/negative</item>
     <item name="android:background">?attr/dialogBackground</item>
   </style>
 
