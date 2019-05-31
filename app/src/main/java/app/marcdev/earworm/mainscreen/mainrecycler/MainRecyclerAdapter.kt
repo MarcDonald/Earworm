@@ -10,7 +10,7 @@ import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import app.marcdev.earworm.utils.*
 import timber.log.Timber
 
-class MainRecyclerAdapter(context: Context?, private val presenter: MainFragmentPresenter) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
+class MainRecyclerAdapter(context: Context) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
 
   private var items: List<FavouriteItem> = mutableListOf()
   private var inflater: LayoutInflater = LayoutInflater.from(context)
@@ -62,7 +62,6 @@ class MainRecyclerAdapter(context: Context?, private val presenter: MainFragment
   override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
     Timber.v("Log: onBindViewHolder: $position")
     holder.display(items[position])
-    holder.bindPresenterAndItem(presenter, items[position])
   }
 
   override fun getItemCount(): Int {

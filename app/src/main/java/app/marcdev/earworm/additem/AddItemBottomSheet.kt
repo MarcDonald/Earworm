@@ -350,7 +350,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     if(recyclerUpdateView == null) {
       Timber.e("Log: saveCallback: RecyclerUpdateView is null, cannot update recycler")
     } else {
-      recyclerUpdateView!!.fillData()
+//      recyclerUpdateView!!.fillData()
     }
     Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
     dismiss()

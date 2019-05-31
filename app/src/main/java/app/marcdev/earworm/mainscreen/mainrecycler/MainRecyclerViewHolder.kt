@@ -16,7 +16,6 @@ import timber.log.Timber
 open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
   private lateinit var displayedItem: FavouriteItem
-  private lateinit var presenter: MainFragmentPresenter
   private lateinit var editDialog: Dialog
   private val prefs = PreferenceManager.getDefaultSharedPreferences(itemView.context)
 
@@ -41,12 +40,12 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
   private val editOnClickListener = View.OnClickListener {
     Timber.d("Log: editOnClickListener: Clicked")
     editDialog.dismiss()
-    presenter.editItemClick(displayedItem.id)
+//    presenter.editItemClick(displayedItem.id)
   }
 
   private val deleteOnClickListener = View.OnClickListener {
     Timber.d("Log: deleteOnClickListener: Clicked")
-    presenter.deleteItem(displayedItem)
+//    presenter.deleteItem(displayedItem)
     editDialog.dismiss()
   }
 
@@ -58,11 +57,6 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
   open fun display(favouriteItemToDisplay: FavouriteItem) {
     // TO BE OVERRIDDEN
-  }
-
-  fun bindPresenterAndItem(presenter: MainFragmentPresenter, item: FavouriteItem) {
-    this.presenter = presenter
-    this.displayedItem = item
   }
 
   private fun initEditDialog() {

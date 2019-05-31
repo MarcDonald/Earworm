@@ -1,12 +1,13 @@
 package app.marcdev.earworm.data.repository
 
+import androidx.lifecycle.LiveData
 import app.marcdev.earworm.data.database.FavouriteItem
 
 interface FavouriteItemRepository {
 
-  suspend fun addItem(item: FavouriteItem)
+  val allItems: LiveData<List<FavouriteItem>>
 
-  suspend fun getAllItems(): MutableList<FavouriteItem>
+  suspend fun addItem(item: FavouriteItem)
 
   suspend fun getItem(id: Int): MutableList<FavouriteItem>
 

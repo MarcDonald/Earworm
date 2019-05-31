@@ -28,10 +28,10 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, privat
 
     GlobalScope.launch(Dispatchers.Main) {
       val allItems = async(Dispatchers.IO) {
-        repository.getAllItems()
+//        repository.getAllItems()
       }.await()
 
-      presenter.getAllItemsCallback(allItems)
+//      presenter.getAllItemsCallback(allItems)
     }
   }
 
@@ -40,10 +40,10 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, privat
 
     GlobalScope.launch(Dispatchers.Main) {
       val allItems = async(Dispatchers.IO) {
-        repository.getAllItems()
+//        repository.getAllItems()
       }.await()
 
-      presenter.getAllItemsCallback(allItems, filter)
+//      presenter.getAllItemsCallback(allItems, filter)
     }
   }
 

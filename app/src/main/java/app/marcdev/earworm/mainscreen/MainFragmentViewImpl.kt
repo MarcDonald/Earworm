@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
@@ -22,10 +24,20 @@ import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
 import app.marcdev.earworm.utils.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
+class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView, KodeinAware {
+  override val kodein by closestKodein()
 
+  // <editor-fold desc="View Model">
+  private val viewModelFactory: MainFragmentViewModelFactory by instance()
+  private lateinit var viewModel: MainFragmentViewModel
+  // </editor-fold>
+
+  // <editor-fold desc="UI Components">
   private lateinit var fab: FloatingActionButton
   private lateinit var noEntriesWarning: TextView
   private lateinit var noEntriesWarningImage: ImageView
@@ -38,23 +50,27 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private lateinit var settingsButton: ImageView
   private lateinit var filterDialog: FilterDialog
   private lateinit var recyclerAdapter: MainRecyclerAdapter
-  private lateinit var presenter: MainFragmentPresenter
+  // </editor-fold>
+
   private var isSearchMode = true
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    Timber.v("Log: onCreate: Started")
+    super.onCreate(savedInstanceState)
+    viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainFragmentViewModel::class.java)
+  }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Timber.d("Log: onCreateView: Started")
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
-
-    presenter = MainFragmentPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
+    setupRecycler(view)
+    setupObservers()
 
     if(getTheme(requireContext()) == DARK_THEME) {
       Timber.d("Log: onCreateView: Is dark mode, converting")
       convertToDarkMode()
     }
-
-    setupRecycler(view)
-    fillData()
 
     // If arguments is not null, see if the app has been opened from an app shortcut
     arguments?.let {
@@ -94,7 +110,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
 
-    this.filterDialog = FilterDialog(requireActivity(), presenter)
+//    this.filterDialog = FilterDialog(requireActivity(), presenter)
 
     this.settingsButton = view.findViewById(R.id.img_settings)
     settingsButton.setOnClickListener(settingsOnClickListener)
@@ -126,7 +142,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
       if(s.isNullOrBlank()) {
-        presenter.search("")
+//        presenter.search("")
       }
     }
   }
@@ -134,7 +150,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private fun testIfSubmitButtonClicked(keyEvent: KeyEvent, keyCode: Int): Boolean {
     Timber.d("Log: testIfSubmitButtonClicked: Submit button clicked")
     if((keyEvent.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
-      presenter.search(searchInput.text.toString())
+//      presenter.search(searchInput.text.toString())
       return true
     }
     return false
@@ -143,7 +159,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   private val searchOnClickListener = View.OnClickListener {
     Timber.d("Log: Search Clicked")
     if(isSearchMode) {
-      presenter.search(searchInput.text.toString())
+//      presenter.search(searchInput.text.toString())
     } else {
       searchInput.setText("")
     }
@@ -165,59 +181,70 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
   }
 
   private fun setupRecycler(view: View) {
-    Timber.v("Log: setupRecycler: Started")
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
-    this.recyclerAdapter = MainRecyclerAdapter(context, presenter)
+    this.recyclerAdapter = MainRecyclerAdapter(requireContext())
     recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
   }
 
-  override fun fillData() {
-    Timber.d("Log: fillData: Started")
-    displayProgress(true)
-    displayNoEntriesWarning(false)
-    presenter.getAllItems()
+  private fun setupObservers() {
+    viewModel.displayLoading.observe(this, Observer { value ->
+      value?.let { show ->
+        progressBar.visibility = if(show) View.VISIBLE else View.GONE
+      }
+    })
+
+    viewModel.displayNoEntries.observe(this, Observer { value ->
+      value?.let { show ->
+        noEntriesWarning.visibility = if(show) View.VISIBLE else View.GONE
+        noEntriesWarningImage.visibility = if(show) View.VISIBLE else View.GONE
+      }
+    })
+
+    viewModel.displayNoFilteredResults.observe(this, Observer { value ->
+      value?.let { show ->
+        noFilteredResultsWarning.visibility = if(show) View.VISIBLE else View.GONE
+        noFilteredResultsWarningImage.visibility = if(show) View.VISIBLE else View.GONE
+      }
+    })
+
+    viewModel.displayData.observe(this, Observer { items ->
+      items?.let {
+        recyclerAdapter.updateItems(items)
+        viewModel.listReceived(items.isEmpty())
+      }
+    })
+
+    viewModel.colorFilterIcon.observe(this, Observer { value ->
+      value?.let { colorIt ->
+        changeColorOfImageViewDrawable(context!!, filterButton, colorIt)
+      }
+    })
+
+    viewModel.displaySearchIcon.observe(this, Observer { value ->
+      value?.let { show ->
+        if(show) {
+          searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_search_24px, null))
+          this.isSearchMode = true
+        } else {
+          searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, null))
+          this.isSearchMode = false
+        }
+      }
+    })
   }
 
-  override fun displayNoEntriesWarning(display: Boolean) {
-    Timber.d("Log: displayNoEntriesWarning: Started with display = $display")
-
-    if(display) {
-      Timber.d("Log: displayNoEntriesWarning: Displaying")
-      noEntriesWarning.visibility = View.VISIBLE
-      noEntriesWarningImage.visibility = View.VISIBLE
-    } else {
-      Timber.d("Log: displayNoEntriesWarning: Hiding")
-      noEntriesWarning.visibility = View.GONE
-      noEntriesWarningImage.visibility = View.GONE
-    }
-  }
-
-  override fun updateRecycler(items: List<FavouriteItem>) {
-    Timber.d("Log: updateRecycler: Started")
-    recyclerAdapter.updateItems(items)
-  }
-
-  override fun displayAddedToast() {
+  fun displayAddedToast() {
     Timber.d("Log: displayAddedToast: Started")
     Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
   }
 
-  override fun displayItemDeletedToast() {
+  fun displayItemDeletedToast() {
     Timber.d("Log: displayItemDeletedToast: Started")
     Toast.makeText(activity, resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT).show()
   }
 
-  override fun displayProgress(isVisible: Boolean) {
-    Timber.d("Log: displayProgress: Started with isVisible = $isVisible")
-    if(isVisible) {
-      progressBar.visibility = View.VISIBLE
-    } else {
-      progressBar.visibility = View.GONE
-    }
-  }
-
-  override fun displayEditItemSheet(itemId: Int) {
+  fun displayEditItemSheet(itemId: Int) {
     Timber.d("Log: displayEditItemSheet: Started with itemId = $itemId")
     val addDialog = AddItemBottomSheet()
     addDialog.bindRecyclerUpdateView(this)
@@ -229,7 +256,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     addDialog.show(requireFragmentManager(), "Add Item Bottom Sheet Dialog")
   }
 
-  override fun displayNoFilteredResultsWarning(display: Boolean) {
+  fun displayNoFilteredResultsWarning(display: Boolean) {
     Timber.d("Log: displayNoFilteredResultsWarning: Started with display = $display")
 
     if(display && (noEntriesWarning.visibility == View.GONE)) {
@@ -241,26 +268,9 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     }
   }
 
-  override fun getActiveFilter(): ItemFilter {
+  fun getActiveFilter(): ItemFilter {
     Timber.d("Log: getActiveFilter: Started")
     return filterDialog.activeFilter
-  }
-
-  override fun changeSearchIcon(isSearch: Boolean) {
-    Timber.d("Log: changeSearchIcon: Started")
-    if(isSearch) {
-      searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_search_24px, null))
-      this.isSearchMode = true
-    } else {
-      searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, null))
-      this.isSearchMode = false
-    }
-  }
-
-  override fun activateFilterIcon(isActive: Boolean) {
-    Timber.d("Log: activateFilterIcon: Started with isActive = $isActive")
-
-    changeColorOfImageViewDrawable(context!!, filterButton, isActive)
   }
 
   private fun convertToDarkMode() {

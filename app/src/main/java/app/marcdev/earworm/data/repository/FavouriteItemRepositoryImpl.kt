@@ -1,6 +1,7 @@
 package app.marcdev.earworm.data.repository
 
 import android.database.sqlite.SQLiteConstraintException
+import androidx.lifecycle.LiveData
 import app.marcdev.earworm.data.database.DAO
 import app.marcdev.earworm.data.database.FavouriteItem
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +9,10 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class FavouriteItemRepositoryImpl(private val dao: DAO) : FavouriteItemRepository {
+
+  override val allItems: LiveData<List<FavouriteItem>> by lazy {
+    dao.getAllItems()
+  }
 
   override suspend fun addItem(item: FavouriteItem) {
     withContext(Dispatchers.IO) {
@@ -21,11 +26,6 @@ class FavouriteItemRepositoryImpl(private val dao: DAO) : FavouriteItemRepositor
     }
   }
 
-  override suspend fun getAllItems(): MutableList<FavouriteItem> {
-    return withContext(Dispatchers.IO) {
-      return@withContext dao.getAllItems()
-    }
-  }
 
   override suspend fun getItem(id: Int): MutableList<FavouriteItem> {
     return withContext(Dispatchers.IO) {

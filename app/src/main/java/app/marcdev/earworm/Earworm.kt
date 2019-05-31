@@ -6,11 +6,13 @@ import app.marcdev.earworm.data.database.DAO
 import app.marcdev.earworm.data.database.ProductionAppDatabase
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
 import app.marcdev.earworm.data.repository.FavouriteItemRepositoryImpl
+import app.marcdev.earworm.mainscreen.MainFragmentViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import timber.log.Timber
 
@@ -24,6 +26,9 @@ class Earworm : Application(), KodeinAware {
     bind<FavouriteItemRepository>() with singleton { FavouriteItemRepositoryImpl.getInstance(instance()) }
     // </editor-fold>
 
+    // <editor-fold desc="View Model Factories">
+    bind() from provider { MainFragmentViewModelFactory(instance()) }
+    // </editor-fold>
   }
 
   override fun onCreate() {

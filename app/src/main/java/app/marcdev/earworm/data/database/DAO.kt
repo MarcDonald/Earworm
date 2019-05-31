@@ -1,5 +1,6 @@
 package app.marcdev.earworm.data.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -12,7 +13,7 @@ interface DAO {
   fun updateItem(item: FavouriteItem)
 
   @Query("SELECT * FROM FavouriteItems")
-  fun getAllItems(): MutableList<FavouriteItem>
+  fun getAllItems(): LiveData<List<FavouriteItem>>
 
   @Query("SELECT * FROM FavouriteItems where id = :id")
   fun getItemById(id: Int): MutableList<FavouriteItem>
