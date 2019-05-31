@@ -1,7 +1,7 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.*
 import timber.log.Timber
 

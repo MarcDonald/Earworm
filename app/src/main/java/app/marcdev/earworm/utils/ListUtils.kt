@@ -1,6 +1,6 @@
 package app.marcdev.earworm.utils
 
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import timber.log.Timber
 
 /**
@@ -96,7 +96,7 @@ fun sortByDateDescending(items: MutableList<FavouriteItem>): MutableList<Favouri
       { -it.year },
       { -it.month },
       { -it.day },
-      { -it.id!! }))
+      { -it.id }))
 
   return filteredItems.toMutableList()
 }

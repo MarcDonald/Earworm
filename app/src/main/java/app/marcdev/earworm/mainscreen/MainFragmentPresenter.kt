@@ -1,6 +1,6 @@
 package app.marcdev.earworm.mainscreen
 
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.ItemFilter
 
 interface MainFragmentPresenter {

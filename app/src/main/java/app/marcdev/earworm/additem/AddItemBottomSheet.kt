@@ -19,7 +19,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import app.marcdev.earworm.R
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
 import app.marcdev.earworm.utils.*
 import com.bumptech.glide.Glide

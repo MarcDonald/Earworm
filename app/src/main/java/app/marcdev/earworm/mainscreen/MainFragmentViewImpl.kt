@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.additem.AddItemBottomSheet
 import app.marcdev.earworm.additem.RecyclerUpdateView
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.FilterDialog
@@ -104,7 +104,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     Timber.d("Log: Fab Clicked")
     val addDialog = AddItemBottomSheet()
     addDialog.bindRecyclerUpdateView(this)
-    addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
+    addDialog.show(requireFragmentManager(), "Add Item Bottom Sheet Dialog")
   }
 
   private val settingsOnClickListener = View.OnClickListener {
@@ -226,7 +226,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView {
     args.putInt("item_id", itemId)
     addDialog.arguments = args
 
-    addDialog.show(fragmentManager, "Add Item Bottom Sheet Dialog")
+    addDialog.show(requireFragmentManager(), "Add Item Bottom Sheet Dialog")
   }
 
   override fun displayNoFilteredResultsWarning(display: Boolean) {

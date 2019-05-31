@@ -1,7 +1,7 @@
 package app.marcdev.earworm.additem
 
 import android.content.Context
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.ALBUM
 import app.marcdev.earworm.utils.ARTIST
 import app.marcdev.earworm.utils.SONG

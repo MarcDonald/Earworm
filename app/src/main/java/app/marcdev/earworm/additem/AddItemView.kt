@@ -1,6 +1,6 @@
 package app.marcdev.earworm.additem
 
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 
 interface AddItemView {
 

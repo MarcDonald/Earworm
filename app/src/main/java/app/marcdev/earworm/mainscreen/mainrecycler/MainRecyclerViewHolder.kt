@@ -7,7 +7,7 @@ import android.preference.PreferenceManager
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -41,7 +41,7 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
   private val editOnClickListener = View.OnClickListener {
     Timber.d("Log: editOnClickListener: Clicked")
     editDialog.dismiss()
-    presenter.editItemClick(displayedItem.id!!)
+    presenter.editItemClick(displayedItem.id)
   }
 
   private val deleteOnClickListener = View.OnClickListener {

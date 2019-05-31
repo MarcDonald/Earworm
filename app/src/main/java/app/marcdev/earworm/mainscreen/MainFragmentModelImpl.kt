@@ -1,10 +1,10 @@
 package app.marcdev.earworm.mainscreen
 
 import android.content.Context
-import app.marcdev.earworm.database.AppDatabase
-import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.repository.FavouriteItemRepository
-import app.marcdev.earworm.repository.FavouriteItemRepositoryImpl
+import app.marcdev.earworm.data.database.ProductionAppDatabase
+import app.marcdev.earworm.data.database.FavouriteItem
+import app.marcdev.earworm.data.repository.FavouriteItemRepository
+import app.marcdev.earworm.data.repository.FavouriteItemRepositoryImpl
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.getArtworkDirectory
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, privat
   private var repository: FavouriteItemRepository
 
   init {
-    val db: AppDatabase = AppDatabase.getDatabase(context)
+    val db: ProductionAppDatabase = ProductionAppDatabase.invoke(context)
     repository = FavouriteItemRepositoryImpl(db.dao())
   }
 
@@ -52,7 +52,7 @@ class MainFragmentModelImpl(private val presenter: MainFragmentPresenter, privat
 
     GlobalScope.launch(Dispatchers.Main) {
       async(Dispatchers.IO) {
-        repository.deleteItem(item.id!!)
+        repository.deleteItem(item.id)
       }.await()
 
       presenter.deleteItemCallback()

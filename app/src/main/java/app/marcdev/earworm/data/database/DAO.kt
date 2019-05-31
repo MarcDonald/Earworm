@@ -1,0 +1,25 @@
+package app.marcdev.earworm.data.database
+
+import androidx.room.*
+
+@Dao
+interface DAO {
+
+  @Insert(onConflict = OnConflictStrategy.FAIL)
+  fun insertItem(item: FavouriteItem)
+
+  @Update
+  fun updateItem(item: FavouriteItem)
+
+  @Query("SELECT * FROM FavouriteItems")
+  fun getAllItems(): MutableList<FavouriteItem>
+
+  @Query("SELECT * FROM FavouriteItems where id = :id")
+  fun getItemById(id: Int): MutableList<FavouriteItem>
+
+  @Query("DELETE FROM FavouriteItems where id = :id")
+  fun deleteItemById(id: Int)
+
+  @Query("SELECT COUNT(*) FROM FavouriteItems WHERE imageName = :imageName")
+  fun getNumberOfEntriesUsingImage(imageName: String): Int
+}

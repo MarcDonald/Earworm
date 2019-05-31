@@ -1,4 +1,4 @@
-package app.marcdev.earworm.database
+package app.marcdev.earworm.data.database
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
@@ -10,7 +10,7 @@ import org.junit.Test
 
 class DAOTest {
 
-  private var database: AppDatabase? = null
+  private var database: ProductionAppDatabase? = null
   private var dao: DAO? = null
 
   // Default values
@@ -27,7 +27,7 @@ class DAOTest {
   @Before
   fun setUp() {
     database =
-        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context, AppDatabase::class.java)
+        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context, ProductionAppDatabase::class.java)
           .allowMainThreadQueries().build()
     dao = database!!.dao()
   }
@@ -48,7 +48,7 @@ class DAOTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem)
+    database?.dao()!!.insertItem(testItem)
 
     val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(1, returnedItemsWhenOneInserted.size)
@@ -62,8 +62,8 @@ class DAOTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
+    database?.dao()!!.insertItem(testItem1)
+    database?.dao()!!.insertItem(testItem2)
 
     val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(2, returnedItemsWhenOneInserted.size)
@@ -79,7 +79,7 @@ class DAOTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem)
+    database?.dao()!!.insertItem(testItem)
 
     val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = database?.dao()!!.getItemById(testId)
     Assert.assertEquals(1, returnedItemsWhenOneInserted.size)
@@ -103,8 +103,8 @@ class DAOTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
+    database?.dao()!!.insertItem(testItem1)
+    database?.dao()!!.insertItem(testItem2)
 
     val returnedItemsWhenTwoInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(2, returnedItemsWhenTwoInserted.size)
@@ -131,8 +131,8 @@ class DAOTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
+    database?.dao()!!.insertItem(testItem1)
+    database?.dao()!!.insertItem(testItem2)
 
     val returnedAllItemsWhenTwoInserted: MutableList<FavouriteItem> = database?.dao()!!.getAllItems()
     Assert.assertEquals(2, returnedAllItemsWhenTwoInserted.size)
@@ -155,9 +155,9 @@ class DAOTest {
     val testItem3 = createTestItem()
     testItem3.imageName = testImage2
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
-    database?.dao()!!.insertOrUpdateItem(testItem3)
+    database?.dao()!!.insertItem(testItem1)
+    database?.dao()!!.insertItem(testItem2)
+    database?.dao()!!.insertItem(testItem3)
 
     val returnedValueWhenSearchedForTestImage1: Int = database?.dao()!!.getNumberOfEntriesUsingImage(testImage1)
     Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
@@ -186,9 +186,9 @@ class DAOTest {
     testItem3.imageName = testImage2
     testItem3.id = testId3
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
-    database?.dao()!!.insertOrUpdateItem(testItem3)
+    database?.dao()!!.insertItem(testItem1)
+    database?.dao()!!.insertItem(testItem2)
+    database?.dao()!!.insertItem(testItem3)
 
     val returnedValueWhenSearchedForTestImage1: Int = database?.dao()!!.getNumberOfEntriesUsingImage(testImage1)
     Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
@@ -225,9 +225,9 @@ class DAOTest {
     testItem3.imageName = testImage2
     testItem3.id = testId3
 
-    database?.dao()!!.insertOrUpdateItem(testItem1)
-    database?.dao()!!.insertOrUpdateItem(testItem2)
-    database?.dao()!!.insertOrUpdateItem(testItem3)
+    database?.dao()!!.insertItem(testItem1)
+    database?.dao()!!.insertItem(testItem2)
+    database?.dao()!!.insertItem(testItem3)
 
     val returnedValueWhenSearchedForTestImage1: Int = database?.dao()!!.getNumberOfEntriesUsingImage(testImage1)
     Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)

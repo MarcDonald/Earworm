@@ -1,10 +1,10 @@
-package app.marcdev.earworm.repository
+package app.marcdev.earworm.data.repository
 
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.FavouriteItem
 
 interface FavouriteItemRepository {
 
-  suspend fun insertOrUpdateItem(item: FavouriteItem)
+  suspend fun addItem(item: FavouriteItem)
 
   suspend fun getAllItems(): MutableList<FavouriteItem>
 
