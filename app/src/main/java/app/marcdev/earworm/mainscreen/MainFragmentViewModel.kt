@@ -1,15 +1,21 @@
 package app.marcdev.earworm.mainscreen
 
 import androidx.lifecycle.*
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
-import app.marcdev.earworm.utils.addListHeaders
-import app.marcdev.earworm.utils.sortByDateDescending
+import app.marcdev.earworm.utils.*
+import kotlinx.coroutines.launch
 
-class MainFragmentViewModel(private val repository: FavouriteItemRepository) : ViewModel() {
+class MainFragmentViewModel(private val repository: FavouriteItemRepository,
+                            private val fileUtils: FileUtils)
+  : ViewModel() {
 
   val displayData = Transformations.map(repository.allItems) { list ->
     val sortedItems = sortByDateDescending(list.toMutableList())
-    return@map addListHeaders(sortedItems)
+    val listWithHeaders = addListHeaders(sortedItems)
+    _displayLoading.value = false
+    _displayNoEntries.value = listWithHeaders.isEmpty()
+    return@map listWithHeaders
   }
 
   private val _displayLoading = MutableLiveData<Boolean>()
@@ -38,8 +44,19 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository) : V
     _displayNoFilteredResults.value = false
   }
 
-  fun listReceived(isEmpty: Boolean) {
-    _displayLoading.value = false
-    _displayNoEntries.value = isEmpty
+  fun deleteItem(item: FavouriteItem) {
+    viewModelScope.launch {
+      repository.deleteItem(item.id)
+      deleteImageIfNecessary(item.imageName)
+    }
+  }
+
+  private suspend fun deleteImageIfNecessary(imageName: String) {
+    if(imageName.isNotBlank()) {
+      val uses = repository.countUsesOfImage(imageName)
+      if(uses == 0) {
+        fileUtils.deleteImage(imageName)
+      }
+    }
   }
 }

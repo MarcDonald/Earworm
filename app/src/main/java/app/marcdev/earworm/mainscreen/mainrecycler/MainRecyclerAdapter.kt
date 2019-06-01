@@ -6,53 +6,46 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.data.database.FavouriteItem
-import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import app.marcdev.earworm.utils.*
-import timber.log.Timber
 
-class MainRecyclerAdapter(context: Context) : RecyclerView.Adapter<MainRecyclerViewHolder>(), MainRecyclerView {
+class MainRecyclerAdapter(context: Context,
+                          private val editClick: (FavouriteItem) -> Unit,
+                          private val deleteClick: (FavouriteItem) -> Unit)
+  : RecyclerView.Adapter<MainRecyclerViewHolder>() {
 
   private var items: List<FavouriteItem> = mutableListOf()
   private var inflater: LayoutInflater = LayoutInflater.from(context)
 
   override fun getItemViewType(position: Int): Int {
-    Timber.v("Log: getItemViewType: Started")
     return items[position].type
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainRecyclerViewHolder {
-    Timber.v("Log: onCreateViewHolder: Started")
-
     lateinit var viewHolder: MainRecyclerViewHolder
 
     when(viewType) {
       HEADER -> {
-        Timber.v("Log: onCreateViewHolder: Type == Header")
         val view = inflater.inflate(R.layout.item_header, parent, false)
         viewHolder = MainRecyclerViewHolderHeader(view)
       }
       SONG -> {
-        Timber.v("Log: onCreateViewHolder: Type == Song")
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
-        viewHolder = MainRecyclerViewHolderSong(view)
+        viewHolder = MainRecyclerViewHolderSong(view, editClick, deleteClick)
       }
 
       ALBUM -> {
-        Timber.v("Log: onCreateViewHolder: Type == Album")
         val view = inflater.inflate(R.layout.item_mainrecycler_album, parent, false)
-        viewHolder = MainRecyclerViewHolderAlbum(view)
+        viewHolder = MainRecyclerViewHolderAlbum(view, editClick, deleteClick)
       }
 
       ARTIST -> {
-        Timber.v("Log: onCreateViewHolder: Type == Artist")
         val view = inflater.inflate(R.layout.item_mainrecycler_artist, parent, false)
-        viewHolder = MainRecyclerViewHolderArtist(view)
+        viewHolder = MainRecyclerViewHolderArtist(view, editClick, deleteClick)
       }
 
       GENRE -> {
-        Timber.v("Log: onCreateViewHolder: Type == Genre")
         val view = inflater.inflate(R.layout.item_mainrecycler_genre, parent, false)
-        viewHolder = MainRecyclerViewHolderGenre(view)
+        viewHolder = MainRecyclerViewHolderGenre(view, editClick, deleteClick)
       }
     }
 
@@ -60,17 +53,14 @@ class MainRecyclerAdapter(context: Context) : RecyclerView.Adapter<MainRecyclerV
   }
 
   override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
-    Timber.v("Log: onBindViewHolder: $position")
     holder.display(items[position])
   }
 
   override fun getItemCount(): Int {
-    Timber.v("Log: getItemCount: ${items.size}")
     return items.size
   }
 
-  override fun updateItems(items: List<FavouriteItem>) {
-    Timber.d("Log: updateItems: Started")
+  fun updateItems(items: List<FavouriteItem>) {
     this.items = items
     notifyDataSetChanged()
   }

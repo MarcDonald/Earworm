@@ -7,7 +7,7 @@ import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.getMonthName
 import timber.log.Timber
 
-open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder(itemView) {
+open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder(itemView, {}, {})  {
 
   private var dateDisplay: TextView = itemView.findViewById(R.id.txt_header_title)
 
@@ -26,8 +26,6 @@ open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder
   }
 
   override fun display(favouriteItemToDisplay: FavouriteItem) {
-    Timber.d("Log: display: $favouriteItemToDisplay")
-
     dateDisplay.text = ("${getMonthName(favouriteItemToDisplay.month, itemView.context)} ${favouriteItemToDisplay.year}")
   }
 }

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.additem.AddItemBottomSheet
-import app.marcdev.earworm.additem.RecyclerUpdateView
 import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
@@ -29,7 +28,7 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView, KodeinAware {
+class MainFragment : Fragment(), KodeinAware {
   override val kodein by closestKodein()
 
   // <editor-fold desc="View Model">
@@ -119,7 +118,6 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView, K
   private val fabOnClickListener = View.OnClickListener {
     Timber.d("Log: Fab Clicked")
     val addDialog = AddItemBottomSheet()
-    addDialog.bindRecyclerUpdateView(this)
     addDialog.show(requireFragmentManager(), "Add Item Bottom Sheet Dialog")
   }
 
@@ -182,7 +180,7 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView, K
 
   private fun setupRecycler(view: View) {
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
-    this.recyclerAdapter = MainRecyclerAdapter(requireContext())
+    this.recyclerAdapter = MainRecyclerAdapter(requireContext(), ::editClick, ::deleteClick)
     recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
   }
@@ -211,7 +209,6 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView, K
     viewModel.displayData.observe(this, Observer { items ->
       items?.let {
         recyclerAdapter.updateItems(items)
-        viewModel.listReceived(items.isEmpty())
       }
     })
 
@@ -244,17 +241,20 @@ class MainFragmentViewImpl : Fragment(), MainFragmentView, RecyclerUpdateView, K
     Toast.makeText(activity, resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT).show()
   }
 
-  fun displayEditItemSheet(itemId: Int) {
-    Timber.d("Log: displayEditItemSheet: Started with itemId = $itemId")
+  private fun editClick(favouriteItem: FavouriteItem) {
     val addDialog = AddItemBottomSheet()
-    addDialog.bindRecyclerUpdateView(this)
 
     val args = Bundle()
-    args.putInt("item_id", itemId)
+    args.putInt("item_id", favouriteItem.id)
     addDialog.arguments = args
 
     addDialog.show(requireFragmentManager(), "Add Item Bottom Sheet Dialog")
   }
+
+  private fun deleteClick(favouriteItem: FavouriteItem) {
+    viewModel.deleteItem(favouriteItem)
+  }
+
 
   fun displayNoFilteredResultsWarning(display: Boolean) {
     Timber.d("Log: displayNoFilteredResultsWarning: Started with display = $display")

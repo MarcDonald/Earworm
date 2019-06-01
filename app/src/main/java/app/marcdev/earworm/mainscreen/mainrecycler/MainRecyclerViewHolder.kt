@@ -8,19 +8,20 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.data.database.FavouriteItem
-import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
-open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+open class MainRecyclerViewHolder(itemView: View,
+                                  private val editClick: (FavouriteItem) -> Unit,
+                                  private val deleteClick: (FavouriteItem) -> Unit)
+  : RecyclerView.ViewHolder(itemView) {
 
-  private lateinit var displayedItem: FavouriteItem
+  protected var displayedItem: FavouriteItem? = null
   private lateinit var editDialog: Dialog
   private val prefs = PreferenceManager.getDefaultSharedPreferences(itemView.context)
 
   private val snackbarActionListener = View.OnClickListener {
-    Timber.d("Log: snackbarActionListener: Clicked")
     prefs.edit().putBoolean("pref_show_tips", false).apply()
   }
 
@@ -38,15 +39,17 @@ open class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(item
   }
 
   private val editOnClickListener = View.OnClickListener {
-    Timber.d("Log: editOnClickListener: Clicked")
     editDialog.dismiss()
-//    presenter.editItemClick(displayedItem.id)
+    displayedItem?.let { displayedItem ->
+      editClick(displayedItem)
+    }
   }
 
   private val deleteOnClickListener = View.OnClickListener {
-    Timber.d("Log: deleteOnClickListener: Clicked")
-//    presenter.deleteItem(displayedItem)
     editDialog.dismiss()
+    displayedItem?.let { displayedItem ->
+      deleteClick(displayedItem)
+    }
   }
 
   init {

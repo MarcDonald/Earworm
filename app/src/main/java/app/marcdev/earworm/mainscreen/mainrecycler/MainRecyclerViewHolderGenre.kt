@@ -7,13 +7,16 @@ import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.formatDateForDisplay
 import timber.log.Timber
 
-class MainRecyclerViewHolderGenre(itemView: View) : MainRecyclerViewHolder(itemView) {
+class MainRecyclerViewHolderGenre(itemView: View,
+                                  editClick: (FavouriteItem) -> Unit,
+                                  deleteClick: (FavouriteItem) -> Unit)
+  : MainRecyclerViewHolder(itemView, editClick, deleteClick) {
 
   private var genreNameDisplay: TextView = itemView.findViewById(R.id.txt_genreName)
   private var genreDateDisplay: TextView = itemView.findViewById(R.id.txt_genreDate)
 
   override fun display(favouriteItemToDisplay: FavouriteItem) {
-    Timber.d("Log: display: $favouriteItemToDisplay")
+    displayedItem = favouriteItemToDisplay
     genreNameDisplay.text = favouriteItemToDisplay.genre
     val date = formatDateForDisplay(favouriteItemToDisplay.day, favouriteItemToDisplay.month, favouriteItemToDisplay.year)
     genreDateDisplay.text = date

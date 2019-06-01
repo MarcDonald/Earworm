@@ -8,7 +8,6 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.DatePicker
 import app.marcdev.earworm.R
-import app.marcdev.earworm.mainscreen.MainFragmentPresenter
 import app.marcdev.earworm.utils.DEFAULT_FILTER
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.formatDateForDisplay
@@ -17,7 +16,7 @@ import com.google.android.material.chip.Chip
 import timber.log.Timber
 import java.util.*
 
-class FilterDialog(context: Context, private val presenter: MainFragmentPresenter) : Dialog(context) {
+class FilterDialog(context: Context) : Dialog(context) {
 
   private lateinit var displaySongCheckbox: CheckBox
   private lateinit var displayAlbumCheckbox: CheckBox
@@ -72,7 +71,7 @@ class FilterDialog(context: Context, private val presenter: MainFragmentPresente
     val submitButton: MaterialButton = findViewById(R.id.btn_filter_ok)
     submitButton.setOnClickListener {
       Timber.d("Log: submitButtonOnClickListener: Started")
-      presenter.getAllItems(activeFilter)
+//      presenter.getAllItems(activeFilter)
       dismiss()
     }
   }

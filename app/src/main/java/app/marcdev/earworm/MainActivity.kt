@@ -3,7 +3,7 @@ package app.marcdev.earworm
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import app.marcdev.earworm.mainscreen.MainFragmentViewImpl
+import app.marcdev.earworm.mainscreen.MainFragment
 import app.marcdev.earworm.utils.DARK_THEME
 import app.marcdev.earworm.utils.LIGHT_THEME
 import app.marcdev.earworm.utils.getTheme
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun setDefaultFragment() {
     Timber.v("Log: setDefaultFragment: Started")
-    val fragment = MainFragmentViewImpl()
+    val fragment = MainFragment()
 
     if(intent.action == "app.marcdev.earworm.intent.ADD_ITEM") {
       Timber.d("Log: onCreate: Started from Add Item app shortcut")
