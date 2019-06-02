@@ -16,18 +16,14 @@ class MainActivity : AppCompatActivity() {
   private var activityTheme: Int = -1
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    Timber.d("Log: onCreate: Started")
-
     /* Theme changes must be done before super.onCreate otherwise it will be overridden with the value
       in the manifest */
-    if(getTheme(applicationContext) == DARK_THEME) {
-      Timber.v("Log: onCreate: Is dark mode")
+    activityTheme = if(getTheme(applicationContext) == DARK_THEME) {
       setTheme(R.style.Earworm_DarkTheme)
-      activityTheme = DARK_THEME
+      DARK_THEME
     } else {
-      Timber.v("Log: onCreate: Is not dark mode")
       setTheme(R.style.Earworm_LightTheme)
-      activityTheme = LIGHT_THEME
+      LIGHT_THEME
     }
 
     super.onCreate(savedInstanceState)
@@ -39,12 +35,10 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun bindViews() {
-    Timber.v("Log: bindViews: Started")
     this.mainFrame = findViewById(R.id.frame_main)
   }
 
   private fun setDefaultFragment() {
-    Timber.v("Log: setDefaultFragment: Started")
     val fragment = MainFragment()
 
     if(intent.action == "app.marcdev.earworm.intent.ADD_ITEM") {
@@ -60,7 +54,6 @@ class MainActivity : AppCompatActivity() {
   override fun onResume() {
     super.onResume()
     if(getTheme(applicationContext) != activityTheme) {
-      Timber.d("Log: onResume: Theme was changed, recreating activity")
       recreate()
     }
   }

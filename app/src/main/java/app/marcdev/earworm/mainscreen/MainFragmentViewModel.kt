@@ -5,6 +5,7 @@ import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
 import app.marcdev.earworm.utils.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainFragmentViewModel(private val repository: FavouriteItemRepository,
                             private val fileUtils: FileUtils)
@@ -97,6 +98,25 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
       activeFilter.value
 
     newFilter?.searchTerm = searchTermArg
+    activeFilter.value = newFilter
+  }
+
+  fun applyFilter(filter: ItemFilter) {
+    val newFilter: ItemFilter? = if(activeFilter.value == null)
+      DEFAULT_FILTER.copy()
+    else
+      activeFilter.value
+    if(newFilter != null) {
+      newFilter.endDay = filter.endDay
+      newFilter.endMonth = filter.endMonth
+      newFilter.endYear = filter.endYear
+      newFilter.startDay = filter.startDay
+      newFilter.startMonth = filter.startMonth
+      newFilter.startYear = filter.startYear
+      newFilter.includeAlbums = filter.includeAlbums
+      newFilter.includeArtists = filter.includeArtists
+      newFilter.includeSongs = filter.includeSongs
+    }
     activeFilter.value = newFilter
   }
 

@@ -20,7 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import app.marcdev.earworm.R
 import app.marcdev.earworm.data.database.FavouriteItem
-import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
+import app.marcdev.earworm.internal.base.EarwormBottomSheetDialogFragment
 import app.marcdev.earworm.utils.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -31,7 +31,7 @@ import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
 import java.util.*
 
-class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
+class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), AddItemView {
 
   private lateinit var saveButton: MaterialButton
   private lateinit var primaryInput: EditText

@@ -1,160 +1,127 @@
 package app.marcdev.earworm.uicomponents
 
-import android.app.Dialog
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
-import android.widget.DatePicker
 import app.marcdev.earworm.R
+import app.marcdev.earworm.internal.base.EarwormDialogFragment
 import app.marcdev.earworm.utils.DEFAULT_FILTER
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.formatDateForDisplay
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
-import timber.log.Timber
 import java.util.*
 
-class FilterDialog(context: Context) : Dialog(context) {
+class FilterDialog(private val okClick: (ItemFilter) -> Unit) : EarwormDialogFragment() {
 
   private lateinit var displaySongCheckbox: CheckBox
   private lateinit var displayAlbumCheckbox: CheckBox
   private lateinit var displayArtistCheckbox: CheckBox
   private lateinit var startDateDisplay: Chip
   private lateinit var endDateDisplay: Chip
-  private lateinit var startDatePickerDialog: Dialog
-  private lateinit var endDatePickerDialog: Dialog
-  var activeFilter: ItemFilter = DEFAULT_FILTER.copy()
+  private lateinit var startDatePickerDialog: FilterDatePickerDialog
+  private lateinit var endDatePickerDialog: FilterDatePickerDialog
+  private var activeFilter: ItemFilter = DEFAULT_FILTER.copy()
 
-  init {
-    Timber.d("Log: FilterDialog Init: Started")
-    setContentView(R.layout.dialog_filter)
-    window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    bindViews()
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    val view = inflater.inflate(R.layout.dialog_filter, container, false)
+    bindViews(view)
     initCheckboxes()
+    return view
   }
 
-  private fun bindViews() {
-    Timber.d("Log: bindViews: Started")
-
-    initStartDatePickerDialog()
-    initEndDatePickerDialog()
-
-    this.startDateDisplay = findViewById(R.id.chip_filter_start)
+  private fun bindViews(view: View) {
+    startDateDisplay = view.findViewById(R.id.chip_filter_start)
     startDateDisplay.setOnClickListener {
-      Timber.d("Log: startDateClickListener: Started")
-      startDatePickerDialog.show()
+      startDatePickerDialog.show(requireFragmentManager(), "Start Date Picker")
     }
 
-    this.endDateDisplay = findViewById(R.id.chip_filter_end)
+    this.endDateDisplay = view.findViewById(R.id.chip_filter_end)
     endDateDisplay.setOnClickListener {
-      Timber.d("Log: endDateClickListener: Started")
-      endDatePickerDialog.show()
+      endDatePickerDialog.show(requireFragmentManager(), "End Date Picker")
     }
 
-    this.displaySongCheckbox = findViewById(R.id.chk_filter_song)
+    this.displaySongCheckbox = view.findViewById(R.id.chk_filter_song)
     displaySongCheckbox.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
       activeFilter.includeSongs = isChecked
     }
 
-    this.displayAlbumCheckbox = findViewById(R.id.chk_filter_album)
+    this.displayAlbumCheckbox = view.findViewById(R.id.chk_filter_album)
     displayAlbumCheckbox.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
       activeFilter.includeAlbums = isChecked
     }
 
-    this.displayArtistCheckbox = findViewById(R.id.chk_filter_artist)
+    this.displayArtistCheckbox = view.findViewById(R.id.chk_filter_artist)
     displayArtistCheckbox.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
       activeFilter.includeArtists = isChecked
     }
 
-    val submitButton: MaterialButton = findViewById(R.id.btn_filter_ok)
+    val submitButton: MaterialButton = view.findViewById(R.id.btn_filter_ok)
     submitButton.setOnClickListener {
-      Timber.d("Log: submitButtonOnClickListener: Started")
-//      presenter.getAllItems(activeFilter)
+      okClick(activeFilter)
       dismiss()
     }
+
+    initStartDatePickerDialog()
+    initEndDatePickerDialog()
   }
 
   private fun initStartDatePickerDialog() {
-    Timber.d("Log: initStartDatePickerDialog: Started")
-
-    this.startDatePickerDialog = Dialog(context)
-    startDatePickerDialog.setContentView(R.layout.dialog_datepicker_filter)
-    startDatePickerDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-    val datePicker: DatePicker = startDatePickerDialog.findViewById(R.id.datepicker_filter)
-
-    val cancelButton: MaterialButton = startDatePickerDialog.findViewById(R.id.btn_datepicker_filter_cancel)
-    cancelButton.setOnClickListener {
-      Timber.d("Log: cancelButtonOnClickListener: Started")
-      startDatePickerDialog.dismiss()
-    }
-
-    val okButton: MaterialButton = startDatePickerDialog.findViewById(R.id.btn_datepicker_filter_ok)
-    okButton.setOnClickListener {
-      Timber.d("Log: okButtonOnClickListener: Started")
-      activeFilter.startDay = datePicker.dayOfMonth
-      activeFilter.startMonth = datePicker.month
-      activeFilter.startYear = datePicker.year
-      startDateDisplay.text = formatDateForDisplay(datePicker.dayOfMonth, datePicker.month, datePicker.year)
-      startDatePickerDialog.dismiss()
-    }
-
-    val startButton: MaterialButton = startDatePickerDialog.findViewById(R.id.btn_datepicker_filter_start_end)
-    startButton.setOnClickListener {
-      Timber.d("Log: startButtonOnClickListener: Started")
-      activeFilter.startDay = DEFAULT_FILTER.startDay
-      activeFilter.startMonth = DEFAULT_FILTER.startMonth
-      activeFilter.startYear = DEFAULT_FILTER.startYear
-      startDateDisplay.text = context.resources.getString(R.string.start)
-      val todayCalendar = Calendar.getInstance()
-      datePicker.updateDate(todayCalendar.get(Calendar.YEAR), todayCalendar.get(Calendar.MONTH), todayCalendar.get(Calendar.DAY_OF_MONTH))
-      startDatePickerDialog.dismiss()
+    if(activeFilter.startDay == DEFAULT_FILTER.startDay && activeFilter.startMonth == DEFAULT_FILTER.startMonth && activeFilter.startYear == DEFAULT_FILTER.startYear) {
+      startDateDisplay.text = resources.getString(R.string.start)
+      this.startDatePickerDialog = FilterDatePickerDialog(::startDatePickerOkClick, true, null)
+    } else {
+      startDateDisplay.text = formatDateForDisplay(activeFilter.startDay, activeFilter.startMonth, activeFilter.startYear)
+      val calendar = Calendar.getInstance()
+      calendar.set(Calendar.DAY_OF_MONTH, activeFilter.startDay)
+      calendar.set(Calendar.MONTH, activeFilter.startMonth)
+      calendar.set(Calendar.YEAR, activeFilter.startYear)
+      this.startDatePickerDialog = FilterDatePickerDialog(::startDatePickerOkClick, true, calendar)
     }
   }
 
   private fun initEndDatePickerDialog() {
-    Timber.d("Log: initEndDatePickerDialog: Started")
-
-    this.endDatePickerDialog = Dialog(context)
-    endDatePickerDialog.setContentView(R.layout.dialog_datepicker_filter)
-    endDatePickerDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-    val datePicker: DatePicker = endDatePickerDialog.findViewById(R.id.datepicker_filter)
-
-    val cancelButton: MaterialButton = endDatePickerDialog.findViewById(R.id.btn_datepicker_filter_cancel)
-    cancelButton.setOnClickListener {
-      Timber.d("Log: cancelButtonOnClickListener: Started")
-      endDatePickerDialog.dismiss()
-    }
-
-    val okButton: MaterialButton = endDatePickerDialog.findViewById(R.id.btn_datepicker_filter_ok)
-    okButton.setOnClickListener {
-      Timber.d("Log: okButtonOnClickListener: Started")
-      activeFilter.endDay = datePicker.dayOfMonth
-      activeFilter.endMonth = datePicker.month
-      activeFilter.endYear = datePicker.year
-      endDateDisplay.text = formatDateForDisplay(datePicker.dayOfMonth, datePicker.month, datePicker.year)
-      endDatePickerDialog.dismiss()
-    }
-
-    val endButton: MaterialButton = endDatePickerDialog.findViewById(R.id.btn_datepicker_filter_start_end)
-    endButton.text = context.resources.getString(R.string.end)
-    endButton.setOnClickListener {
-      Timber.d("Log: startButtonOnClickListener: Started")
-      activeFilter.endDay = DEFAULT_FILTER.endDay
-      activeFilter.endMonth = DEFAULT_FILTER.endMonth
-      activeFilter.endYear = DEFAULT_FILTER.endYear
-      endDateDisplay.text = context.resources.getString(R.string.end)
-      val todayCalendar = Calendar.getInstance()
-      datePicker.updateDate(todayCalendar.get(Calendar.YEAR), todayCalendar.get(Calendar.MONTH), todayCalendar.get(Calendar.DAY_OF_MONTH))
-      endDatePickerDialog.dismiss()
+    if(activeFilter.endDay == DEFAULT_FILTER.endDay && activeFilter.endMonth == DEFAULT_FILTER.endMonth && activeFilter.endYear == DEFAULT_FILTER.endYear) {
+      endDateDisplay.text = resources.getString(R.string.end)
+      this.endDatePickerDialog = FilterDatePickerDialog(::endDatePickerOkClick, false, null)
+    } else {
+      endDateDisplay.text = formatDateForDisplay(activeFilter.endDay, activeFilter.endMonth, activeFilter.endYear)
+      val calendar = Calendar.getInstance()
+      calendar.set(Calendar.DAY_OF_MONTH, activeFilter.endDay)
+      calendar.set(Calendar.MONTH, activeFilter.endMonth)
+      calendar.set(Calendar.YEAR, activeFilter.endYear)
+      this.endDatePickerDialog = FilterDatePickerDialog(::endDatePickerOkClick, false, calendar)
     }
   }
 
+  private fun startDatePickerOkClick(day: Int, month: Int, year: Int) {
+    activeFilter.startDay = day
+    activeFilter.startMonth = month
+    activeFilter.startYear = year
+    if(day == DEFAULT_FILTER.startDay && month == DEFAULT_FILTER.startMonth && year == DEFAULT_FILTER.startYear) {
+      startDateDisplay.text = resources.getString(R.string.start)
+    } else {
+      startDateDisplay.text = formatDateForDisplay(activeFilter.startDay, activeFilter.startMonth, activeFilter.startYear)
+    }
+    startDatePickerDialog.dismiss()
+  }
+
+  private fun endDatePickerOkClick(day: Int, month: Int, year: Int) {
+    activeFilter.endDay = day
+    activeFilter.endMonth = month
+    activeFilter.endYear = year
+    if(day == DEFAULT_FILTER.endDay && month == DEFAULT_FILTER.endMonth && year == DEFAULT_FILTER.endYear) {
+      endDateDisplay.text = resources.getString(R.string.end)
+    } else {
+      endDateDisplay.text = formatDateForDisplay(activeFilter.endDay, activeFilter.endMonth, activeFilter.endYear)
+    }
+    endDatePickerDialog.dismiss()
+  }
+
   private fun initCheckboxes() {
-    Timber.d("Log: initCheckboxes: Started")
     displaySongCheckbox.isChecked = activeFilter.includeSongs
     displayAlbumCheckbox.isChecked = activeFilter.includeAlbums
     displayArtistCheckbox.isChecked = activeFilter.includeArtists

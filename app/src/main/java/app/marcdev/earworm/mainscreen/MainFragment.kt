@@ -104,7 +104,7 @@ class MainFragment : Fragment(), KodeinAware {
     val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
     nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
 
-//    this.filterDialog = FilterDialog(requireActivity(), presenter)
+    this.filterDialog = FilterDialog(::filterOkClick)
 
     this.settingsButton = view.findViewById(R.id.img_settings)
     settingsButton.setOnClickListener(settingsOnClickListener)
@@ -155,7 +155,7 @@ class MainFragment : Fragment(), KodeinAware {
   }
 
   private val filterOnClickListener = View.OnClickListener {
-    filterDialog.show()
+    filterDialog.show(requireFragmentManager(), "Filter Dialog")
   }
 
   private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
@@ -166,6 +166,10 @@ class MainFragment : Fragment(), KodeinAware {
     } else {
       fab.show()
     }
+  }
+
+  private fun filterOkClick(filter: ItemFilter) {
+    viewModel.applyFilter(filter)
   }
 
   private fun setupRecycler(view: View) {
