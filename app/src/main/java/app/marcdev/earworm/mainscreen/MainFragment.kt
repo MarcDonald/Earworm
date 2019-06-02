@@ -51,16 +51,12 @@ class MainFragment : Fragment(), KodeinAware {
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   // </editor-fold>
 
-  private var isSearchMode = true
-
   override fun onCreate(savedInstanceState: Bundle?) {
-    Timber.v("Log: onCreate: Started")
     super.onCreate(savedInstanceState)
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainFragmentViewModel::class.java)
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    Timber.d("Log: onCreateView: Started")
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
     bindViews(view)
     setupRecycler(view)
@@ -82,7 +78,6 @@ class MainFragment : Fragment(), KodeinAware {
   }
 
   private fun bindViews(view: View) {
-    Timber.v("Log: bindViews: Started")
     this.fab = view.findViewById(R.id.fab_main)
     fab.setOnClickListener(fabOnClickListener)
 
@@ -116,13 +111,11 @@ class MainFragment : Fragment(), KodeinAware {
   }
 
   private val fabOnClickListener = View.OnClickListener {
-    Timber.d("Log: Fab Clicked")
     val addDialog = AddItemBottomSheet()
     addDialog.show(requireFragmentManager(), "Add Item Bottom Sheet Dialog")
   }
 
   private val settingsOnClickListener = View.OnClickListener {
-    Timber.d("Log: Settings Clicked")
     val intent = Intent(requireContext(), SettingsActivity::class.java)
     startActivity(intent)
   }
@@ -140,31 +133,28 @@ class MainFragment : Fragment(), KodeinAware {
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
       if(s.isNullOrBlank()) {
-//        presenter.search("")
+        viewModel.search("")
       }
     }
   }
 
   private fun testIfSubmitButtonClicked(keyEvent: KeyEvent, keyCode: Int): Boolean {
-    Timber.d("Log: testIfSubmitButtonClicked: Submit button clicked")
     if((keyEvent.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
-//      presenter.search(searchInput.text.toString())
+      viewModel.search(searchInput.text.toString())
       return true
     }
     return false
   }
 
   private val searchOnClickListener = View.OnClickListener {
-    Timber.d("Log: Search Clicked")
-    if(isSearchMode) {
-//      presenter.search(searchInput.text.toString())
-    } else {
-      searchInput.setText("")
-    }
+    viewModel.search(searchInput.text.toString())
+  }
+
+  private val clearSearchClickListener = View.OnClickListener {
+    searchInput.setText("")
   }
 
   private val filterOnClickListener = View.OnClickListener {
-    Timber.d("Log: Filter Clicked")
     filterDialog.show()
   }
 
@@ -222,22 +212,20 @@ class MainFragment : Fragment(), KodeinAware {
       value?.let { show ->
         if(show) {
           searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_search_24px, null))
-          this.isSearchMode = true
+          searchButton.setOnClickListener(searchOnClickListener)
         } else {
           searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, null))
-          this.isSearchMode = false
+          searchButton.setOnClickListener(clearSearchClickListener)
         }
       }
     })
   }
 
   fun displayAddedToast() {
-    Timber.d("Log: displayAddedToast: Started")
     Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
   }
 
   fun displayItemDeletedToast() {
-    Timber.d("Log: displayItemDeletedToast: Started")
     Toast.makeText(activity, resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT).show()
   }
 
@@ -253,24 +241,6 @@ class MainFragment : Fragment(), KodeinAware {
 
   private fun deleteClick(favouriteItem: FavouriteItem) {
     viewModel.deleteItem(favouriteItem)
-  }
-
-
-  fun displayNoFilteredResultsWarning(display: Boolean) {
-    Timber.d("Log: displayNoFilteredResultsWarning: Started with display = $display")
-
-    if(display && (noEntriesWarning.visibility == View.GONE)) {
-      this.noFilteredResultsWarning.visibility = View.VISIBLE
-      this.noFilteredResultsWarningImage.visibility = View.VISIBLE
-    } else {
-      this.noFilteredResultsWarning.visibility = View.GONE
-      this.noFilteredResultsWarningImage.visibility = View.GONE
-    }
-  }
-
-  fun getActiveFilter(): ItemFilter {
-    Timber.d("Log: getActiveFilter: Started")
-    return filterDialog.activeFilter
   }
 
   private fun convertToDarkMode() {

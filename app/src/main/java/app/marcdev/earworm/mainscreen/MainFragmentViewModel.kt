@@ -10,13 +10,12 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
                             private val fileUtils: FileUtils)
   : ViewModel() {
 
-  val displayData = Transformations.map(repository.allItems) { list ->
-    val sortedItems = sortByDateDescending(list.toMutableList())
-    val listWithHeaders = addListHeaders(sortedItems)
-    _displayLoading.value = false
-    _displayNoEntries.value = listWithHeaders.isEmpty()
-    return@map listWithHeaders
-  }
+  private val activeFilter = MutableLiveData<ItemFilter>()
+  private val allItems = repository.allItems
+
+  private val _displayData = MediatorLiveData<List<FavouriteItem>>()
+  val displayData: LiveData<List<FavouriteItem>>
+    get() = _displayData
 
   private val _displayLoading = MutableLiveData<Boolean>()
   val displayLoading: LiveData<Boolean>
@@ -39,9 +38,49 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
     get() = _displaySearchIcon
 
   init {
-    _displayLoading.value = true
     _displayNoEntries.value = false
     _displayNoFilteredResults.value = false
+    _displayData.addSource(activeFilter) { filter ->
+      workOutDisplayData(allItems.value, filter)
+    }
+    _displayData.addSource(allItems) { items ->
+      workOutDisplayData(items, activeFilter.value)
+    }
+  }
+
+  private fun workOutDisplayData(allItems: List<FavouriteItem>?, filter: ItemFilter?) {
+    _displayLoading.value = true
+    displaySearchIconIfNeeded(filter)
+    var finalList: List<FavouriteItem>? = null
+
+    allItems?.let { fullList ->
+      _displayNoEntries.value = fullList.isEmpty()
+
+      val filteredList = if(filter != null) {
+        filterResults(fullList, filter)
+      } else {
+        fullList
+      }
+      val sortedList = sortByDateDescending(filteredList)
+      finalList = addListHeaders(sortedList)
+    }
+
+    _displayData.value = finalList?.toList()
+    _displayLoading.value = false
+  }
+
+  private fun filterResults(allItems: List<FavouriteItem>, filter: ItemFilter): List<FavouriteItem> {
+    val finalList = applyFilter(allItems, filter)
+    _displayNoFilteredResults.value = finalList.isEmpty()
+    return finalList
+  }
+
+  private fun displaySearchIconIfNeeded(filter: ItemFilter?) {
+    if(filter == null) {
+      _displaySearchIcon.value = true
+    } else {
+      _displaySearchIcon.value = filter.searchTerm.isBlank()
+    }
   }
 
   fun deleteItem(item: FavouriteItem) {
@@ -49,6 +88,16 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
       repository.deleteItem(item.id)
       deleteImageIfNecessary(item.imageName)
     }
+  }
+
+  fun search(searchTermArg: String) {
+    val newFilter: ItemFilter? = if(activeFilter.value == null)
+      DEFAULT_FILTER.copy()
+    else
+      activeFilter.value
+
+    newFilter?.searchTerm = searchTermArg
+    activeFilter.value = newFilter
   }
 
   private suspend fun deleteImageIfNecessary(imageName: String) {

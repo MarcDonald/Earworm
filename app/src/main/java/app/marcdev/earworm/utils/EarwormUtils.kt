@@ -38,7 +38,6 @@ const val PREF_CLEAR_INPUTS = "pref_clear_inputs_on_type_change"
  * @param frameId The ID of the frame to display the new fragment in
  */
 fun setFragment(fragment: Fragment, fragmentManager: FragmentManager, frameId: Int) {
-  Timber.d("Log: setFragment: Replacing frame $frameId with fragment $fragment")
   val fragmentTransaction = fragmentManager.beginTransaction()
   fragmentTransaction.replace(frameId, fragment)
   fragmentTransaction.commit()
@@ -51,7 +50,6 @@ fun setFragment(fragment: Fragment, fragmentManager: FragmentManager, frameId: I
  * @param year The year
  */
 fun formatDateForDisplay(day: Int, month: Int, year: Int): String {
-  Timber.d("Log: formatDateForDisplay: Started with day = $day, month = $month, year = $year")
   // Add 1 to month to make it non-zero indexed (January will now be 1 rather than 0)
   return "$day/${month + 1}/$year"
 }
@@ -64,8 +62,6 @@ fun formatDateForDisplay(day: Int, month: Int, year: Int): String {
  * @param isActivated Whether or not the button should be put into the activated state
  */
 fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActivated: Boolean) {
-  Timber.v("Log: changeColorOfImageViewDrawable: Started")
-
   when {
     isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
     (getTheme(context) == DARK_THEME && !isActivated) -> button.setColorFilter(context.getColor(R.color.white60))
@@ -81,8 +77,6 @@ fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActiva
  * @param isActivated Whether or not the button should be put into the activated state
  */
 fun changeColorOfDrawable(context: Context, drawable: Drawable, isActivated: Boolean) {
-  Timber.v("Log: changeColorOfDrawable: Started")
-
   when {
     isActivated -> drawable.setColorFilter(context.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN)
     (getTheme(context) == DARK_THEME && !isActivated) -> drawable.setColorFilter((context.getColor(R.color.white60)), PorterDuff.Mode.SRC_IN)
@@ -106,9 +100,7 @@ fun getMonthName(month: Int, context: Context): String {
  * @param context Context
  */
 fun getArtworkDirectory(context: Context): String {
-  Timber.d("Log: getArtworkDirectory: Started")
   val returnValue = context.filesDir.path + "/artwork/"
-  Timber.d("Log: getArtworkDirectory: Returning $returnValue")
   return returnValue
 }
 

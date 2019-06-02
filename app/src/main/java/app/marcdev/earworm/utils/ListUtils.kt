@@ -9,7 +9,7 @@ import timber.log.Timber
  * @param filter The filter to apply
  * @return Filtered list
  */
-fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): MutableList<FavouriteItem> {
+fun applyFilter(allItems: List<FavouriteItem>, filter: ItemFilter): MutableList<FavouriteItem> {
   val filteredItems = mutableListOf<FavouriteItem>()
   filteredItems.addAll(allItems)
 
@@ -90,7 +90,7 @@ fun applyFilter(allItems: MutableList<FavouriteItem>, filter: ItemFilter): Mutab
  * @param items List to sort
  * @return Sorted list of FavouriteItems
  */
-fun sortByDateDescending(items: MutableList<FavouriteItem>): MutableList<FavouriteItem> {
+fun sortByDateDescending(items: List<FavouriteItem>): MutableList<FavouriteItem> {
   val filteredItems = items.sortedWith(
     compareBy(
       { -it.year },
@@ -106,7 +106,7 @@ fun sortByDateDescending(items: MutableList<FavouriteItem>): MutableList<Favouri
  * @param allItems List to add headers to (sorted by date descending)
  * @return List with headers every new month
  */
-fun addListHeaders(allItems: MutableList<FavouriteItem>): List<FavouriteItem> {
+fun addListHeaders(allItems: List<FavouriteItem>): List<FavouriteItem> {
   val listWithHeaders = mutableListOf<FavouriteItem>()
   listWithHeaders.addAll(allItems)
 
@@ -124,7 +124,6 @@ fun addListHeaders(allItems: MutableList<FavouriteItem>): List<FavouriteItem> {
        || (allItems[x].month > lastMonth) && (allItems[x].year < lastYear)
        || (allItems[x].year < lastYear)
     ) {
-      Timber.v("Log: addListHeaders: x = $x")
       val header = FavouriteItem("", "", "", "", 0, allItems[x].month, allItems[x].year, HEADER, "")
       lastMonth = allItems[x].month
       lastYear = allItems[x].year
