@@ -169,7 +169,7 @@ class MainFragment : Fragment(), KodeinAware {
   }
 
   private fun filterOkClick(filter: ItemFilter) {
-    viewModel.applyFilter(filter)
+    viewModel.filter(filter)
   }
 
   private fun setupRecycler(view: View) {

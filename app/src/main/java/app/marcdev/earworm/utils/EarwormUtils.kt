@@ -8,7 +8,6 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import app.marcdev.earworm.R
-import timber.log.Timber
 
 // Song types
 const val SONG = 0
@@ -100,8 +99,7 @@ fun getMonthName(month: Int, context: Context): String {
  * @param context Context
  */
 fun getArtworkDirectory(context: Context): String {
-  val returnValue = context.filesDir.path + "/artwork/"
-  return returnValue
+  return context.filesDir.path + "/artwork/"
 }
 
 /**
@@ -110,9 +108,8 @@ fun getArtworkDirectory(context: Context): String {
  */
 fun getTheme(context: Context): Int {
   val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-  val theme = prefs.getString("pref_theme", context.resources.getString(R.string.light))
 
-  return when(theme) {
+  return when(prefs.getString("pref_theme", context.resources.getString(R.string.light))) {
     context.resources.getString(R.string.light) -> LIGHT_THEME
     context.resources.getString(R.string.dark) -> DARK_THEME
     else -> -1

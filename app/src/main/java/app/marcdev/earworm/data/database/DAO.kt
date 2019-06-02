@@ -12,7 +12,7 @@ interface DAO {
   @Update
   fun updateItem(item: FavouriteItem)
 
-  @Query("SELECT * FROM FavouriteItems")
+  @Query("SELECT * FROM FavouriteItems ORDER BY year DESC, month DESC, day DESC, id DESC")
   fun getAllItems(): LiveData<List<FavouriteItem>>
 
   @Query("SELECT * FROM FavouriteItems where id = :id")
