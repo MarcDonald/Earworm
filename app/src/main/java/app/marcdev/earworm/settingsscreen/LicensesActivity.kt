@@ -6,31 +6,26 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import app.marcdev.earworm.R
-import app.marcdev.earworm.utils.DARK_THEME
+import app.marcdev.earworm.internal.DARK_THEME
+import app.marcdev.earworm.internal.base.EarwormActivity
 import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import app.marcdev.earworm.utils.getTheme
-import timber.log.Timber
 
-class LicensesActivity : AppCompatActivity() {
+class LicensesActivity : EarwormActivity() {
 
   private var isDarkMode: Boolean = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    Timber.d("Log: onCreate: Started")
-
     /* Theme changes must be done before super.onCreate otherwise it will be overridden with the value
       in the manifest */
-    if(getTheme(applicationContext) == DARK_THEME) {
-      Timber.v("Log: onCreate: Is dark mode")
+    isDarkMode = if(getTheme(applicationContext) == DARK_THEME) {
       setTheme(R.style.Earworm_DarkTheme)
-      isDarkMode = true
+      true
     } else {
-      Timber.v("Log: onCreate: Is not dark mode")
       setTheme(R.style.Earworm_LightTheme)
-      isDarkMode = false
+      false
     }
 
     super.onCreate(savedInstanceState)
@@ -40,7 +35,6 @@ class LicensesActivity : AppCompatActivity() {
   }
 
   private fun bindViews() {
-    Timber.v("Log: bindViews: Started")
     val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
     backButton.setOnClickListener(backOnClickListener)
     if(isDarkMode) {
@@ -68,12 +62,10 @@ class LicensesActivity : AppCompatActivity() {
   }
 
   private val backOnClickListener = View.OnClickListener {
-    Timber.d("Log: backClick: Started")
     finish()
   }
 
   private val glideOnClickListener = View.OnClickListener {
-    Timber.d("Log: glideClick: Started")
     val uriUrl = Uri.parse("https://github.com/bumptech/glide")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl
@@ -81,7 +73,6 @@ class LicensesActivity : AppCompatActivity() {
   }
 
   private val timberOnClickListener = View.OnClickListener {
-    Timber.d("Log: timberClick: Started")
     val uriUrl = Uri.parse("https://github.com/JakeWharton/timber")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl
@@ -89,7 +80,6 @@ class LicensesActivity : AppCompatActivity() {
   }
 
   private val materialIconsOnClickListener = View.OnClickListener {
-    Timber.d("Log: materialIconsClick: Started")
     val uriUrl = Uri.parse("https://github.com/google/material-design-icons")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl
@@ -97,7 +87,6 @@ class LicensesActivity : AppCompatActivity() {
   }
 
   private val materialComponentsOnClickListener = View.OnClickListener {
-    Timber.d("Log: materialComponentsClick: Started")
     val uriUrl = Uri.parse("https://github.com/material-components/material-components-android")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl
@@ -105,7 +94,6 @@ class LicensesActivity : AppCompatActivity() {
   }
 
   private val filePickerOnClickListener = View.OnClickListener {
-    Timber.d("Log: filePickerClick: Started")
     val uriUrl = Uri.parse("https://github.com/DroidNinja/Android-FilePicker")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl

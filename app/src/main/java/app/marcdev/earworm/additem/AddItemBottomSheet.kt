@@ -2,201 +2,119 @@ package app.marcdev.earworm.additem
 
 import android.Manifest
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import app.marcdev.earworm.R
-import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.uicomponents.RoundedBottomDialogFragment
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.internal.ALBUM
+import app.marcdev.earworm.internal.ARTIST
+import app.marcdev.earworm.internal.PREF_CLEAR_INPUTS
+import app.marcdev.earworm.internal.SONG
+import app.marcdev.earworm.internal.base.EarwormBottomSheetDialogFragment
+import app.marcdev.earworm.uicomponents.AddItemDatePickerDialog
+import app.marcdev.earworm.uicomponents.BinaryOptionDialog
+import app.marcdev.earworm.utils.changeColorOfDrawable
+import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
-import timber.log.Timber
-import java.util.*
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
-class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
+class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
+  override val kodein: Kodein by closestKodein()
 
+  // <editor-fold desc="View Model">
+  private val viewModelFactory: AddItemViewModelFactory by instance()
+  private lateinit var viewModel: AddItemViewModel
+  // </editor-fold>
+
+  // <editor-fold desc="UI Components">
   private lateinit var saveButton: MaterialButton
   private lateinit var primaryInput: EditText
   private lateinit var secondaryInput: EditText
   private lateinit var songButton: ImageView
   private lateinit var albumButton: ImageView
   private lateinit var artistButton: ImageView
-  private lateinit var presenter: AddItemPresenter
-  private lateinit var datePickerDialog: Dialog
-  private lateinit var datePicker: DatePicker
-  private lateinit var datePickerOk: MaterialButton
-  private lateinit var datePickerCancel: MaterialButton
+  private lateinit var datePickerDialog: AddItemDatePickerDialog
   private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
-  private lateinit var confirmDeleteDialog: Dialog
-  private val dateChosen = Calendar.getInstance()
-  // If the itemID is anything other than -1 then it is in edit mode
-  private var itemId: Int = -1
+  private lateinit var confirmImageDeleteDialog: BinaryOptionDialog
+  // </editor-fold>
 
-  private var type: Int = 0
-  private var recyclerUpdateView: RecyclerUpdateView? = null
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddItemViewModel::class.java)
+  }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = inflater.inflate(R.layout.dialog_add_item, container, false)
-    presenter = AddItemPresenterImpl(this, activity!!.applicationContext)
     bindViews(view)
+    setupObservers()
 
-    arguments?.let {
-      Timber.d("Log: onCreateView: Arguments not null")
-      this.itemId = arguments!!.getInt("item_id")
-      presenter.getItem(itemId)
-    } ?: run {
-      Timber.d("Log: onCreateView: Arguments null")
-      setupDefaults()
+    var itemId = -1
+    if(arguments != null) {
+      itemId = requireArguments().getInt("item_id", -1)
     }
+    viewModel.passArguments(itemId)
+
     return view
   }
 
-  override fun convertToEditMode(item: FavouriteItem) {
-    Timber.d("Log: convertToEditMode: Started")
-
-    when(item.type) {
-      SONG -> {
-        activateButton(songButton)
-        primaryInput.setText(item.songName)
-        secondaryInput.setText(item.artistName)
-      }
-
-      ALBUM -> {
-        activateButton(albumButton)
-        primaryInput.setText(item.albumName)
-        secondaryInput.setText(item.artistName)
-      }
-
-      ARTIST -> {
-        activateButton(artistButton)
-        primaryInput.setText(item.artistName)
-        secondaryInput.setText(item.genre)
-      }
-    }
-
-    if(item.imageName.isNotBlank()) {
-      presenter.updateFilePath(getArtworkDirectory(requireContext()) + item.imageName)
-    }
-    updateDateAndDisplay(item.day, item.month, item.year)
-  }
-
-  fun bindRecyclerUpdateView(view: RecyclerUpdateView) {
-    Timber.d("Log: bindRecyclerUpdateView: Started")
-    this.recyclerUpdateView = view
-  }
-
   private fun bindViews(view: View) {
-    Timber.v("Log: bindViews: Started")
-    this.saveButton = view.findViewById(R.id.btn_add_item_save)
-    saveButton.setOnClickListener(saveOnClickListener)
+    saveButton = view.findViewById(R.id.btn_add_item_save)
+    saveButton.setOnClickListener {
+      viewModel.save(primaryInput.text.toString(), secondaryInput.text.toString())
+    }
 
-    this.primaryInput = view.findViewById(R.id.edt_item_primary_input)
-    this.secondaryInput = view.findViewById(R.id.edt_item_secondary_input)
+    primaryInput = view.findViewById(R.id.edt_item_primary_input)
+    secondaryInput = view.findViewById(R.id.edt_item_secondary_input)
 
-    this.songButton = view.findViewById(R.id.btn_add_item_song_choice)
-    songButton.setOnClickListener(songOnClickListener)
+    songButton = view.findViewById(R.id.btn_add_item_song_choice)
+    songButton.setOnClickListener { viewModel.setType(SONG) }
 
-    this.albumButton = view.findViewById(R.id.btn_add_item_album_choice)
-    albumButton.setOnClickListener(albumOnClickListener)
+    albumButton = view.findViewById(R.id.btn_add_item_album_choice)
+    albumButton.setOnClickListener { viewModel.setType(ALBUM) }
 
-    this.artistButton = view.findViewById(R.id.btn_add_item_artist_choice)
-    artistButton.setOnClickListener(artistOnClickListener)
+    artistButton = view.findViewById(R.id.btn_add_item_artist_choice)
+    artistButton.setOnClickListener { viewModel.setType(ARTIST) }
 
-    this.datePickerDialog = Dialog(this.requireActivity())
-    datePickerDialog.setContentView(R.layout.dialog_datepicker)
-    datePickerDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    datePickerDialog = AddItemDatePickerDialog(viewModel.date) { day, month, year ->
+      viewModel.setDate(day, month, year)
+      datePickerDialog.dismiss()
+    }
 
-    this.datePicker = datePickerDialog.findViewById(R.id.datepicker)
+    dateChip = view.findViewById(R.id.chip_add_item_date_display)
+    dateChip.setOnClickListener {
+      datePickerDialog.show(requireFragmentManager(), "Add Item Date Picker Dialog")
+    }
 
-    this.datePickerOk = datePickerDialog.findViewById(R.id.btn_datepicker_ok)
-    datePickerOk.setOnClickListener(dateOnOkClickListener)
-
-    this.datePickerCancel = datePickerDialog.findViewById(R.id.btn_datepicker_cancel)
-    datePickerCancel.setOnClickListener(dateOnCancelClickListener)
-
-    this.dateChip = view.findViewById(R.id.chip_add_item_date_display)
-    dateChip.setOnClickListener(dateOnClickListener)
-
-    this.iconImageView = view.findViewById(R.id.img_add_icon)
+    iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
-    iconImageView.setOnLongClickListener(iconOnLongClickListener)
+    iconImageView.setOnLongClickListener { confirmImageDeleteDialog.show(requireFragmentManager(), "Confirm Image Delete Dialog"); true }
     // Convert to dark mode if needed
     changeColorOfDrawable(requireContext(), iconImageView.drawable, false)
 
-    initEditDialog()
-  }
-
-  private val saveOnClickListener = View.OnClickListener {
-    Timber.d("Log: SaveClick: Clicked")
-    if(itemId == -1) {
-      Timber.d("Log: saveOnClickListener: Adding new item")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, null)
-    } else {
-      Timber.d("Log: saveOnClickListener: Updating item with id = $itemId")
-      presenter.addItem(primaryInput.text.toString(), secondaryInput.text.toString(), type, dateChosen, itemId)
-    }
-  }
-
-  private val dateOnClickListener = View.OnClickListener {
-    Timber.d("Log: DateClick: Clicked")
-    datePicker.updateDate(dateChosen.get(Calendar.YEAR), dateChosen.get(Calendar.MONTH), dateChosen.get(Calendar.DAY_OF_MONTH))
-    datePickerDialog.show()
-  }
-
-  private val dateOnOkClickListener = View.OnClickListener {
-    Timber.d("Log: DateOkClick: Clicked")
-
-    val day = datePicker.dayOfMonth
-    val monthRaw = datePicker.month
-    val year = datePicker.year
-
-    updateDateAndDisplay(day, monthRaw, year)
-
-    datePickerDialog.dismiss()
-  }
-
-  private val dateOnCancelClickListener = View.OnClickListener {
-    Timber.d("Log: DateCancelClick: Clicked")
-    datePickerDialog.dismiss()
-  }
-
-  private val songOnClickListener = View.OnClickListener {
-    Timber.d("Log: SongClick: Clicked")
-    activateButtonIfNecessary(songButton)
-  }
-
-  private val albumOnClickListener = View.OnClickListener {
-    Timber.d("Log: AlbumClick: Clicked")
-    activateButtonIfNecessary(albumButton)
-  }
-
-  private val artistOnClickListener = View.OnClickListener {
-    Timber.d("Log: ArtistClick: Clicked")
-    activateButtonIfNecessary(artistButton)
+    initImageDeleteDialog()
   }
 
   private val iconOnClickListener = View.OnClickListener {
-    Timber.d("Log: IconClick: Started")
-
     if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
       askForStoragePermissions()
     } else {
@@ -207,37 +125,19 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     }
   }
 
-  private val iconOnLongClickListener = View.OnLongClickListener {
-    Timber.d("Log: IconLongClick: Started")
-
-    confirmDeleteDialog.show()
-    return@OnLongClickListener true
-  }
-
-  private fun initEditDialog() {
-    this.confirmDeleteDialog = Dialog(requireContext())
-    confirmDeleteDialog.setContentView(R.layout.dialog_delete_image)
-    confirmDeleteDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-    val confirmDeleteButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_confirm)
-    confirmDeleteButton.setOnClickListener(confirmDeleteOnClickListener)
-    val cancelButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_cancel)
-    cancelButton.setOnClickListener(cancelDeleteOnClickListener)
-  }
-
-  private val confirmDeleteOnClickListener = View.OnClickListener {
-    Timber.d("Log: ConfirmDelete: Clicked")
-    presenter.updateFilePath("")
-    confirmDeleteDialog.dismiss()
-  }
-
-  private val cancelDeleteOnClickListener = View.OnClickListener {
-    Timber.d("Log: CancelDelete: Clicked")
-    confirmDeleteDialog.dismiss()
+  private fun initImageDeleteDialog() {
+    val dialogBuilder = BinaryOptionDialog.Builder()
+    dialogBuilder
+      .setTitle(resources.getString(R.string.confirm_image_deletion))
+      .setMessageVisible(false)
+      .setPositiveButton(resources.getString(R.string.cancel), {}, true)
+      .setNegativeButton(resources.getString(R.string.delete), {
+        viewModel.removeImage()
+      }, true)
+    confirmImageDeleteDialog = dialogBuilder.build()
   }
 
   private fun askForStoragePermissions() {
-    Timber.d("Log: askForStoragePermissions: Started")
     ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
   }
 
@@ -247,66 +147,100 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     if(requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
       val photoPathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
       val photoPath = photoPathArray[0]
-      presenter.updateFilePath(photoPath)
-
-      displayImage(photoPath)
+      viewModel.setNewImage(photoPath)
     }
   }
 
-  private fun setupDefaults() {
-    Timber.d("Log: setupDefaults: Started")
-    type = SONG
-    changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, true)
-    changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, false)
-    changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, false)
-    dateChip.text = resources.getString(R.string.today)
+  private fun setupObservers() {
+    viewModel.displayAdded.observe(this, Observer { value ->
+      value?.let { show ->
+        if(show)
+          Toast.makeText(requireActivity(), resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
+      }
+    })
+
+    viewModel.displayEmpty.observe(this, Observer { value ->
+      value?.let { show ->
+        if(show)
+          Toast.makeText(requireActivity(), resources.getString(R.string.empty), Toast.LENGTH_SHORT).show()
+      }
+    })
+
+    viewModel.displayError.observe(this, Observer { value ->
+      value?.let { show ->
+        if(show)
+          Toast.makeText(requireActivity(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
+      }
+    })
+
+    viewModel.selectedType.observe(this, Observer { value ->
+      value?.let { type ->
+        setTypeSelected(type)
+      }
+    })
+
+    viewModel.dateDisplay.observe(this, Observer { value ->
+      value?.let { dateToDisplay ->
+        if(dateToDisplay.isBlank())
+          dateChip.text = resources.getString(R.string.today)
+        else
+          dateChip.text = dateToDisplay
+      }
+    })
+
+    viewModel.primaryInputDisplay.observe(this, Observer { value ->
+      value?.let { input ->
+        primaryInput.setText(input)
+        primaryInput.setSelection(input.length)
+      }
+    })
+
+    viewModel.secondaryInputDisplay.observe(this, Observer { value ->
+      value?.let { input ->
+        secondaryInput.setText(input)
+      }
+    })
+
+    viewModel.displayImage.observe(this, Observer { value ->
+      value?.let { filePath ->
+        displayImage(filePath)
+      }
+    })
+
+    viewModel.dismiss.observe(this, Observer { value ->
+      value?.let { dismiss ->
+        if(dismiss)
+          dismiss()
+      }
+    })
   }
 
-  private fun activateButtonIfNecessary(button: ImageView) {
-    Timber.d("Log: activateButtonIfNecessary: Started")
-
-    if(type == SONG && button == songButton
-       || type == ALBUM && button == albumButton
-       || type == ARTIST && button == artistButton
-    ) {
-      Timber.d("Log: activateButtonIfNecessary: No need to update")
-    } else {
-      activateButton(button)
-    }
-  }
-
-  private fun activateButton(button: ImageView) {
-    Timber.d("Log: activateButtonIfNecessary: Activating button $button")
-
-    when(button) {
-      songButton -> {
-        changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, true)
-        changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, false)
-        changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, false)
-        type = SONG
+  private fun setTypeSelected(type: Int) {
+    when(type) {
+      SONG -> {
+        changeColorOfImageViewDrawable(requireActivity(), songButton, true)
+        changeColorOfImageViewDrawable(requireActivity(), albumButton, false)
+        changeColorOfImageViewDrawable(requireActivity(), artistButton, false)
         primaryInput.hint = resources.getString(R.string.song_name)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
-
-      albumButton -> {
-        changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, false)
-        changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, true)
-        changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, false)
-        type = ALBUM
+      ALBUM -> {
+        changeColorOfImageViewDrawable(requireActivity(), songButton, false)
+        changeColorOfImageViewDrawable(requireActivity(), albumButton, true)
+        changeColorOfImageViewDrawable(requireActivity(), artistButton, false)
         primaryInput.hint = resources.getString(R.string.album)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
-
-      artistButton -> {
-        changeColorOfImageViewDrawable(activity!!.applicationContext, songButton, false)
-        changeColorOfImageViewDrawable(activity!!.applicationContext, albumButton, false)
-        changeColorOfImageViewDrawable(activity!!.applicationContext, artistButton, true)
-        type = ARTIST
+      ARTIST -> {
+        changeColorOfImageViewDrawable(requireActivity(), songButton, false)
+        changeColorOfImageViewDrawable(requireActivity(), albumButton, false)
+        changeColorOfImageViewDrawable(requireActivity(), artistButton, true)
         primaryInput.hint = resources.getString(R.string.artist)
         secondaryInput.hint = resources.getString(R.string.genre)
       }
     }
 
+    // TODO convert to switch preference that uses boolean
     if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(PREF_CLEAR_INPUTS, resources.getString(R.string.yes)) == resources.getString(R.string.yes)) {
       primaryInput.setText("")
       secondaryInput.setText("")
@@ -314,51 +248,7 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
     }
   }
 
-  private fun updateDateAndDisplay(day: Int, month: Int, year: Int) {
-    val todayCalendar = Calendar.getInstance()
-    val todayDay = todayCalendar.get(Calendar.DAY_OF_MONTH)
-    val todayMonthRaw = todayCalendar.get(Calendar.MONTH)
-    val todayYear = todayCalendar.get(Calendar.YEAR)
-
-    if(day == todayDay
-       && month == todayMonthRaw
-       && year == todayYear
-    ) {
-      // Display "Today" on chip
-      datePickerDialog.dismiss()
-      dateChip.text = resources.getString(R.string.today)
-      setDate(todayDay, todayMonthRaw, todayYear)
-    } else {
-
-      val date = formatDateForDisplay(day, month, year)
-      dateChip.text = date
-
-      setDate(day, month, year)
-      datePickerDialog.dismiss()
-    }
-  }
-
-  private fun setDate(day: Int, month: Int, year: Int) {
-    Timber.d("Log: setDate: Started with day = $day, month = $month, year = $year")
-    dateChosen.set(Calendar.DAY_OF_MONTH, day)
-    dateChosen.set(Calendar.MONTH, month)
-    dateChosen.set(Calendar.YEAR, year)
-  }
-
-  override fun saveCallback() {
-    Timber.d("Log: saveCallback: Started")
-    if(recyclerUpdateView == null) {
-      Timber.e("Log: saveCallback: RecyclerUpdateView is null, cannot update recycler")
-    } else {
-      recyclerUpdateView!!.fillData()
-    }
-    Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
-    dismiss()
-  }
-
-  override fun displayImage(imagePath: String) {
-    Timber.d("Log: displayImage: Started with imagePath = $imagePath")
-
+  private fun displayImage(imagePath: String) {
     if(imagePath.isBlank()) {
       Glide.with(this)
         .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, null))
@@ -372,15 +262,5 @@ class AddItemBottomSheet : RoundedBottomDialogFragment(), AddItemView {
         .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
         .into(iconImageView)
     }
-  }
-
-  override fun displayEmptyToast() {
-    Timber.d("Log: displayEmptyToast: Started")
-    Toast.makeText(activity, resources.getString(R.string.empty), Toast.LENGTH_SHORT).show()
-  }
-
-  override fun displayErrorToast() {
-    Timber.d("Log: displayErrorToast: Started")
-    Toast.makeText(activity, resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
   }
 }

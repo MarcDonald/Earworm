@@ -11,7 +11,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import app.marcdev.earworm.BuildConfig
 import app.marcdev.earworm.R
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.internal.*
+import app.marcdev.earworm.utils.changeColorOfDrawable
 import timber.log.Timber
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -52,41 +53,35 @@ class SettingsFragment : PreferenceFragmentCompat() {
   }
 
   private val themeChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-    Timber.d("Log: themeChangeListener: Theme changed to $newValue")
     requireActivity().recreate()
     matchSummaryToSelection(preference, newValue.toString())
     true
   }
 
   private val clearInputsChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-    Timber.d("Log: clearInputsChangeListener: Value changed to $newValue")
     matchSummaryToSelection(preference, newValue.toString())
     true
   }
 
   private val resetTipsListener = Preference.OnPreferenceClickListener {
-    Timber.d("Log: ResetTipsClick: Clicked")
     prefs.edit().putBoolean(PREF_SHOW_TIPS, true).apply()
     Toast.makeText(requireContext(), resources.getString(R.string.reset_tips_confirmation), Toast.LENGTH_LONG).show()
     return@OnPreferenceClickListener true
   }
 
   private val versionClickListener = Preference.OnPreferenceClickListener {
-    Timber.d("Log: versionClick: Started")
     val versionCodeString = resources.getString(R.string.build_code)
     Toast.makeText(requireContext(), "$versionCodeString: ${BuildConfig.VERSION_CODE}", Toast.LENGTH_SHORT).show()
     true
   }
 
   private val licensesOnClickListener = Preference.OnPreferenceClickListener {
-    Timber.d("Log: licensesClick: Started")
     val intent = Intent(requireContext(), LicensesActivity::class.java)
     startActivity(intent)
     true
   }
 
   private val githubOnClickListener = Preference.OnPreferenceClickListener {
-    Timber.d("Log: githubClick: Started")
     val uriUrl = Uri.parse("https://github.com/MarcDonald/Earworm")
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl
@@ -95,15 +90,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
   }
 
   private fun matchSummaryToSelection(preference: Preference, value: String) {
-    Timber.d("Log: themeOnChangeListener: Started")
-    Timber.d("Log: themeOnChangeListener: Value = $value")
-
     if(preference is ListPreference) {
       val index = preference.findIndexOfValue(value)
 
       preference.setSummary(
         if(index >= 0) {
-          Timber.d("Log: BindPreferenceSummaryToValue: Setting summary to ${preference.entries[index]}")
           preference.entries[index]
         } else {
           Timber.w("Log: BindPreferenceSummaryToValue: Index < 0")
@@ -111,7 +102,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         })
 
     } else {
-      Timber.d("Log: BindPreferenceSummaryToValue: Setting summary to $value")
       preference.summary = value
     }
   }

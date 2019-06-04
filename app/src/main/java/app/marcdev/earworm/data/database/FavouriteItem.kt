@@ -1,9 +1,9 @@
-package app.marcdev.earworm.database
+package app.marcdev.earworm.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "favourite_items")
+@Entity(tableName = "FavouriteItems")
 data class FavouriteItem(
   var songName: String,
   var albumName: String,
@@ -17,5 +17,5 @@ data class FavouriteItem(
 ) {
 
   @PrimaryKey(autoGenerate = true)
-  var id: Int? = null
+  var id: Int = 0
 }

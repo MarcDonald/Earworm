@@ -103,14 +103,6 @@
     <item name="android:background">?attr/bottomSheetBackground</item>
   </style>
 
-  <style name="Earworm.DialogTheme" parent="Theme.MaterialComponents.Dialog">
-    <item name="colorAccent">@color/colorAccent</item>
-    <item name="colorSecondary">@color/colorAccent</item>
-    <item name="colorPositive">@color/positive</item>
-    <item name="colorNegative">@color/negative</item>
-    <item name="android:background">?attr/dialogBackground</item>
-  </style>
-
   <!--Card View-->
   <style name="Earworm.CardView" parent="CardView.Light">
     <item name="android:layout_margin">@dimen/marginStandard</item>"
