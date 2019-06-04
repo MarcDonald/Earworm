@@ -17,10 +17,15 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import app.marcdev.earworm.R
+import app.marcdev.earworm.internal.ALBUM
+import app.marcdev.earworm.internal.ARTIST
+import app.marcdev.earworm.internal.PREF_CLEAR_INPUTS
+import app.marcdev.earworm.internal.SONG
 import app.marcdev.earworm.internal.base.EarwormBottomSheetDialogFragment
 import app.marcdev.earworm.uicomponents.AddItemDatePickerDialog
 import app.marcdev.earworm.uicomponents.BinaryOptionDialog
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.utils.changeColorOfDrawable
+import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton

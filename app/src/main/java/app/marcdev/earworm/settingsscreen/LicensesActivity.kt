@@ -6,15 +6,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import app.marcdev.earworm.R
-import app.marcdev.earworm.utils.DARK_THEME
+import app.marcdev.earworm.internal.DARK_THEME
+import app.marcdev.earworm.internal.base.EarwormActivity
 import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import app.marcdev.earworm.utils.getTheme
 import timber.log.Timber
 
-class LicensesActivity : AppCompatActivity() {
+class LicensesActivity : EarwormActivity() {
 
   private var isDarkMode: Boolean = false
 

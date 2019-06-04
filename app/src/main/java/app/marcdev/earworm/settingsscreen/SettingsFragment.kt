@@ -11,7 +11,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import app.marcdev.earworm.BuildConfig
 import app.marcdev.earworm.R
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.internal.*
+import app.marcdev.earworm.utils.changeColorOfDrawable
 import timber.log.Timber
 
 class SettingsFragment : PreferenceFragmentCompat() {

@@ -1,16 +1,15 @@
 package app.marcdev.earworm
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import app.marcdev.earworm.internal.DARK_THEME
+import app.marcdev.earworm.internal.LIGHT_THEME
+import app.marcdev.earworm.internal.base.EarwormActivity
 import app.marcdev.earworm.mainscreen.MainFragment
-import app.marcdev.earworm.utils.DARK_THEME
-import app.marcdev.earworm.utils.LIGHT_THEME
 import app.marcdev.earworm.utils.getTheme
-import app.marcdev.earworm.utils.setFragment
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : EarwormActivity() {
 
   private lateinit var mainFrame: CoordinatorLayout
   private var activityTheme: Int = -1

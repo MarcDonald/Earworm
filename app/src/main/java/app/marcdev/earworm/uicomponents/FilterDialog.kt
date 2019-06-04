@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import app.marcdev.earworm.R
+import app.marcdev.earworm.internal.DEFAULT_FILTER
 import app.marcdev.earworm.internal.base.EarwormDialogFragment
-import app.marcdev.earworm.utils.DEFAULT_FILTER
 import app.marcdev.earworm.utils.ItemFilter
 import app.marcdev.earworm.utils.formatDateForDisplay
 import com.google.android.material.button.MaterialButton

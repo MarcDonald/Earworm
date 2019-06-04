@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.data.database.FavouriteItem
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.internal.*
 
 class MainRecyclerAdapter(context: Context,
                           private val itemClick: () -> Unit,

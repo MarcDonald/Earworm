@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.internal.ALBUM
+import app.marcdev.earworm.internal.ARTIST
+import app.marcdev.earworm.internal.SONG
+import app.marcdev.earworm.utils.FileUtils
+import app.marcdev.earworm.utils.formatDateForDisplay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
@@ -191,7 +195,7 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
     val displayValue = if(day == today.get(Calendar.DAY_OF_MONTH) && month == today.get(Calendar.MONTH) && year == today.get(Calendar.YEAR)) {
       ""
     } else {
-      formatDateForDisplay(day, month, year)
+      formatDateForDisplay(_date)
     }
     _dateDisplay.value = displayValue
   }

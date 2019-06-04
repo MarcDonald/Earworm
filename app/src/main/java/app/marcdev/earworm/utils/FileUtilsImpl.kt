@@ -7,7 +7,7 @@ import java.io.File
 class FileUtilsImpl(private val context: Context) : FileUtils {
 
   override fun deleteImage(imageName: String) {
-    val filePath = getArtworkDirectory(context) + imageName
+    val filePath = artworkDirectory + imageName
     val file = File(filePath)
     if(file.exists()) {
       file.delete()
@@ -32,5 +32,4 @@ class FileUtilsImpl(private val context: Context) : FileUtils {
 
   override val artworkDirectory: String
     get() = context.filesDir.path + "/artwork/"
-
 }

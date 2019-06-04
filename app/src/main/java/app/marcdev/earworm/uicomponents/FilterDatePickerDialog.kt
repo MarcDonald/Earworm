@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import app.marcdev.earworm.R
+import app.marcdev.earworm.internal.DEFAULT_FILTER
 import app.marcdev.earworm.internal.base.EarwormDialogFragment
-import app.marcdev.earworm.utils.DEFAULT_FILTER
 import com.google.android.material.button.MaterialButton
 import java.util.*
 

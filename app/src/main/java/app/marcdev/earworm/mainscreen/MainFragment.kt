@@ -22,11 +22,16 @@ import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.additem.AddItemBottomSheet
 import app.marcdev.earworm.data.database.FavouriteItem
+import app.marcdev.earworm.internal.DARK_THEME
+import app.marcdev.earworm.internal.PREF_SHOW_TIPS
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.BinaryOptionDialog
 import app.marcdev.earworm.uicomponents.FilterDialog
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.utils.ItemFilter
+import app.marcdev.earworm.utils.changeColorOfDrawable
+import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
+import app.marcdev.earworm.utils.getTheme
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
@@ -233,7 +238,7 @@ class MainFragment : Fragment(), KodeinAware {
 
   private fun itemClick() {
     val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-    if(prefs.getBoolean("pref_show_tips", true)) {
+    if(prefs.getBoolean(PREF_SHOW_TIPS, true)) {
       val snackbar = Snackbar.make(requireView(), resources.getString(R.string.long_click_hint), Snackbar.LENGTH_SHORT)
       snackbar.setAction(resources.getString(R.string.dont_show)) {
         prefs.edit().putBoolean("pref_show_tips", false).apply()

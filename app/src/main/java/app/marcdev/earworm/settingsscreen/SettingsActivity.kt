@@ -3,15 +3,14 @@ package app.marcdev.earworm.settingsscreen
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import app.marcdev.earworm.R
-import app.marcdev.earworm.utils.DARK_THEME
+import app.marcdev.earworm.internal.DARK_THEME
+import app.marcdev.earworm.internal.base.EarwormActivity
 import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import app.marcdev.earworm.utils.getTheme
-import app.marcdev.earworm.utils.setFragment
 import timber.log.Timber
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : EarwormActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     Timber.v("Log: onCreate: Started")

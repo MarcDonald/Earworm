@@ -3,7 +3,9 @@ package app.marcdev.earworm.mainscreen
 import androidx.lifecycle.*
 import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
-import app.marcdev.earworm.utils.*
+import app.marcdev.earworm.internal.*
+import app.marcdev.earworm.utils.FileUtils
+import app.marcdev.earworm.utils.ItemFilter
 import kotlinx.coroutines.launch
 
 class MainFragmentViewModel(private val repository: FavouriteItemRepository,
