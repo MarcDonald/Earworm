@@ -5,12 +5,11 @@ import android.widget.TextView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.formatDateForDisplay
-import timber.log.Timber
 
 class MainRecyclerViewHolderGenre(itemView: View,
-                                  editClick: (FavouriteItem) -> Unit,
-                                  deleteClick: (FavouriteItem) -> Unit)
-  : MainRecyclerViewHolder(itemView, editClick, deleteClick) {
+                                  itemClick: () -> Unit,
+                                  itemLongClick: (FavouriteItem) -> Unit)
+  : MainRecyclerViewHolder(itemView, itemClick, itemLongClick) {
 
   private var genreNameDisplay: TextView = itemView.findViewById(R.id.txt_genreName)
   private var genreDateDisplay: TextView = itemView.findViewById(R.id.txt_genreDate)

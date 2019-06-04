@@ -9,12 +9,11 @@ import app.marcdev.earworm.utils.formatDateForDisplay
 import app.marcdev.earworm.utils.getArtworkDirectory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import timber.log.Timber
 
 class MainRecyclerViewHolderArtist(itemView: View,
-                                   editClick: (FavouriteItem) -> Unit,
-                                   deleteClick: (FavouriteItem) -> Unit)
-  : MainRecyclerViewHolder(itemView, editClick, deleteClick) {
+                                   itemClick: () -> Unit,
+                                   itemLongClick: (FavouriteItem) -> Unit)
+  : MainRecyclerViewHolder(itemView, itemClick, itemLongClick) {
 
   private val artistNameDisplay: TextView = itemView.findViewById(R.id.txt_artistName)
   private val artistGenreDisplay: TextView = itemView.findViewById(R.id.txt_artistGenre)

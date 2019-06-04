@@ -26,6 +26,13 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/txt_binary_dialog_title" />
 
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/gd_binary_option_50_vert"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.5" />
+
   <com.google.android.material.button.MaterialButton
     android:id="@+id/btn_binary_dialog_negative"
     android:layout_width="wrap_content"
@@ -34,6 +41,7 @@
     android:layout_margin="@dimen/marginStandard"
     android:layout_marginBottom="@dimen/marginStandard"
     android:text="@string/no"
+    app:layout_constraintEnd_toStartOf="@id/gd_binary_option_50_vert"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/txt_binary_dialog_message" />
@@ -45,6 +53,7 @@
     android:layout_margin="@dimen/marginStandard"
     android:text="@string/yes"
     style="@style/PositiveButton"
+    app:layout_constraintStart_toEndOf="@id/gd_binary_option_50_vert"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@id/txt_binary_dialog_message" />

@@ -2,13 +2,17 @@ package app.marcdev.earworm.mainscreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,9 +24,11 @@ import app.marcdev.earworm.additem.AddItemBottomSheet
 import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
+import app.marcdev.earworm.uicomponents.BinaryOptionDialog
 import app.marcdev.earworm.uicomponents.FilterDialog
 import app.marcdev.earworm.utils.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -174,7 +180,7 @@ class MainFragment : Fragment(), KodeinAware {
 
   private fun setupRecycler(view: View) {
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
-    this.recyclerAdapter = MainRecyclerAdapter(requireContext(), ::editClick, ::deleteClick)
+    this.recyclerAdapter = MainRecyclerAdapter(requireContext(), ::itemClick, ::itemLongClick)
     recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
   }
@@ -225,12 +231,30 @@ class MainFragment : Fragment(), KodeinAware {
     })
   }
 
-  fun displayAddedToast() {
-    Toast.makeText(activity, resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
+  private fun itemClick() {
+    val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    if(prefs.getBoolean("pref_show_tips", true)) {
+      val snackbar = Snackbar.make(requireView(), resources.getString(R.string.long_click_hint), Snackbar.LENGTH_SHORT)
+      snackbar.setAction(resources.getString(R.string.dont_show)) {
+        prefs.edit().putBoolean("pref_show_tips", false).apply()
+      }
+      snackbar.show()
+    }
   }
 
-  fun displayItemDeletedToast() {
-    Toast.makeText(activity, resources.getString(R.string.item_deleted), Toast.LENGTH_SHORT).show()
+  private fun itemLongClick(favouriteItem: FavouriteItem) {
+    val dialog = BinaryOptionDialog()
+    dialog.setTitle(resources.getString(R.string.edit_or_delete))
+    dialog.setMessageVisiblity(false)
+    dialog.setNegativeButton(resources.getString(R.string.delete), View.OnClickListener {
+      deleteClick(favouriteItem)
+      dialog.dismiss()
+    })
+    dialog.setPositiveButton(resources.getString(R.string.edit), View.OnClickListener {
+      editClick(favouriteItem)
+      dialog.dismiss()
+    })
+    dialog.show(requireFragmentManager(), "Edit or Delete Dialog")
   }
 
   private fun editClick(favouriteItem: FavouriteItem) {

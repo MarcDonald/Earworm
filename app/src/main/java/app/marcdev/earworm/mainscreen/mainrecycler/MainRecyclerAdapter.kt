@@ -9,8 +9,8 @@ import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.*
 
 class MainRecyclerAdapter(context: Context,
-                          private val editClick: (FavouriteItem) -> Unit,
-                          private val deleteClick: (FavouriteItem) -> Unit)
+                          private val itemClick: () -> Unit,
+                          private val itemLongClick: (FavouriteItem) -> Unit)
   : RecyclerView.Adapter<MainRecyclerViewHolder>() {
 
   private var items: List<FavouriteItem> = mutableListOf()
@@ -30,22 +30,22 @@ class MainRecyclerAdapter(context: Context,
       }
       SONG -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
-        viewHolder = MainRecyclerViewHolderSong(view, editClick, deleteClick)
+        viewHolder = MainRecyclerViewHolderSong(view, itemClick, itemLongClick)
       }
 
       ALBUM -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_album, parent, false)
-        viewHolder = MainRecyclerViewHolderAlbum(view, editClick, deleteClick)
+        viewHolder = MainRecyclerViewHolderAlbum(view, itemClick, itemLongClick)
       }
 
       ARTIST -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_artist, parent, false)
-        viewHolder = MainRecyclerViewHolderArtist(view, editClick, deleteClick)
+        viewHolder = MainRecyclerViewHolderArtist(view, itemClick, itemLongClick)
       }
 
       GENRE -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_genre, parent, false)
-        viewHolder = MainRecyclerViewHolderGenre(view, editClick, deleteClick)
+        viewHolder = MainRecyclerViewHolderGenre(view, itemClick, itemLongClick)
       }
     }
 
