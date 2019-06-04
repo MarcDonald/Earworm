@@ -48,6 +48,11 @@ Used for implementing material design components
 
 Apache 2 License
 
+### [Kodein](https://github.com/Kodein-Framework/Kodein-DI)
+Used for dependency injection
+
+MIT License
+
 ## License
 ```
 The MIT License (MIT)

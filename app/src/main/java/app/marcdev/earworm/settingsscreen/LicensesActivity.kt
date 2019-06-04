@@ -3,7 +3,6 @@ package app.marcdev.earworm.settingsscreen
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -36,7 +35,7 @@ class LicensesActivity : EarwormActivity() {
 
   private fun bindViews() {
     val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
-    backButton.setOnClickListener(backOnClickListener)
+    backButton.setOnClickListener { finish() }
     if(isDarkMode) {
       changeColorOfImageViewDrawable(applicationContext, backButton, false)
     }
@@ -45,56 +44,26 @@ class LicensesActivity : EarwormActivity() {
     toolbarTitle.text = resources.getString(R.string.licenses)
 
     val glideCard = findViewById<CardView>(R.id.card_glide)
-    glideCard.setOnClickListener(glideOnClickListener)
+    glideCard.setOnClickListener { launchUrl("https://github.com/bumptech/glide") }
 
     val timberCard = findViewById<CardView>(R.id.card_timber)
-    timberCard.setOnClickListener(timberOnClickListener)
+    timberCard.setOnClickListener { launchUrl("https://github.com/JakeWharton/timber") }
 
     val materialIconsCard = findViewById<CardView>(R.id.card_material_design_icons)
-    materialIconsCard.setOnClickListener(materialIconsOnClickListener)
+    materialIconsCard.setOnClickListener { launchUrl("https://github.com/google/material-design-icons") }
 
     val materialComponentsCard = findViewById<CardView>(R.id.card_material_design_components)
-    materialComponentsCard.setOnClickListener(materialComponentsOnClickListener)
+    materialComponentsCard.setOnClickListener { launchUrl("https://github.com/material-components/material-components-android") }
 
     val filePickerCard = findViewById<CardView>(R.id.card_android_file_picker)
-    filePickerCard.setOnClickListener(filePickerOnClickListener)
+    filePickerCard.setOnClickListener { launchUrl("https://github.com/DroidNinja/Android-FilePicker") }
 
+    val kodeinCard = findViewById<CardView>(R.id.card_kodein)
+    kodeinCard.setOnClickListener { launchUrl("https://github.com/Kodein-Framework/Kodein-DI") }
   }
 
-  private val backOnClickListener = View.OnClickListener {
-    finish()
-  }
-
-  private val glideOnClickListener = View.OnClickListener {
-    val uriUrl = Uri.parse("https://github.com/bumptech/glide")
-    val launchBrowser = Intent(Intent.ACTION_VIEW)
-    launchBrowser.data = uriUrl
-    startActivity(launchBrowser)
-  }
-
-  private val timberOnClickListener = View.OnClickListener {
-    val uriUrl = Uri.parse("https://github.com/JakeWharton/timber")
-    val launchBrowser = Intent(Intent.ACTION_VIEW)
-    launchBrowser.data = uriUrl
-    startActivity(launchBrowser)
-  }
-
-  private val materialIconsOnClickListener = View.OnClickListener {
-    val uriUrl = Uri.parse("https://github.com/google/material-design-icons")
-    val launchBrowser = Intent(Intent.ACTION_VIEW)
-    launchBrowser.data = uriUrl
-    startActivity(launchBrowser)
-  }
-
-  private val materialComponentsOnClickListener = View.OnClickListener {
-    val uriUrl = Uri.parse("https://github.com/material-components/material-components-android")
-    val launchBrowser = Intent(Intent.ACTION_VIEW)
-    launchBrowser.data = uriUrl
-    startActivity(launchBrowser)
-  }
-
-  private val filePickerOnClickListener = View.OnClickListener {
-    val uriUrl = Uri.parse("https://github.com/DroidNinja/Android-FilePicker")
+  private fun launchUrl(url: String) {
+    val uriUrl = Uri.parse(url)
     val launchBrowser = Intent(Intent.ACTION_VIEW)
     launchBrowser.data = uriUrl
     startActivity(launchBrowser)
