@@ -36,7 +36,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import timber.log.Timber
 
 class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   override val kodein: Kodein by closestKodein()
@@ -250,7 +249,6 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   }
 
   private fun displayImage(imagePath: String) {
-    Timber.i("Log: displayImage: $imagePath")
     if(imagePath.isBlank()) {
       Glide.with(this)
         .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, null))

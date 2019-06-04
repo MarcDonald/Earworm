@@ -8,18 +8,13 @@ import app.marcdev.earworm.internal.DARK_THEME
 import app.marcdev.earworm.internal.base.EarwormActivity
 import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import app.marcdev.earworm.utils.getTheme
-import timber.log.Timber
 
 class SettingsActivity : EarwormActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    Timber.v("Log: onCreate: Started")
-
     if(getTheme(applicationContext) == DARK_THEME) {
-      Timber.v("Log: onCreate: Is dark mode")
       setTheme(R.style.Earworm_DarkTheme)
     } else {
-      Timber.v("Log: onCreate: Is not dark mode")
       setTheme(R.style.Earworm_LightTheme)
     }
 
@@ -31,18 +26,15 @@ class SettingsActivity : EarwormActivity() {
   }
 
   private fun bindViews() {
-    Timber.v("Log: bindViews: Started")
     val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
     backButton.setOnClickListener(backOnClickListener)
 
     if(getTheme(applicationContext) == DARK_THEME) {
-      Timber.v("Log: bindViews: Converting to dark mode")
       changeColorOfImageViewDrawable(applicationContext, backButton, false)
     }
   }
 
   private val backOnClickListener = View.OnClickListener {
-    Timber.d("Log: BackClick: Started")
     this.finish()
   }
 }

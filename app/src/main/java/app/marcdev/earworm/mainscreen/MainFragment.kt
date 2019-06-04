@@ -37,7 +37,6 @@ import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import timber.log.Timber
 
 class MainFragment : Fragment(), KodeinAware {
   override val kodein by closestKodein()
@@ -74,7 +73,6 @@ class MainFragment : Fragment(), KodeinAware {
     setupObservers()
 
     if(getTheme(requireContext()) == DARK_THEME) {
-      Timber.d("Log: onCreateView: Is dark mode, converting")
       convertToDarkMode()
     }
 
