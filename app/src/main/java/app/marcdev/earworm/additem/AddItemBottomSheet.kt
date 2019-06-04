@@ -2,17 +2,13 @@ package app.marcdev.earworm.additem
 
 import android.Manifest
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -22,6 +18,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import app.marcdev.earworm.R
 import app.marcdev.earworm.internal.base.EarwormBottomSheetDialogFragment
+import app.marcdev.earworm.uicomponents.AddItemDatePickerDialog
+import app.marcdev.earworm.uicomponents.BinaryOptionDialog
 import app.marcdev.earworm.utils.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -50,14 +48,10 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   private lateinit var songButton: ImageView
   private lateinit var albumButton: ImageView
   private lateinit var artistButton: ImageView
-  private lateinit var datePickerDialog: Dialog
-  private lateinit var datePicker: DatePicker
-  private lateinit var datePickerOk: MaterialButton
-  private lateinit var datePickerCancel: MaterialButton
+  private lateinit var datePickerDialog: AddItemDatePickerDialog
   private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
-  private lateinit var confirmDeleteDialog: Dialog
-//  private lateinit var imageSelectorDialog: BottomSheetImagePicker
+  private lateinit var confirmImageDeleteDialog: BinaryOptionDialog
   // </editor-fold>
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,36 +91,23 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
     artistButton = view.findViewById(R.id.btn_add_item_artist_choice)
     artistButton.setOnClickListener { viewModel.setType(ARTIST) }
 
-    datePickerDialog = Dialog(this.requireActivity())
-    datePickerDialog.setContentView(R.layout.dialog_datepicker)
-    datePickerDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-    datePicker = datePickerDialog.findViewById(R.id.datepicker)
-
-    datePickerOk = datePickerDialog.findViewById(R.id.btn_datepicker_ok)
-    datePickerOk.setOnClickListener {
-      viewModel.setDate(datePicker.dayOfMonth, datePicker.month, datePicker.year)
+    datePickerDialog = AddItemDatePickerDialog(viewModel.date) { day, month, year ->
+      viewModel.setDate(day, month, year)
       datePickerDialog.dismiss()
     }
 
-    datePickerCancel = datePickerDialog.findViewById(R.id.btn_datepicker_cancel)
-    datePickerCancel.setOnClickListener { datePickerDialog.dismiss() }
-
     dateChip = view.findViewById(R.id.chip_add_item_date_display)
-    dateChip.setOnClickListener(dateOnClickListener)
+    dateChip.setOnClickListener {
+      datePickerDialog.show(requireFragmentManager(), "Add Item Date Picker Dialog")
+    }
 
     iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
-    iconImageView.setOnLongClickListener { confirmDeleteDialog.show(); true }
+    iconImageView.setOnLongClickListener { confirmImageDeleteDialog.show(requireFragmentManager(), "Confirm Image Delete Dialog"); true }
     // Convert to dark mode if needed
     changeColorOfDrawable(requireContext(), iconImageView.drawable, false)
 
-    initEditDialog()
-  }
-
-  private val dateOnClickListener = View.OnClickListener {
-    datePicker.updateDate(viewModel.year, viewModel.month, viewModel.day)
-    datePickerDialog.show()
+    initImageDeleteDialog()
   }
 
   private val iconOnClickListener = View.OnClickListener {
@@ -140,25 +121,21 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
     }
   }
 
-  private fun initEditDialog() {
-    // TODO convert to DialogFragment
-    this.confirmDeleteDialog = Dialog(requireContext())
-    confirmDeleteDialog.setContentView(R.layout.dialog_delete_image)
-    confirmDeleteDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-    val confirmDeleteButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_confirm)
-    confirmDeleteButton.setOnClickListener(confirmDeleteOnClickListener)
-    val cancelButton = confirmDeleteDialog.findViewById<MaterialButton>(R.id.btn_delete_image_cancel)
-    cancelButton.setOnClickListener(cancelDeleteOnClickListener)
+  private fun initImageDeleteDialog() {
+    this.confirmImageDeleteDialog = BinaryOptionDialog()
+    confirmImageDeleteDialog.setTitle(resources.getString(R.string.confirm_image_deletion))
+    confirmImageDeleteDialog.setMessageVisiblity(false)
+    confirmImageDeleteDialog.setPositiveButton(resources.getString(R.string.cancel), cancelDeleteOnClickListener)
+    confirmImageDeleteDialog.setNegativeButton(resources.getString(R.string.delete), confirmDeleteOnClickListener)
   }
 
   private val confirmDeleteOnClickListener = View.OnClickListener {
     viewModel.removeImage()
-    confirmDeleteDialog.dismiss()
+    confirmImageDeleteDialog.dismiss()
   }
 
   private val cancelDeleteOnClickListener = View.OnClickListener {
-    confirmDeleteDialog.dismiss()
+    confirmImageDeleteDialog.dismiss()
   }
 
   private fun askForStoragePermissions() {
@@ -216,7 +193,6 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
       value?.let { input ->
         primaryInput.setText(input)
         primaryInput.setSelection(input.length)
-        // TODO display IME
       }
     })
 

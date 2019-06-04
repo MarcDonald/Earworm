@@ -16,13 +16,9 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
   : ViewModel() {
 
   private var itemId = -1
-  private var date = Calendar.getInstance()
-  val day: Int
-    get() = date.get(Calendar.DAY_OF_MONTH)
-  val month: Int
-    get() = date.get(Calendar.MONTH)
-  val year: Int
-    get() = date.get(Calendar.YEAR)
+  private var _date = Calendar.getInstance()
+  val date: Calendar
+    get() = _date
 
   private val _displayEmptyError = MutableLiveData<Boolean>()
   val displayEmpty: LiveData<Boolean>
@@ -94,9 +90,9 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
     if(primaryInput.isBlank() || secondaryInput.isBlank()) {
       _displayEmptyError.value = true
     } else {
-      val day = date.get(Calendar.DAY_OF_MONTH)
-      val month = date.get(Calendar.MONTH)
-      val year = date.get(Calendar.YEAR)
+      val day = _date.get(Calendar.DAY_OF_MONTH)
+      val month = _date.get(Calendar.MONTH)
+      val year = _date.get(Calendar.YEAR)
 
       val imageNameToSave = if(newImagePath.isBlank())
         currentImageName
@@ -130,9 +126,9 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
   }
 
   fun setDate(day: Int, month: Int, year: Int) {
-    date.set(Calendar.DAY_OF_MONTH, day)
-    date.set(Calendar.MONTH, month)
-    date.set(Calendar.YEAR, year)
+    _date.set(Calendar.DAY_OF_MONTH, day)
+    _date.set(Calendar.MONTH, month)
+    _date.set(Calendar.YEAR, year)
     getDateDisplay()
   }
 
@@ -187,9 +183,9 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
   }
 
   private fun getDateDisplay() {
-    val day = date.get(Calendar.DAY_OF_MONTH)
-    val month = date.get(Calendar.MONTH)
-    val year = date.get(Calendar.YEAR)
+    val day = _date.get(Calendar.DAY_OF_MONTH)
+    val month = _date.get(Calendar.MONTH)
+    val year = _date.get(Calendar.YEAR)
 
     val today = Calendar.getInstance()
     val displayValue = if(day == today.get(Calendar.DAY_OF_MONTH) && month == today.get(Calendar.MONTH) && year == today.get(Calendar.YEAR)) {
