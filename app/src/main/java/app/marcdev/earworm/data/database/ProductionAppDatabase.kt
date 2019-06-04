@@ -26,7 +26,7 @@ abstract class ProductionAppDatabase : RoomDatabase(), AppDatabase {
       Room.databaseBuilder(
         context.applicationContext,
         ProductionAppDatabase::class.java,
-        "ProductionAppDatabase.db"
+        "AppDatabase.db"
       )
         .setJournalMode(JournalMode.TRUNCATE)
         .addMigrations(MIGRATION_4_TO_5())

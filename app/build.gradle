@@ -14,6 +14,7 @@ android {
         targetSdkVersion 28
         versionCode 15
         versionName "1.1.0"
+        setProperty("archivesBaseName", "Earworm-v$versionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
