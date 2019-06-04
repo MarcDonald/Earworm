@@ -3,11 +3,10 @@ package app.marcdev.earworm.mainscreen.mainrecycler
 import android.view.View
 import android.widget.TextView
 import app.marcdev.earworm.R
-import app.marcdev.earworm.database.FavouriteItem
-import app.marcdev.earworm.utils.getMonthName
-import timber.log.Timber
+import app.marcdev.earworm.data.database.FavouriteItem
+import app.marcdev.earworm.utils.formatDateForHeaderDisplay
 
-open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder(itemView) {
+open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder(itemView, {}, {})  {
 
   private var dateDisplay: TextView = itemView.findViewById(R.id.txt_header_title)
 
@@ -26,8 +25,6 @@ open class MainRecyclerViewHolderHeader(itemView: View) : MainRecyclerViewHolder
   }
 
   override fun display(favouriteItemToDisplay: FavouriteItem) {
-    Timber.d("Log: display: $favouriteItemToDisplay")
-
-    dateDisplay.text = ("${getMonthName(favouriteItemToDisplay.month, itemView.context)} ${favouriteItemToDisplay.year}")
+    dateDisplay.text = formatDateForHeaderDisplay(favouriteItemToDisplay.month, favouriteItemToDisplay.year)
   }
 }

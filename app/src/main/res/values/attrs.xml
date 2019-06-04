@@ -13,5 +13,7 @@
     <attr name="snackbarBackgroundColor" format="color" />
     <attr name="chipBackgroundColor" format="color" />
     <attr name="navigationBarColor" format="color" />
+    <attr name="colorPositive" format="color" />
+    <attr name="colorNegative" format="color" />
   </declare-styleable>
 </resources>

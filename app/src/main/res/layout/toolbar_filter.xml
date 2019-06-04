@@ -16,17 +16,17 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-    <ImageButton
+    <ImageView
       android:id="@+id/img_filter"
-      android:background="?selectableItemBackground"
       android:layout_width="@dimen/toolbarIconSize"
       android:layout_height="@dimen/toolbarIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:layout_marginTop="@dimen/toolbarIconMargin"
       android:layout_marginBottom="@dimen/toolbarIconMargin"
-      android:padding="@dimen/marginStandard"
-      android:src="@drawable/ic_filter_list_24px"
+      android:background="?selectableItemBackgroundBorderless"
       android:contentDescription="@string/filter"
+      android:padding="@dimen/toolbarIconPadding"
+      android:src="@drawable/ic_filter_list_24px"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
@@ -40,26 +40,26 @@
       android:layout_marginTop="@dimen/toolbarIconMargin"
       android:layout_marginEnd="@dimen/toolbarIconMarginSmall"
       android:layout_marginBottom="@dimen/toolbarIconMargin"
-      android:inputType="text"
-      android:hint="@string/search"
       android:autofillHints="@string/search"
+      android:hint="@string/search"
+      android:inputType="text"
       android:singleLine="true"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@id/img_search"
       app:layout_constraintStart_toEndOf="@id/img_filter"
       app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
+    <ImageView
       android:id="@+id/img_search"
-      android:background="?selectableItemBackground"
       android:layout_width="@dimen/toolbarIconSize"
       android:layout_height="@dimen/toolbarIconSize"
       android:layout_marginTop="@dimen/toolbarIconMargin"
       android:layout_marginEnd="@dimen/toolbarIconMarginSmall"
       android:layout_marginBottom="@dimen/toolbarIconMargin"
-      android:padding="@dimen/marginStandard"
-      android:src="@drawable/ic_search_24px"
+      android:background="?selectableItemBackgroundBorderless"
       android:contentDescription="@string/search"
+      android:padding="@dimen/toolbarIconPadding"
+      android:src="@drawable/ic_search_24px"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent" />

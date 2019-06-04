@@ -25,6 +25,8 @@
   <string name="shortcut_disabled">Shortcut Disabled</string>
   <string name="yes">Yes</string>
   <string name="no">No</string>
+  <string name="title">Title</string>
+  <string name="content">Content</string>
 
   <!--Favourite Items-->
   <string name="song_name">Song name</string>

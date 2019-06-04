@@ -1,10 +1,10 @@
-package app.marcdev.earworm.repository
+package app.marcdev.earworm.data.repository
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import app.marcdev.earworm.database.AppDatabase
-import app.marcdev.earworm.database.DAO
-import app.marcdev.earworm.database.FavouriteItem
+import app.marcdev.earworm.data.database.ProductionAppDatabase
+import app.marcdev.earworm.data.database.DAO
+import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.utils.SONG
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -14,7 +14,7 @@ import org.junit.Test
 
 class FavouriteItemRepositoryTest {
 
-  private var database: AppDatabase? = null
+  private var database: ProductionAppDatabase? = null
   private var repository: FavouriteItemRepository? = null
   private var dao: DAO? = null
 
@@ -32,7 +32,7 @@ class FavouriteItemRepositoryTest {
   @Before
   fun setUp() {
     database =
-        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context, AppDatabase::class.java)
+        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context, ProductionAppDatabase::class.java)
           .allowMainThreadQueries().build()
 
     dao = database!!.dao()
@@ -56,8 +56,8 @@ class FavouriteItemRepositoryTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    repository!!.insertOrUpdateItem(testItem1)
-    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.addItem(testItem1)
+    repository!!.addItem(testItem2)
 
     val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(2, returnedItemsWhenOneInserted.size)
@@ -73,7 +73,7 @@ class FavouriteItemRepositoryTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getItem(testId)
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    repository!!.insertOrUpdateItem(testItem)
+    repository!!.addItem(testItem)
 
     val returnedItemsWhenOneInserted: MutableList<FavouriteItem> = repository!!.getItem(testId)
     Assert.assertEquals(1, returnedItemsWhenOneInserted.size)
@@ -97,8 +97,8 @@ class FavouriteItemRepositoryTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    repository!!.insertOrUpdateItem(testItem1)
-    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.addItem(testItem1)
+    repository!!.addItem(testItem2)
 
     val returnedItemsWhenTwoInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(2, returnedItemsWhenTwoInserted.size)
@@ -125,8 +125,8 @@ class FavouriteItemRepositoryTest {
     val returnedItemsWhenNothingInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(0, returnedItemsWhenNothingInserted.size)
 
-    repository!!.insertOrUpdateItem(testItem1)
-    repository!!.insertOrUpdateItem(testItem2)
+    repository!!.addItem(testItem1)
+    repository!!.addItem(testItem2)
 
     val returnedAllItemsWhenTwoInserted: MutableList<FavouriteItem> = repository!!.getAllItems()
     Assert.assertEquals(2, returnedAllItemsWhenTwoInserted.size)
@@ -149,9 +149,9 @@ class FavouriteItemRepositoryTest {
     val testItem3 = createTestItem()
     testItem3.imageName = testImage2
 
-    repository!!.insertOrUpdateItem(testItem1)
-    repository!!.insertOrUpdateItem(testItem2)
-    repository!!.insertOrUpdateItem(testItem3)
+    repository!!.addItem(testItem1)
+    repository!!.addItem(testItem2)
+    repository!!.addItem(testItem3)
 
     val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
     Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
@@ -180,9 +180,9 @@ class FavouriteItemRepositoryTest {
     testItem3.imageName = testImage2
     testItem3.id = testId3
 
-    repository!!.insertOrUpdateItem(testItem1)
-    repository!!.insertOrUpdateItem(testItem2)
-    repository!!.insertOrUpdateItem(testItem3)
+    repository!!.addItem(testItem1)
+    repository!!.addItem(testItem2)
+    repository!!.addItem(testItem3)
 
     val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
     Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
@@ -219,9 +219,9 @@ class FavouriteItemRepositoryTest {
     testItem3.imageName = testImage2
     testItem3.id = testId3
 
-    repository!!.insertOrUpdateItem(testItem1)
-    repository!!.insertOrUpdateItem(testItem2)
-    repository!!.insertOrUpdateItem(testItem3)
+    repository!!.addItem(testItem1)
+    repository!!.addItem(testItem2)
+    repository!!.addItem(testItem3)
 
     val returnedValueWhenSearchedForTestImage1: Int = repository!!.countUsesOfImage(testImage1)
     Assert.assertEquals(1, returnedValueWhenSearchedForTestImage1)
