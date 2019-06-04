@@ -127,20 +127,15 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   }
 
   private fun initImageDeleteDialog() {
-    this.confirmImageDeleteDialog = BinaryOptionDialog()
-    confirmImageDeleteDialog.setTitle(resources.getString(R.string.confirm_image_deletion))
-    confirmImageDeleteDialog.setMessageVisiblity(false)
-    confirmImageDeleteDialog.setPositiveButton(resources.getString(R.string.cancel), cancelDeleteOnClickListener)
-    confirmImageDeleteDialog.setNegativeButton(resources.getString(R.string.delete), confirmDeleteOnClickListener)
-  }
-
-  private val confirmDeleteOnClickListener = View.OnClickListener {
-    viewModel.removeImage()
-    confirmImageDeleteDialog.dismiss()
-  }
-
-  private val cancelDeleteOnClickListener = View.OnClickListener {
-    confirmImageDeleteDialog.dismiss()
+    val dialogBuilder = BinaryOptionDialog.Builder()
+    dialogBuilder
+      .setTitle(resources.getString(R.string.confirm_image_deletion))
+      .setMessageVisible(false)
+      .setPositiveButton(resources.getString(R.string.cancel), {}, true)
+      .setNegativeButton(resources.getString(R.string.delete), {
+        viewModel.removeImage()
+      }, true)
+    confirmImageDeleteDialog = dialogBuilder.build()
   }
 
   private fun askForStoragePermissions() {

@@ -248,18 +248,17 @@ class MainFragment : Fragment(), KodeinAware {
   }
 
   private fun itemLongClick(favouriteItem: FavouriteItem) {
-    val dialog = BinaryOptionDialog()
-    dialog.setTitle(resources.getString(R.string.edit_or_delete))
-    dialog.setMessageVisiblity(false)
-    dialog.setNegativeButton(resources.getString(R.string.delete), View.OnClickListener {
-      deleteClick(favouriteItem)
-      dialog.dismiss()
-    })
-    dialog.setPositiveButton(resources.getString(R.string.edit), View.OnClickListener {
-      editClick(favouriteItem)
-      dialog.dismiss()
-    })
-    dialog.show(requireFragmentManager(), "Edit or Delete Dialog")
+    val dialogBuilder = BinaryOptionDialog.Builder()
+    dialogBuilder
+      .setTitle(resources.getString(R.string.edit_or_delete))
+      .setMessageVisible(false)
+      .setNegativeButton(resources.getString(R.string.delete), {
+        deleteClick(favouriteItem)
+      }, true)
+      .setPositiveButton(resources.getString(R.string.edit), {
+        editClick(favouriteItem)
+      }, true)
+    dialogBuilder.build().show(requireFragmentManager(), "Edit or Delete Dialog")
   }
 
   private fun editClick(favouriteItem: FavouriteItem) {

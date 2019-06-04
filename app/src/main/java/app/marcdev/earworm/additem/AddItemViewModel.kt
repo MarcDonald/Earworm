@@ -162,6 +162,10 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
       currentImageName = ""
       _displayImage.value = ""
     }
+    if(newImagePath.isNotBlank()) {
+      newImagePath = ""
+      _displayImage.value = ""
+    }
   }
 
   fun setType(type: Int) {

@@ -22,8 +22,10 @@ class BinaryOptionDialog : EarwormDialogFragment() {
   private var positiveButtonText = ""
   private var titleText = ""
   private var messageText = ""
-  private var negativeButtonClickListener: View.OnClickListener? = null
-  private var positiveButtonClickListener: View.OnClickListener? = null
+  private var negativeButtonOnClick: () -> Unit = {}
+  private var dismissAfterNegativeClick = true
+  private var positiveButtonOnClick: () -> Unit = {}
+  private var dismissAfterPositiveClick = true
   private var isTitleVisible = true
   private var isMessageVisible = true
 
@@ -59,16 +61,16 @@ class BinaryOptionDialog : EarwormDialogFragment() {
       positiveButton.text = positiveButtonText
     }
 
-    if(negativeButtonClickListener != null) {
-      negativeButton.setOnClickListener(negativeButtonClickListener)
-    } else {
-      negativeButton.setOnClickListener(defaultClickListener)
+    negativeButton.setOnClickListener {
+      negativeButtonOnClick()
+      if(dismissAfterNegativeClick)
+        dismiss()
     }
 
-    if(positiveButtonClickListener != null) {
-      positiveButton.setOnClickListener(positiveButtonClickListener)
-    } else {
-      positiveButton.setOnClickListener(defaultClickListener)
+    positiveButton.setOnClickListener {
+      positiveButtonOnClick()
+      if(dismissAfterPositiveClick)
+        dismiss()
     }
 
     if(isTitleVisible)
@@ -82,17 +84,19 @@ class BinaryOptionDialog : EarwormDialogFragment() {
       messageDisplay.visibility = View.GONE
   }
 
-  fun setNegativeButton(text: String, clickListener: View.OnClickListener) {
+  private fun setNegativeButton(text: String, onClick: () -> Unit, dismissAfter: Boolean) {
     negativeButtonText = text
-    negativeButtonClickListener = clickListener
+    negativeButtonOnClick = onClick
+    dismissAfterNegativeClick = dismissAfter
   }
 
-  fun setPositiveButton(text: String, clickListener: View.OnClickListener) {
+  private fun setPositiveButton(text: String, onClick: () -> Unit, dismissAfter: Boolean) {
     positiveButtonText = text
-    positiveButtonClickListener = clickListener
+    positiveButtonOnClick = onClick
+    dismissAfterPositiveClick = dismissAfter
   }
 
-  fun setTitle(text: String) {
+  private fun setTitle(text: String) {
     if(view != null) {
       titleDisplay.text = text
     } else {
@@ -100,7 +104,7 @@ class BinaryOptionDialog : EarwormDialogFragment() {
     }
   }
 
-  fun setMessage(text: String) {
+  private fun setMessage(text: String) {
     if(view != null) {
       messageDisplay.text = text
     } else {
@@ -108,15 +112,82 @@ class BinaryOptionDialog : EarwormDialogFragment() {
     }
   }
 
-  fun setTitleVisibility(isVisible: Boolean) {
+  private fun setTitleVisibility(isVisible: Boolean) {
     isTitleVisible = isVisible
   }
 
-  fun setMessageVisiblity(isVisible: Boolean) {
+  private fun setMessageVisibility(isVisible: Boolean) {
     isMessageVisible = isVisible
   }
 
-  private val defaultClickListener = View.OnClickListener {
-    dismiss()
+  class Builder {
+    // To set
+    private var negativeButtonText = ""
+    private var positiveButtonText = ""
+    private var titleText = ""
+    private var messageText = ""
+    private var negativeButtonOnClick: () -> Unit = {}
+    private var dismissAfterNegativeClick = true
+    private var positiveButtonOnClick: () -> Unit = {}
+    private var dismissAfterPositiveClick = true
+    private var isTitleVisible = true
+    private var isMessageVisible = true
+
+    fun setTitle(text: String): Builder {
+      titleText = text
+      return this
+    }
+
+    fun setMessage(text: String): Builder {
+      messageText = text
+      return this
+    }
+
+    fun setNegativeButton(text: String, onClick: () -> Unit): Builder {
+      negativeButtonText = text
+      negativeButtonOnClick = onClick
+      return this
+    }
+
+    fun setPositiveButton(text: String, onClick: () -> Unit): Builder {
+      positiveButtonText = text
+      positiveButtonOnClick = onClick
+      return this
+    }
+
+    fun setNegativeButton(text: String, onClick: () -> Unit, dismissAfter: Boolean): Builder {
+      negativeButtonText = text
+      negativeButtonOnClick = onClick
+      dismissAfterNegativeClick = dismissAfter
+      return this
+    }
+
+    fun setPositiveButton(text: String, onClick: () -> Unit, dismissAfter: Boolean): Builder {
+      positiveButtonText = text
+      positiveButtonOnClick = onClick
+      dismissAfterPositiveClick = dismissAfter
+      return this
+    }
+
+    fun setTitleVisible(isVisible: Boolean): Builder {
+      isTitleVisible = isVisible
+      return this
+    }
+
+    fun setMessageVisible(isVisible: Boolean): Builder {
+      isMessageVisible = isVisible
+      return this
+    }
+
+    fun build(): BinaryOptionDialog {
+      val dialog = BinaryOptionDialog()
+      dialog.setTitle(titleText)
+      dialog.setMessage(messageText)
+      dialog.setNegativeButton(negativeButtonText, negativeButtonOnClick, dismissAfterNegativeClick)
+      dialog.setPositiveButton(positiveButtonText, positiveButtonOnClick, dismissAfterPositiveClick)
+      dialog.setTitleVisibility(isTitleVisible)
+      dialog.setMessageVisibility(isMessageVisible)
+      return dialog
+    }
   }
 }
