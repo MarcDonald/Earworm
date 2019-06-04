@@ -16,7 +16,7 @@ interface DAO {
   fun getAllItems(): LiveData<List<FavouriteItem>>
 
   @Query("SELECT * FROM FavouriteItems where id = :id")
-  fun getItemById(id: Int): MutableList<FavouriteItem>
+  fun getItemById(id: Int): FavouriteItem
 
   @Query("DELETE FROM FavouriteItems where id = :id")
   fun deleteItemById(id: Int)

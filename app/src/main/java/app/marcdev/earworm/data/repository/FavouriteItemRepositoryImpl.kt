@@ -27,7 +27,7 @@ class FavouriteItemRepositoryImpl(private val dao: DAO) : FavouriteItemRepositor
   }
 
 
-  override suspend fun getItem(id: Int): MutableList<FavouriteItem> {
+  override suspend fun getItem(id: Int): FavouriteItem {
     return withContext(Dispatchers.IO) {
       return@withContext dao.getItemById(id)
     }

@@ -68,27 +68,10 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
     _displayLoading.value = false
   }
 
-  private fun displaySearchIconIfNeeded(filter: ItemFilter?) {
-    if(filter == null) {
-      _displaySearchIcon.value = true
-    } else {
-      _displaySearchIcon.value = filter.searchTerm.isBlank()
-    }
-  }
-
   fun deleteItem(item: FavouriteItem) {
     viewModelScope.launch {
       repository.deleteItem(item.id)
       deleteImageIfNecessary(item.imageName)
-    }
-  }
-
-  private suspend fun deleteImageIfNecessary(imageName: String) {
-    if(imageName.isNotBlank()) {
-      val uses = repository.countUsesOfImage(imageName)
-      if(uses == 0) {
-        fileUtils.deleteImage(imageName)
-      }
     }
   }
 
@@ -119,6 +102,23 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
       newFilter.includeSongs = filter.includeSongs
     }
     activeFilter.value = newFilter
+  }
+
+  private suspend fun deleteImageIfNecessary(imageName: String) {
+    if(imageName.isNotBlank()) {
+      val uses = repository.countUsesOfImage(imageName)
+      if(uses == 0) {
+        fileUtils.deleteImage(imageName)
+      }
+    }
+  }
+
+  private fun displaySearchIconIfNeeded(filter: ItemFilter?) {
+    if(filter == null) {
+      _displaySearchIcon.value = true
+    } else {
+      _displaySearchIcon.value = filter.searchTerm.isBlank()
+    }
   }
 
   private fun filterResults(allItems: List<FavouriteItem>, filter: ItemFilter): List<FavouriteItem> {

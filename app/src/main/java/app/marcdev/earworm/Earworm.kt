@@ -1,18 +1,22 @@
 package app.marcdev.earworm
 
 import android.app.Application
+import app.marcdev.earworm.additem.AddItemViewModelFactory
 import app.marcdev.earworm.data.database.AppDatabase
 import app.marcdev.earworm.data.database.DAO
 import app.marcdev.earworm.data.database.ProductionAppDatabase
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
 import app.marcdev.earworm.data.repository.FavouriteItemRepositoryImpl
 import app.marcdev.earworm.mainscreen.MainFragmentViewModelFactory
-import app.marcdev.earworm.utils.FileUtilsImpl
 import app.marcdev.earworm.utils.FileUtils
+import app.marcdev.earworm.utils.FileUtilsImpl
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
-import org.kodein.di.generic.*
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 import timber.log.Timber
 
 class Earworm : Application(), KodeinAware {
@@ -31,6 +35,7 @@ class Earworm : Application(), KodeinAware {
 
     // <editor-fold desc="View Model Factories">
     bind() from provider { MainFragmentViewModelFactory(instance(), instance()) }
+    bind() from provider { AddItemViewModelFactory(instance(), instance()) }
     // </editor-fold>
   }
 

@@ -9,7 +9,7 @@ interface FavouriteItemRepository {
 
   suspend fun addItem(item: FavouriteItem)
 
-  suspend fun getItem(id: Int): MutableList<FavouriteItem>
+  suspend fun getItem(id: Int): FavouriteItem
 
   suspend fun deleteItem(id: Int)
 
