@@ -7,7 +7,8 @@
 
   <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTint="?colorPrimaryDark">
 
     <include layout="@layout/toolbar_main" />
 
@@ -43,7 +44,7 @@
         android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
         android:layout_marginEnd="@dimen/warningDisplayTextSideMargins"
         android:text="@string/no_entries"
-        style="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.WarningDisplay"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
 
       <TextView
         android:id="@+id/txt_noFilteredResults"
-        style="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.WarningDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
@@ -101,6 +102,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
     android:layout_margin="@dimen/fabMargin"
+    android:backgroundTint="?colorAccent"
     android:src="@drawable/ic_add_24px"
     app:fabSize="normal" />
 

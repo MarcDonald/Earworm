@@ -6,7 +6,8 @@
 
   <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTint="?colorPrimaryDark">
 
     <include layout="@layout/toolbar_settings" />
 
@@ -23,7 +24,7 @@
 
       <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_timber"
-        style="@style/Earworm.CardView"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -38,7 +39,7 @@
 
           <TextView
             android:id="@+id/txt_timber_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
             android:text="@string/apache_2"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseLicense"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_timber_title" />
@@ -59,7 +61,7 @@
 
       <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_material_design_icons"
-        style="@style/Earworm.CardView"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -74,7 +76,7 @@
 
           <TextView
             android:id="@+id/txt_material_design_icons_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
@@ -87,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
             android:text="@string/apache_2"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseLicense"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_material_design_icons_title" />
@@ -95,7 +98,7 @@
 
       <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_material_design_components"
-        style="@style/Earworm.CardView"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -110,7 +113,7 @@
 
           <TextView
             android:id="@+id/txt_material_design_components_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
@@ -123,6 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
             android:text="@string/apache_2"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseLicense"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_material_design_components_title" />
@@ -132,7 +136,7 @@
 
       <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_android_file_picker"
-        style="@style/Earworm.CardView"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -147,7 +151,7 @@
 
           <TextView
             android:id="@+id/txt_android_file_picker_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
@@ -160,6 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
             android:text="@string/apache_2"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseLicense"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_android_file_picker_title" />
@@ -168,7 +173,7 @@
 
       <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_glide"
-        style="@style/Earworm.CardView"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -183,7 +188,7 @@
 
           <TextView
             android:id="@+id/txt_glide_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
@@ -196,6 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
             android:text="@string/glide_license"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseLicense"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +211,7 @@
 
       <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_kodein"
-        style="@style/Earworm.CardView"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -221,7 +227,7 @@
 
           <TextView
             android:id="@+id/txt_kodein_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
@@ -234,6 +240,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginStandard"
             android:text="@string/mit"
+            android:textAppearance="@style/TextAppearance.Earworm.LicenseLicense"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

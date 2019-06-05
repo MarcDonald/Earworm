@@ -20,7 +20,7 @@ import app.marcdev.earworm.internal.PREF_THEME
  */
 fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActivated: Boolean) {
   when {
-    isActivated -> button.setColorFilter(context.getColor(R.color.colorAccent))
+    isActivated -> button.setColorFilter(context.getColor(R.color.lightThemeColorAccent))
     (getTheme(context) == DARK_THEME && !isActivated) -> button.setColorFilter(context.getColor(R.color.white60))
     else -> button.setColorFilter(context.getColor(R.color.black))
   }
@@ -35,7 +35,7 @@ fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActiva
  */
 fun changeColorOfDrawable(context: Context, drawable: Drawable, isActivated: Boolean) {
   when {
-    isActivated -> drawable.setColorFilter(context.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+    isActivated -> drawable.setColorFilter(context.getColor(R.color.lightThemeColorAccent), PorterDuff.Mode.SRC_IN)
     (getTheme(context) == DARK_THEME && !isActivated) -> drawable.setColorFilter((context.getColor(R.color.white60)), PorterDuff.Mode.SRC_IN)
     else -> drawable.setColorFilter((context.getColor(R.color.black)), PorterDuff.Mode.SRC_IN)
   }

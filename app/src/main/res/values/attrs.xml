@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="AppTheme">
+    <attr name="earwormTextOnPrimary" format="color" />
+    <attr name="earwormSecondaryTextOnPrimary" format="color" />
+    <attr name="earwormHintTextOnPrimary" format="color" />
+    <attr name="earwormPrimaryIconTint" format="color" />
     <attr name="colorPrimaryLight" format="color" />
-    <attr name="primaryTextColor" format="color" />
-    <attr name="secondaryTextColor" format="color" />
-    <attr name="hintTextColor" format="color" />
-    <attr name="backgroundColor" format="color" />
-    <attr name="bottomSheetBackground" format="integer" />
-    <attr name="dialogBackground" format="integer" />
-    <attr name="cardViewBackgroundColor" format="color" />
-    <attr name="transparentButtonBackground" format="color" />
-    <attr name="snackbarBackgroundColor" format="color" />
-    <attr name="chipBackgroundColor" format="color" />
-    <attr name="navigationBarColor" format="color" />
-    <attr name="colorPositive" format="color" />
-    <attr name="colorNegative" format="color" />
   </declare-styleable>
 </resources>
