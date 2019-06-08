@@ -6,7 +6,8 @@
 
   <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTint="?colorPrimaryDark">
 
     <include layout="@layout/toolbar_settings" />
 
@@ -17,229 +18,80 @@
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
 
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_timber"
-        style="@style/Earworm.CardView"
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_timber"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:title="@string/timber"
+        app:description="@string/timber_description"
+        app:license="@string/apache_2" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?selectableItemBackground">
-
-          <TextView
-            android:id="@+id/txt_timber_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/timber"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/apache_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_timber_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-      </com.google.android.material.card.MaterialCardView>
-
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_material_design_icons"
-        style="@style/Earworm.CardView"
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_material_design_icons"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_timber">
+        app:title="@string/material_design_icons"
+        app:description="@string/material_icons_description"
+        app:license="@string/apache_2" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?selectableItemBackground">
-
-          <TextView
-            android:id="@+id/txt_material_design_icons_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/material_design_icons"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/apache_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_material_design_icons_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-      </com.google.android.material.card.MaterialCardView>
-
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_material_design_components"
-        style="@style/Earworm.CardView"
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_material_design_components"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_material_design_icons">
+        app:title="@string/material_design_components"
+        app:description="@string/material_design_components_description"
+        app:license="@string/apache_2" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?selectableItemBackground">
-
-          <TextView
-            android:id="@+id/txt_material_design_components_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/material_design_components"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/apache_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_material_design_components_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-      </com.google.android.material.card.MaterialCardView>
-
-
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_android_file_picker"
-        style="@style/Earworm.CardView"
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_android_file_picker"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_material_design_components">
+        app:title="@string/android_file_picker"
+        app:description="@string/android_file_picker_description"
+        app:license="@string/apache_2" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?selectableItemBackground">
-
-          <TextView
-            android:id="@+id/txt_android_file_picker_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/android_file_picker"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/apache_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_android_file_picker_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-      </com.google.android.material.card.MaterialCardView>
-
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_glide"
-        style="@style/Earworm.CardView"
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_glide"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_android_file_picker">
+        app:title="@string/glide"
+        app:description="@string/glide_description"
+        app:license="@string/glide_license" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?selectableItemBackground">
-
-          <TextView
-            android:id="@+id/txt_glide_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/glide"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-          <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/glide_license"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_glide_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-      </com.google.android.material.card.MaterialCardView>
-
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_kodein"
-        style="@style/Earworm.CardView"
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_kodein"
+        style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_glide">
+        app:title="@string/kodein"
+        app:description="@string/kodein_description"
+        app:license="@string/mit" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?selectableItemBackground">
-
-          <TextView
-            android:id="@+id/txt_kodein_title"
-            style="@style/Earworm.TextAppearance.ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/kodein"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-          <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginStandard"
-            android:text="@string/mit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_kodein_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-      </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+      <app.marcdev.earworm.uicomponents.LicenseDisplay
+        android:id="@+id/license_open_sans"
+        style="@style/Widget.Earworm.CardView.Rounded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginStandard"
+        app:title="@string/open_sans"
+        app:description="@string/open_sans_description"
+        app:license="@string/apache_2" />
+    </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

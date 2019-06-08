@@ -4,7 +4,7 @@
   android:id="@+id/toolbar_main"
   android:layout_width="match_parent"
   android:layout_height="@dimen/appBarHeight"
-  android:background="@color/colorPrimary"
+  android:backgroundTint="?colorPrimaryDark"
   app:contentInsetEnd="0dp"
   app:contentInsetLeft="0dp"
   app:contentInsetRight="0dp"
@@ -33,7 +33,7 @@
 
     <EditText
       android:id="@+id/edt_filter_input"
-      style="@style/Earworm.TextAppearance.EditText"
+      style="@style/ThemeOverlay.Earworm.EditText"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginStart="@dimen/marginStandard"

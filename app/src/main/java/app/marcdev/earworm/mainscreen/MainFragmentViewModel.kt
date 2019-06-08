@@ -56,8 +56,6 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
     var finalList: List<FavouriteItem>? = null
 
     items?.let { fullList ->
-      _displayNoEntries.value = fullList.isEmpty()
-
       val filteredList = if(filter != null) {
         filterResults(fullList, filter)
       } else {
@@ -67,6 +65,13 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
     }
 
     _displayData.value = finalList?.toList()
+    if(activeFilter.value == DEFAULT_FILTER || activeFilter.value == null) {
+      _displayNoFilteredResults.value = false
+      _displayNoEntries.value = finalList?.isEmpty()
+    } else {
+      _displayNoEntries.value = false
+      _displayNoFilteredResults.value = finalList?.isEmpty()
+    }
     _displayLoading.value = false
   }
 
@@ -128,7 +133,6 @@ class MainFragmentViewModel(private val repository: FavouriteItemRepository,
     val filteredByType = filterByType(filteredByDate, filter)
     val filteredByText = filterByText(filteredByType, filter)
 
-    _displayNoFilteredResults.value = filteredByText.isEmpty()
     colorFilterIconIfNecessary(filter)
     return filteredByText
   }

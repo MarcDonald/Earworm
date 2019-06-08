@@ -7,7 +7,8 @@
 
   <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTint="?colorPrimaryDark">
 
     <include layout="@layout/toolbar_main" />
 
@@ -33,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_library_music_black_24dp" />
+        android:src="@drawable/ic_library_music_24dp" />
 
       <TextView
         android:id="@+id/txt_noEntries"
@@ -43,7 +44,7 @@
         android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
         android:layout_marginEnd="@dimen/warningDisplayTextSideMargins"
         android:text="@string/no_entries"
-        style="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.WarningDisplay"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,11 +60,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_sentiment_dissatisfied_black_24dp" />
+        android:src="@drawable/ic_sentiment_dissatisfied_24dp" />
 
       <TextView
         android:id="@+id/txt_noFilteredResults"
-        style="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.WarningDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/warningDisplayTextSideMargins"
@@ -90,7 +91,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/prog_main" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.core.widget.NestedScrollView>
@@ -101,7 +102,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
     android:layout_margin="@dimen/fabMargin"
-    android:src="@drawable/ic_add_24px"
+    android:backgroundTint="?colorAccent"
+    android:src="@drawable/ic_add_black_24px"
     app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

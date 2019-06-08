@@ -7,5 +7,5 @@
     android:left="@dimen/marginStandard"
     android:right="@dimen/marginStandard"
     android:top="@dimen/marginStandard" />
-  <solid android:color="?attr/backgroundColor" />
+  <solid android:color="?colorPrimary" />
 </shape>

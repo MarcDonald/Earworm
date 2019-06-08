@@ -12,7 +12,7 @@
     <EditText
       android:id="@+id/edt_item_primary_input"
       android:layout_width="0dp"
-      style="@style/Earworm.TextAppearance.EditText"
+      style="@style/ThemeOverlay.Earworm.EditText"
       android:layout_height="wrap_content"
       android:layout_marginStart="@dimen/marginStandard"
       android:layout_marginTop="@dimen/marginStandard"
@@ -28,7 +28,7 @@
       android:id="@+id/edt_item_secondary_input"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      style="@style/Earworm.TextAppearance.EditText"
+      style="@style/ThemeOverlay.Earworm.EditText"
       android:layout_marginStart="@dimen/marginStandard"
       android:layout_marginTop="@dimen/marginStandardHalf"
       android:layout_marginEnd="@dimen/marginStandard"
@@ -56,7 +56,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="@dimen/marginStandard"
-      style="@style/PositiveButton"
+      style="@style/Widget.Earworm.Button.Borderless"
       android:text="@string/save"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,6 @@
 
     <com.google.android.material.chip.Chip
       android:id="@+id/chip_add_item_date_display"
-      style="@style/Earworm.ActionChip"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/date"
@@ -74,10 +73,9 @@
 
     <ImageView
       android:id="@+id/btn_add_item_song_choice"
-      style="@style/NoBackgroundImageButton"
       android:background="?selectableItemBackgroundBorderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="@dimen/addItemTypeIconSize"
+      android:layout_height="@dimen/addItemTypeIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_music_note_24px"
       android:contentDescription="@string/song"
@@ -87,10 +85,9 @@
 
     <ImageView
       android:id="@+id/btn_add_item_album_choice"
-      style="@style/NoBackgroundImageButton"
       android:background="?selectableItemBackgroundBorderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="@dimen/addItemTypeIconSize"
+      android:layout_height="@dimen/addItemTypeIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_album_24px"
       android:contentDescription="@string/album"
@@ -100,10 +97,9 @@
 
     <ImageView
       android:id="@+id/btn_add_item_artist_choice"
-      style="@style/NoBackgroundImageButton"
       android:background="?selectableItemBackgroundBorderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="@dimen/addItemTypeIconSize"
+      android:layout_height="@dimen/addItemTypeIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_person_24px"
       android:contentDescription="@string/artist"
@@ -111,5 +107,4 @@
       app:layout_constraintStart_toEndOf="@id/btn_add_item_album_choice"
       app:layout_constraintTop_toBottomOf="@id/edt_item_secondary_input" />
   </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
