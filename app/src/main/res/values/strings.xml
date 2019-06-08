@@ -74,15 +74,31 @@
   <!--endregion-->
 
   <!--region OSS-->
-  <string name="glide">Glide</string>
-  <string name="timber">Timber</string>
-  <string name="material_design_icons">Material Design Icons</string>
-  <string name="material_design_components">Material Components for Android</string>
-  <string name="android_file_picker">Android File picker</string>
+  <string name="license">License</string>
+  <string name="description">Description</string>
   <string name="apache_2">Apache 2</string>
   <string name="mit">MIT</string>
   <string name="glide_license">BSD, part MIT and Apache 2.0. See the LICENSE file for details</string>
+
+  <string name="glide">Glide</string>
+  <string name="glide_description">Used for display images</string>
+
+  <string name="timber">Timber</string>
+  <string name="timber_description">Used for logging</string>
+
+  <string name="material_design_icons">Material Design Icons</string>
+  <string name="material_icons_description">Used throughout the application</string>
+
+  <string name="material_design_components">Material Components for Android</string>
+  <string name="material_design_components_description">Used throughout the application</string>
+
+  <string name="android_file_picker">Android File picker</string>
+  <string name="android_file_picker_description">Used for selecting images</string>
+
   <string name="kodein">Kodein</string>
+  <string name="kodein_description">Used for dependency injection</string>
+
   <string name="open_sans">Open Sans</string>
+  <string name="open_sans_description">Used throughout the application</string>
   <!--endregion-->
 </resources>

@@ -7,4 +7,10 @@
     <attr name="earwormPrimaryIconTint" format="color" />
     <attr name="colorPrimaryLight" format="color" />
   </declare-styleable>
+
+  <declare-styleable name="LicenseDisplay">
+    <attr name="title" format="string" />
+    <attr name="description" format="string" />
+    <attr name="license" format="string" />
+  </declare-styleable>
 </resources>
