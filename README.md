@@ -53,6 +53,11 @@ Used for dependency injection
 
 MIT License
 
+### [Open Sans](https://fonts.google.com/specimen/Open+Sans)
+Used throughout the application
+
+Apache 2 License
+
 ## License
 ```
 The MIT License (MIT)

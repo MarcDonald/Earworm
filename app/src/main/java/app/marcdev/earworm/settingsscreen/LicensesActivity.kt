@@ -41,6 +41,9 @@ class LicensesActivity : EarwormActivity() {
 
     val kodeinCard = findViewById<CardView>(R.id.card_kodein)
     kodeinCard.setOnClickListener { launchUrl("https://github.com/Kodein-Framework/Kodein-DI") }
+
+    val openSansCard = findViewById<CardView>(R.id.card_open_sans)
+    openSansCard.setOnClickListener { launchUrl("https://fonts.google.com/specimen/Open+Sans") }
   }
 
   private fun launchUrl(url: String) {

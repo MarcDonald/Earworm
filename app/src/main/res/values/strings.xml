@@ -83,5 +83,6 @@
   <string name="mit">MIT</string>
   <string name="glide_license">BSD, part MIT and Apache 2.0. See the LICENSE file for details</string>
   <string name="kodein">Kodein</string>
+  <string name="open_sans">Open Sans</string>
   <!--endregion-->
 </resources>
