@@ -237,8 +237,7 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
       }
     }
 
-    // TODO convert to switch preference that uses boolean
-    if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(PREF_CLEAR_INPUTS, resources.getString(R.string.yes)) == resources.getString(R.string.yes)) {
+    if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean(PREF_CLEAR_INPUTS, true)) {
       primaryInput.setText("")
       secondaryInput.setText("")
       primaryInput.requestFocus()

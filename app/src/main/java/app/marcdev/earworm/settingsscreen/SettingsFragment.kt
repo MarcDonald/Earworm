@@ -25,10 +25,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     val darkTheme = findPreference(PREF_DARK_THEME)
     darkTheme.onPreferenceChangeListener = themeChangeListener
 
-    val clearInputsPref = findPreference(PREF_CLEAR_INPUTS)
-    clearInputsPref.onPreferenceChangeListener = clearInputsChangeListener
-    matchSummaryToSelection(clearInputsPref, PreferenceManager.getDefaultSharedPreferences(clearInputsPref.context).getString(clearInputsPref.key, "")!!)
-
     val tipsPref = findPreference(PREF_SHOW_TIPS)
     tipsPref.onPreferenceClickListener = resetTipsListener
 
@@ -45,11 +41,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
   private val themeChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
     requireActivity().recreate()
-    true
-  }
-
-  private val clearInputsChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-    matchSummaryToSelection(preference, newValue.toString())
     true
   }
 

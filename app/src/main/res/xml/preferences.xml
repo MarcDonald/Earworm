@@ -9,12 +9,10 @@
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/behaviour">
-    <ListPreference
-      android:key="pref_clear_inputs_on_type_change"
+    <SwitchPreference
+      android:key="pref_clear_inputs_on_type_change_bool"
       android:title="@string/clear_inputs_on_type_change"
-      android:defaultValue="@string/yes"
-      android:entryValues="@array/yes_or_no"
-      android:entries="@array/yes_or_no"
+      android:defaultValue="true"
       android:icon="@drawable/ic_backspace_24dp" />
 
     <Preference
