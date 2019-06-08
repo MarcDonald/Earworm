@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -67,6 +68,10 @@ class MainFragment : Fragment(), KodeinAware {
     bindViews(view)
     setupRecycler(view)
     setupObservers()
+
+    requireActivity().addOnBackPressedCallback(this, OnBackPressedCallback {
+      onBackPress()
+    })
 
     // If arguments is not null, see if the app has been opened from an app shortcut
     arguments?.let {
@@ -268,5 +273,15 @@ class MainFragment : Fragment(), KodeinAware {
 
   private fun deleteClick(favouriteItem: FavouriteItem) {
     viewModel.deleteItem(favouriteItem)
+  }
+
+  private fun onBackPress(): Boolean {
+    return if(searchInput.text.isNotBlank() || searchInput.hasFocus()) {
+      searchInput.text.clear()
+      searchInput.clearFocus()
+      true
+    } else {
+      false
+    }
   }
 }
