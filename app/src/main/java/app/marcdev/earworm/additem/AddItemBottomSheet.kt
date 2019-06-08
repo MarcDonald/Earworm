@@ -2,6 +2,7 @@ package app.marcdev.earworm.additem
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -24,8 +25,6 @@ import app.marcdev.earworm.internal.SONG
 import app.marcdev.earworm.internal.base.EarwormBottomSheetDialogFragment
 import app.marcdev.earworm.uicomponents.AddItemDatePickerDialog
 import app.marcdev.earworm.uicomponents.BinaryOptionDialog
-import app.marcdev.earworm.utils.changeColorOfDrawable
-import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
@@ -108,8 +107,6 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
     iconImageView = view.findViewById(R.id.img_add_icon)
     iconImageView.setOnClickListener(iconOnClickListener)
     iconImageView.setOnLongClickListener { confirmImageDeleteDialog.show(requireFragmentManager(), "Confirm Image Delete Dialog"); true }
-    // Convert to dark mode if needed
-    changeColorOfDrawable(requireContext(), iconImageView.drawable, false)
 
     initImageDeleteDialog()
   }
@@ -128,8 +125,8 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   private fun initImageDeleteDialog() {
     val dialogBuilder = BinaryOptionDialog.Builder()
     dialogBuilder
-      .setTitle(resources.getString(R.string.confirm_image_deletion))
-      .setMessageVisible(false)
+      .setTitle(resources.getString(R.string.confirm_image_deletion_title))
+      .setMessage(resources.getString(R.string.confirm_image_deletion_message))
       .setPositiveButton(resources.getString(R.string.cancel), {}, true)
       .setNegativeButton(resources.getString(R.string.delete), {
         viewModel.removeImage()
@@ -251,16 +248,23 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   private fun displayImage(imagePath: String) {
     if(imagePath.isBlank()) {
       Glide.with(this)
-        .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, null))
+        .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, requireActivity().theme))
         .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, requireActivity().theme)))
         .into(iconImageView)
     } else {
       Glide.with(this)
         .load(imagePath)
         .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, null)))
+        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, requireActivity().theme)))
         .into(iconImageView)
+    }
+  }
+
+  private fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActivated: Boolean) {
+    when {
+      isActivated -> button.setColorFilter(context.getColor(R.color.lightThemeColorAccent))
+      else -> button.clearColorFilter()
     }
   }
 }

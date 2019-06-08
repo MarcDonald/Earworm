@@ -18,7 +18,7 @@ const val DARK_THEME = 1
 // </editor-fold>
 
 // <editor-fold desc="Preference Keys">
-const val PREF_THEME = "pref_theme"
+const val PREF_DARK_THEME = "pref_dark_theme"
 const val PREF_SHOW_TIPS = "pref_show_tips"
 const val PREF_BUILD_NUMBER = "pref_build_number"
 const val PREF_LICENSES = "pref_licenses"

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.data.database.FavouriteItem
 
 open class MainRecyclerViewHolder(itemView: View,
-                                  private val itemClick: () -> Unit,
+                                  private val itemClick: (Int) -> Unit,
                                   private val itemLongClick: (FavouriteItem) -> Unit)
   : RecyclerView.ViewHolder(itemView) {
 
@@ -13,7 +13,9 @@ open class MainRecyclerViewHolder(itemView: View,
 
   init {
     itemView.setOnClickListener {
-      itemClick
+      displayedItem?.let { item ->
+        itemClick(item.id)
+      }
     }
     itemView.setOnLongClickListener {
       displayedItem?.let { item ->

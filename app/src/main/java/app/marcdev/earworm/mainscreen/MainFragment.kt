@@ -22,16 +22,12 @@ import androidx.recyclerview.widget.RecyclerView
 import app.marcdev.earworm.R
 import app.marcdev.earworm.additem.AddItemBottomSheet
 import app.marcdev.earworm.data.database.FavouriteItem
-import app.marcdev.earworm.internal.DARK_THEME
 import app.marcdev.earworm.internal.PREF_SHOW_TIPS
 import app.marcdev.earworm.mainscreen.mainrecycler.MainRecyclerAdapter
 import app.marcdev.earworm.settingsscreen.SettingsActivity
 import app.marcdev.earworm.uicomponents.BinaryOptionDialog
 import app.marcdev.earworm.uicomponents.FilterDialog
 import app.marcdev.earworm.utils.ItemFilter
-import app.marcdev.earworm.utils.changeColorOfDrawable
-import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
-import app.marcdev.earworm.utils.getTheme
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
@@ -71,10 +67,6 @@ class MainFragment : Fragment(), KodeinAware {
     bindViews(view)
     setupRecycler(view)
     setupObservers()
-
-    if(getTheme(requireContext()) == DARK_THEME) {
-      convertToDarkMode()
-    }
 
     // If arguments is not null, see if the app has been opened from an app shortcut
     arguments?.let {
@@ -183,7 +175,7 @@ class MainFragment : Fragment(), KodeinAware {
 
   private fun setupRecycler(view: View) {
     val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
-    this.recyclerAdapter = MainRecyclerAdapter(requireContext(), ::itemClick, ::itemLongClick)
+    this.recyclerAdapter = MainRecyclerAdapter(requireContext(), ::itemClick, ::itemLongClick, requireActivity().theme)
     recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
   }
@@ -217,24 +209,29 @@ class MainFragment : Fragment(), KodeinAware {
 
     viewModel.colorFilterIcon.observe(this, Observer { value ->
       value?.let { colorIt ->
-        changeColorOfImageViewDrawable(context!!, filterButton, colorIt)
+        if(colorIt)
+          filterButton.setColorFilter(resources.getColor(R.color.lightThemeColorAccent, null))
+        else
+          filterButton.clearColorFilter()
       }
     })
 
-    viewModel.displaySearchIcon.observe(this, Observer { value ->
+    viewModel.displaySearchIcon.observe(this, Observer
+    { value ->
       value?.let { show ->
         if(show) {
-          searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_search_24px, null))
+          searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_search_24px, requireActivity().theme))
           searchButton.setOnClickListener(searchOnClickListener)
         } else {
-          searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, null))
+          searchButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close_24px, requireActivity().theme))
           searchButton.setOnClickListener(clearSearchClickListener)
         }
       }
     })
   }
 
-  private fun itemClick() {
+  // Takes an int as the parameter as it wasn't being called without a parameter for some reason
+  private fun itemClick(itemId: Int) {
     val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
     if(prefs.getBoolean(PREF_SHOW_TIPS, true)) {
       val snackbar = Snackbar.make(requireView(), resources.getString(R.string.long_click_hint), Snackbar.LENGTH_SHORT)
@@ -271,13 +268,5 @@ class MainFragment : Fragment(), KodeinAware {
 
   private fun deleteClick(favouriteItem: FavouriteItem) {
     viewModel.deleteItem(favouriteItem)
-  }
-
-  private fun convertToDarkMode() {
-    changeColorOfImageViewDrawable(requireContext(), filterButton, false)
-    changeColorOfImageViewDrawable(requireContext(), settingsButton, false)
-    changeColorOfImageViewDrawable(requireContext(), searchButton, false)
-    changeColorOfDrawable(requireContext(), noEntriesWarningImage.drawable, false)
-    changeColorOfDrawable(requireContext(), noFilteredResultsWarningImage.drawable, false)
   }
 }

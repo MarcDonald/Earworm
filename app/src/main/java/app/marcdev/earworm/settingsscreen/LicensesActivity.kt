@@ -7,26 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import app.marcdev.earworm.R
-import app.marcdev.earworm.internal.DARK_THEME
 import app.marcdev.earworm.internal.base.EarwormActivity
-import app.marcdev.earworm.utils.changeColorOfImageViewDrawable
-import app.marcdev.earworm.utils.getTheme
 
 class LicensesActivity : EarwormActivity() {
-
-  private var isDarkMode: Boolean = false
-
   override fun onCreate(savedInstanceState: Bundle?) {
-    /* Theme changes must be done before super.onCreate otherwise it will be overridden with the value
-      in the manifest */
-    isDarkMode = if(getTheme(applicationContext) == DARK_THEME) {
-      setTheme(R.style.Earworm_DarkTheme)
-      true
-    } else {
-      setTheme(R.style.Earworm_LightTheme)
-      false
-    }
-
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_licenses)
 
@@ -36,9 +20,6 @@ class LicensesActivity : EarwormActivity() {
   private fun bindViews() {
     val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
     backButton.setOnClickListener { finish() }
-    if(isDarkMode) {
-      changeColorOfImageViewDrawable(applicationContext, backButton, false)
-    }
 
     val toolbarTitle = findViewById<TextView>(R.id.txt_settingsToolbarTitle)
     toolbarTitle.text = resources.getString(R.string.licenses)
