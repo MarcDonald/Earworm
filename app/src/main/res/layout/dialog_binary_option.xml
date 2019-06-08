@@ -11,7 +11,7 @@
     android:layout_margin="@dimen/marginStandard"
     android:text="@string/title"
     android:textAlignment="center"
-    style="@style/Earworm.TextAppearance.AlertDialogTitle"
+    android:textAppearance="@style/TextAppearance.Earworm.DialogTitle"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
@@ -22,6 +22,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/marginStandard"
     android:text="@string/content"
+    android:textAppearance="@style/TextAppearance.Earworm.DialogContent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/txt_binary_dialog_title" />
@@ -36,7 +37,7 @@
   <com.google.android.material.button.MaterialButton
     android:id="@+id/btn_binary_dialog_negative"
     android:layout_width="wrap_content"
-    android:backgroundTint="@color/negative"
+    style="@style/Widget.Earworm.Button.Negative"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/marginStandard"
     android:layout_marginBottom="@dimen/marginStandard"
@@ -52,7 +53,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/marginStandard"
     android:text="@string/yes"
-    style="@style/PositiveButton"
+    style="@style/Widget.Earworm.Button.Borderless"
     app:layout_constraintStart_toEndOf="@id/gd_binary_option_50_vert"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

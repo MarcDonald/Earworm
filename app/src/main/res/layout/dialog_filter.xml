@@ -14,7 +14,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/marginStandard"
       android:text="@string/between"
-      android:textAppearance="@style/Earworm.TextAppearance.AlertDialogTitle"
+      android:textAppearance="@style/TextAppearance.Earworm.DialogTitle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
@@ -33,14 +33,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
         android:text="@string/start_date"
-        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.DialogContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
       <com.google.android.material.chip.Chip
         android:id="@+id/chip_filter_start"
-        style="@style/Earworm.ActionChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
@@ -67,19 +66,17 @@
         android:layout_margin="@dimen/marginStandard"
         android:gravity="end"
         android:text="@string/end_date"
-        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.DialogContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
       <com.google.android.material.chip.Chip
         android:id="@+id/chip_filter_end"
-        style="@style/Earworm.ActionChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginStandard"
         android:text="@string/end"
-        android:textColor="?attr/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +89,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/marginStandard"
       android:text="@string/include"
-      android:textAppearance="@style/Earworm.TextAppearance.AlertDialogTitle"
+      android:textAppearance="@style/TextAppearance.Earworm.DialogTitle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/con_filter_start_date" />
@@ -111,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/song"
-        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.DialogContent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -139,7 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/album"
-        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.DialogContent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -167,7 +164,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/artist"
-        android:textAppearance="@style/Earworm.TextAppearance.NormalText"
+        android:textAppearance="@style/TextAppearance.Earworm.DialogContent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -186,7 +183,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/marginStandard"
-      style="@style/PositiveButton"
+      style="@style/Widget.Earworm.Button.Borderless"
       android:text="@string/filter"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"

@@ -1,4 +1,4 @@
-<img align="right" src="/.github/assets/logo.png?raw=true" width="314"/>
+![Header](/.github/assets/header.png?raw=true "Header")
 
 # Earworm
 An app for tracking your favourite music throughout time.
@@ -45,6 +45,16 @@ Apache 2 License
 
 ### [Material Components for Android](https://github.com/material-components/material-components-android)
 Used for implementing material design components
+
+Apache 2 License
+
+### [Kodein](https://github.com/Kodein-Framework/Kodein-DI)
+Used for dependency injection
+
+MIT License
+
+### [Open Sans](https://fonts.google.com/specimen/Open+Sans)
+Used throughout the application
 
 Apache 2 License
 

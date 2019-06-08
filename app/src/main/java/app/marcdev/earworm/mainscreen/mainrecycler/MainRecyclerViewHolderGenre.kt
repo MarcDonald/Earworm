@@ -1,5 +1,6 @@
 package app.marcdev.earworm.mainscreen.mainrecycler
 
+import android.content.res.Resources
 import android.view.View
 import android.widget.TextView
 import app.marcdev.earworm.R
@@ -10,8 +11,9 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 
 class MainRecyclerViewHolderGenre(itemView: View,
-                                  itemClick: () -> Unit,
-                                  itemLongClick: (FavouriteItem) -> Unit)
+                                  itemClick: (Int) -> Unit,
+                                  itemLongClick: (FavouriteItem) -> Unit,
+                                  private val theme: Resources.Theme)
   : MainRecyclerViewHolder(itemView, itemClick, itemLongClick), KodeinAware {
   override val kodein: Kodein by closestKodein(itemView.context)
 

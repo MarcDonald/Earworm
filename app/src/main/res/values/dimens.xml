@@ -18,4 +18,5 @@
   <dimen name="warningDisplayImageTopMargin">40dp</dimen>
   <dimen name="warningTextTopMargin">32dp</dimen>
   <dimen name="warningDisplayTextSideMargins">16dp</dimen>
+  <dimen name="addItemTypeIconSize">32dp</dimen>
 </resources>

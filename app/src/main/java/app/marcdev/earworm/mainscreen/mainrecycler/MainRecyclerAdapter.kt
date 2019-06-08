@@ -1,6 +1,7 @@
 package app.marcdev.earworm.mainscreen.mainrecycler
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,8 +10,9 @@ import app.marcdev.earworm.data.database.FavouriteItem
 import app.marcdev.earworm.internal.*
 
 class MainRecyclerAdapter(context: Context,
-                          private val itemClick: () -> Unit,
-                          private val itemLongClick: (FavouriteItem) -> Unit)
+                          private val itemClick: (Int) -> Unit,
+                          private val itemLongClick: (FavouriteItem) -> Unit,
+                          private val theme: Resources.Theme)
   : RecyclerView.Adapter<MainRecyclerViewHolder>() {
 
   private var items: List<FavouriteItem> = mutableListOf()
@@ -30,22 +32,22 @@ class MainRecyclerAdapter(context: Context,
       }
       SONG -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
-        viewHolder = MainRecyclerViewHolderSong(view, itemClick, itemLongClick)
+        viewHolder = MainRecyclerViewHolderSong(view, itemClick, itemLongClick, theme)
       }
 
       ALBUM -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_album, parent, false)
-        viewHolder = MainRecyclerViewHolderAlbum(view, itemClick, itemLongClick)
+        viewHolder = MainRecyclerViewHolderAlbum(view, itemClick, itemLongClick, theme)
       }
 
       ARTIST -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_artist, parent, false)
-        viewHolder = MainRecyclerViewHolderArtist(view, itemClick, itemLongClick)
+        viewHolder = MainRecyclerViewHolderArtist(view, itemClick, itemLongClick, theme)
       }
 
       GENRE -> {
         val view = inflater.inflate(R.layout.item_mainrecycler_genre, parent, false)
-        viewHolder = MainRecyclerViewHolderGenre(view, itemClick, itemLongClick)
+        viewHolder = MainRecyclerViewHolderGenre(view, itemClick, itemLongClick, theme)
       }
     }
 
