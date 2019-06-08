@@ -1,4 +1,4 @@
-<img align="right" src="/.github/assets/logo.png?raw=true" width="314"/>
+![Header](/.github/assets/header.png?raw=true "Header")
 
 # Earworm
 An app for tracking your favourite music throughout time.
