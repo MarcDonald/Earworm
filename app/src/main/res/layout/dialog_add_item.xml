@@ -74,8 +74,8 @@
     <ImageView
       android:id="@+id/btn_add_item_song_choice"
       android:background="?selectableItemBackgroundBorderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="@dimen/addItemTypeIconSize"
+      android:layout_height="@dimen/addItemTypeIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_music_note_24px"
       android:contentDescription="@string/song"
@@ -86,8 +86,8 @@
     <ImageView
       android:id="@+id/btn_add_item_album_choice"
       android:background="?selectableItemBackgroundBorderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="@dimen/addItemTypeIconSize"
+      android:layout_height="@dimen/addItemTypeIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_album_24px"
       android:contentDescription="@string/album"
@@ -98,8 +98,8 @@
     <ImageView
       android:id="@+id/btn_add_item_artist_choice"
       android:background="?selectableItemBackgroundBorderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="@dimen/addItemTypeIconSize"
+      android:layout_height="@dimen/addItemTypeIconSize"
       android:layout_marginStart="@dimen/marginStandard"
       android:src="@drawable/ic_person_24px"
       android:contentDescription="@string/artist"
@@ -107,5 +107,4 @@
       app:layout_constraintStart_toEndOf="@id/btn_add_item_album_choice"
       app:layout_constraintTop_toBottomOf="@id/edt_item_secondary_input" />
   </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
