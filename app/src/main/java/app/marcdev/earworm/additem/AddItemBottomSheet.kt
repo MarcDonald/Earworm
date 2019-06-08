@@ -158,8 +158,12 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
 
     viewModel.displayEmpty.observe(this, Observer { value ->
       value?.let { show ->
-        if(show)
-          Toast.makeText(requireActivity(), resources.getString(R.string.empty), Toast.LENGTH_SHORT).show()
+        if(show) {
+          if(primaryInput.text.isBlank())
+            primaryInput.error = resources.getString(R.string.empty)
+          if(secondaryInput.text.isBlank())
+            secondaryInput.error = resources.getString(R.string.empty)
+        }
       }
     })
 
