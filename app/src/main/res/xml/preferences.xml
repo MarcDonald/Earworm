@@ -21,6 +21,17 @@
       android:icon="@drawable/ic_help_24dp" />
   </PreferenceCategory>
 
+  <PreferenceCategory android:title="@string/backup_and_restore">
+    <Preference
+      android:icon="@drawable/ic_backup_24dp"
+      android:key="pref_backup"
+      android:title="@string/backup" />
+    <Preference
+      android:icon="@drawable/ic_settings_backup_restore_24dp"
+      android:key="pref_restore"
+      android:title="@string/restore" />
+  </PreferenceCategory>
+
   <PreferenceCategory android:title="@string/app_info">
     <Preference
       android:key="pref_licenses"

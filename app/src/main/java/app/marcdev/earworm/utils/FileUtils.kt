@@ -1,5 +1,6 @@
 package app.marcdev.earworm.utils
 
+import android.net.Uri
 import java.io.File
 
 interface FileUtils {
@@ -7,5 +8,11 @@ interface FileUtils {
 
   fun saveImage(file: File)
 
+  fun getUriForFilePath(filePath: String): Uri
+
   val artworkDirectory: String
+
+  val localBackupDirectory: String
+
+  val databaseDirectory: String
 }

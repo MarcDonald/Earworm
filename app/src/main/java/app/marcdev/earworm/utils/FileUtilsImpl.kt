@@ -1,6 +1,10 @@
 package app.marcdev.earworm.utils
 
 import android.content.Context
+import android.net.Uri
+import androidx.core.content.FileProvider
+import app.marcdev.earworm.internal.DATABASE_NAME
+import app.marcdev.earworm.internal.PACKAGE
 import timber.log.Timber
 import java.io.File
 
@@ -30,6 +34,17 @@ class FileUtilsImpl(private val context: Context) : FileUtils {
     }
   }
 
+  override fun getUriForFilePath(filePath: String): Uri {
+    val file = File(filePath)
+    return FileProvider.getUriForFile(context, "$PACKAGE.FileProvider", file)
+  }
+
   override val artworkDirectory: String
     get() = context.filesDir.path + "/artwork/"
+
+  override val localBackupDirectory: String
+    get() = context.filesDir.path + "/backup/"
+
+  override val databaseDirectory: String
+    get() = context.getDatabasePath(DATABASE_NAME).path
 }

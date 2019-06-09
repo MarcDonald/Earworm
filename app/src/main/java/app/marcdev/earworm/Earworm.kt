@@ -8,6 +8,8 @@ import app.marcdev.earworm.data.database.ProductionAppDatabase
 import app.marcdev.earworm.data.repository.FavouriteItemRepository
 import app.marcdev.earworm.data.repository.FavouriteItemRepositoryImpl
 import app.marcdev.earworm.mainscreen.MainFragmentViewModelFactory
+import app.marcdev.earworm.settingsscreen.backupdialog.BackupDialogViewModelFactory
+import app.marcdev.earworm.settingsscreen.restoredialog.RestoreDialogViewModelFactory
 import app.marcdev.earworm.utils.FileUtils
 import app.marcdev.earworm.utils.FileUtilsImpl
 import org.kodein.di.Kodein
@@ -36,6 +38,8 @@ class Earworm : Application(), KodeinAware {
     // <editor-fold desc="View Model Factories">
     bind() from provider { MainFragmentViewModelFactory(instance(), instance()) }
     bind() from provider { AddItemViewModelFactory(instance(), instance()) }
+    bind() from provider { BackupDialogViewModelFactory(instance()) }
+    bind() from provider { RestoreDialogViewModelFactory(instance(), instance()) }
     // </editor-fold>
   }
 

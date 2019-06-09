@@ -6,10 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import app.marcdev.earworm.internal.DATABASE_NAME
+import timber.log.Timber
 
 @Database(entities = [FavouriteItem::class], version = 5)
 abstract class ProductionAppDatabase : RoomDatabase(), AppDatabase {
   abstract override fun dao(): DAO
+
+  override fun closeDB() {
+    if(INSTANCE != null) {
+      INSTANCE?.close()
+    } else {
+      Timber.e("Log: closeDB: INSTANCE is null")
+    }
+  }
 
   companion object {
     @Volatile
@@ -26,7 +36,7 @@ abstract class ProductionAppDatabase : RoomDatabase(), AppDatabase {
       Room.databaseBuilder(
         context.applicationContext,
         ProductionAppDatabase::class.java,
-        "AppDatabase.db"
+        DATABASE_NAME
       )
         .setJournalMode(JournalMode.TRUNCATE)
         .addMigrations(MIGRATION_4_TO_5())
