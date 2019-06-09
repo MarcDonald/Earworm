@@ -1,5 +1,6 @@
 package app.marcdev.earworm.settingsscreen.backupdialog
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,9 +14,9 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 class BackupDialogViewModel(private val fileUtils: FileUtils) : ViewModel() {
-  private var _localBackupPath: String = ""
-  val localBackupPath: String
-    get() = _localBackupPath
+  private var _localBackupUri: Uri? = null
+  val localBackupURI: Uri?
+    get() = _localBackupUri
 
   private val _displayDismiss = MutableLiveData<Boolean>()
   val displayDismiss: LiveData<Boolean>
@@ -63,7 +64,7 @@ class BackupDialogViewModel(private val fileUtils: FileUtils) : ViewModel() {
     backupArtwork(zipOutputStream)
     zipOutputStream.close()
 
-    _localBackupPath = filePath
+    _localBackupUri = fileUtils.getUriForFilePath(filePath)
   }
 
   private fun backupDatabase(zipOutputStream: ZipOutputStream) {

@@ -75,7 +75,6 @@
   <string name="share">Share</string>
   <string name="dismiss">Dismiss</string>
   <string name="backup_success">Backup Successful</string>
-  <string name="backup_error">Error Backing Up</string>
 
   <string-array name="yes_or_no">
     <item>@string/yes</item>

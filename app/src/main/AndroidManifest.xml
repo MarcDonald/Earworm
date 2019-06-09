@@ -26,6 +26,17 @@
     </activity>
     <activity android:name=".settingsscreen.SettingsActivity" />
     <activity android:name=".settingsscreen.LicensesActivity" />
+
+    <provider
+      android:authorities="app.marcdev.earworm.FileProvider"
+      android:name="androidx.core.content.FileProvider"
+      android:enabled="true"
+      android:grantUriPermissions="true"
+      android:exported="false">
+      <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/filepaths" />
+    </provider>
   </application>
 
 </manifest>

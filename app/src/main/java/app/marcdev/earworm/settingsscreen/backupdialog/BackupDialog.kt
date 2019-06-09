@@ -1,5 +1,6 @@
 package app.marcdev.earworm.settingsscreen.backupdialog
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import app.marcdev.earworm.R
@@ -101,8 +101,13 @@ class BackupDialog : EarwormDialogFragment(), KodeinAware {
   }
 
   private fun shareOnClick() {
-    // TODO
-    Toast.makeText(requireContext(), viewModel.localBackupPath, Toast.LENGTH_SHORT).show()
+    val uri = viewModel.localBackupURI
+    uri?.let {
+      val shareIntent = Intent(Intent.ACTION_SEND)
+      shareIntent.type = "application/octet-stream"
+      shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+      startActivity(shareIntent)
+    }
     dismiss()
   }
 }
