@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import app.marcdev.earworm.internal.DATABASE_NAME
 
 @Database(entities = [FavouriteItem::class], version = 5)
 abstract class ProductionAppDatabase : RoomDatabase(), AppDatabase {
@@ -26,7 +27,7 @@ abstract class ProductionAppDatabase : RoomDatabase(), AppDatabase {
       Room.databaseBuilder(
         context.applicationContext,
         ProductionAppDatabase::class.java,
-        "AppDatabase.db"
+        DATABASE_NAME
       )
         .setJournalMode(JournalMode.TRUNCATE)
         .addMigrations(MIGRATION_4_TO_5())

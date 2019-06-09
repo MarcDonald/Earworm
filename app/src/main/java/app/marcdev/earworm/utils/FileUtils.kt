@@ -10,4 +10,6 @@ interface FileUtils {
   val artworkDirectory: String
 
   val localBackupDirectory: String
+
+  val databaseDirectory: String
 }

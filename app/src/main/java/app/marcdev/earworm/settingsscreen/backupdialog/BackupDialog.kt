@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import app.marcdev.earworm.R
@@ -16,7 +17,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import timber.log.Timber
 
 class BackupDialog : EarwormDialogFragment(), KodeinAware {
   override val kodein: Kodein by closestKodein()
@@ -30,7 +30,6 @@ class BackupDialog : EarwormDialogFragment(), KodeinAware {
   private lateinit var loadingProgressBar: ProgressBar
   private lateinit var shareButton: MaterialButton
   private lateinit var successDisplay: ImageView
-  private lateinit var errorDisplay: ImageView
   private lateinit var dismissButton: MaterialButton
   private lateinit var title: TextView
   // </editor-fold>
@@ -53,7 +52,6 @@ class BackupDialog : EarwormDialogFragment(), KodeinAware {
     title = view.findViewById(R.id.txt_backup_title)
     loadingProgressBar = view.findViewById(R.id.prog_backup)
     successDisplay = view.findViewById(R.id.img_backup_success)
-    errorDisplay = view.findViewById(R.id.img_backup_error)
     dismissButton = view.findViewById(R.id.btn_backup_dismiss)
     dismissButton.setOnClickListener {
       dismiss()
@@ -100,23 +98,11 @@ class BackupDialog : EarwormDialogFragment(), KodeinAware {
         }
       }
     })
-
-    viewModel.displayError.observe(this, Observer { value ->
-      value?.let { display ->
-        if(display) {
-          errorDisplay.visibility = View.VISIBLE
-          title.text = resources.getString(R.string.backup_error)
-        } else {
-          errorDisplay.visibility = View.GONE
-          title.text = resources.getString(R.string.backing_up)
-        }
-      }
-    })
   }
 
   private fun shareOnClick() {
     // TODO
-    Timber.i("Log: shareOnClick: ${viewModel.localBackupPath}")
+    Toast.makeText(requireContext(), viewModel.localBackupPath, Toast.LENGTH_SHORT).show()
     dismiss()
   }
 }

@@ -4,6 +4,8 @@ import app.marcdev.earworm.utils.ItemFilter
 
 val DEFAULT_FILTER = ItemFilter(1, 0, 1900, 31, 11, 2099, true, true, true, "")
 
+const val DATABASE_NAME = "AppDatabase.db"
+
 // <editor-fold desc="Item Types">
 const val SONG = 0
 const val ALBUM = 1

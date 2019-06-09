@@ -36,13 +36,6 @@
       android:layout_height="64dp"
       android:padding="@dimen/marginStandard"
       android:src="@drawable/ic_check_24dp" />
-
-    <ImageView
-      android:id="@+id/img_backup_error"
-      android:layout_width="64dp"
-      android:layout_height="64dp"
-      android:padding="@dimen/marginStandard"
-      android:src="@drawable/ic_error_24px" />
   </LinearLayout>
 
   <com.google.android.material.button.MaterialButton

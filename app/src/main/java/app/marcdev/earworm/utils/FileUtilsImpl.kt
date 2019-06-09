@@ -1,6 +1,7 @@
 package app.marcdev.earworm.utils
 
 import android.content.Context
+import app.marcdev.earworm.internal.DATABASE_NAME
 import timber.log.Timber
 import java.io.File
 
@@ -35,4 +36,7 @@ class FileUtilsImpl(private val context: Context) : FileUtils {
 
   override val localBackupDirectory: String
     get() = context.filesDir.path + "/backup/"
+
+  override val databaseDirectory: String
+    get() = context.getDatabasePath(DATABASE_NAME).path
 }
