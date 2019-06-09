@@ -3,10 +3,10 @@
   xmlns:tools="http://schemas.android.com/tools">
   <shortcut
     android:enabled="true"
-    android:icon="@drawable/ic_add_circle_24px"
+    android:icon="@mipmap/ic_shortcut_add"
     android:shortcutDisabledMessage="@string/shortcut_disabled"
     android:shortcutId="add_item"
-    android:shortcutLongLabel="@string/add_an_entry"
+    android:shortcutLongLabel="@string/add_shortcut"
     android:shortcutShortLabel="@string/add"
     tools:targetApi="n_mr1">
 

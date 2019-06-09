@@ -21,7 +21,7 @@
   <string name="error">An Error Occurred</string>
   <string name="back">Back</string>
   <string name="add">Add</string>
-  <string name="add_an_entry">Add an Entry</string>
+  <string name="add_shortcut">Add Item</string>
   <string name="shortcut_disabled">Shortcut Disabled</string>
   <string name="yes">Yes</string>
   <string name="no">No</string>
@@ -81,7 +81,7 @@
   <string name="glide_license">BSD, part MIT and Apache 2.0. See the LICENSE file for details</string>
 
   <string name="glide">Glide</string>
-  <string name="glide_description">Used for display images</string>
+  <string name="glide_description">Used for displaying images</string>
 
   <string name="timber">Timber</string>
   <string name="timber_description">Used for logging</string>
