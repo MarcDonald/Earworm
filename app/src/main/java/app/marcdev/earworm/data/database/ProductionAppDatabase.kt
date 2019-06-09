@@ -7,10 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.marcdev.earworm.internal.DATABASE_NAME
+import timber.log.Timber
 
 @Database(entities = [FavouriteItem::class], version = 5)
 abstract class ProductionAppDatabase : RoomDatabase(), AppDatabase {
   abstract override fun dao(): DAO
+
+  override fun closeDB() {
+    if(INSTANCE != null) {
+      INSTANCE?.close()
+    } else {
+      Timber.e("Log: closeDB: INSTANCE is null")
+    }
+  }
 
   companion object {
     @Volatile

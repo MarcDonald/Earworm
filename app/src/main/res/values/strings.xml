@@ -75,11 +75,12 @@
   <string name="share">Share</string>
   <string name="dismiss">Dismiss</string>
   <string name="backup_success">Backup Successful</string>
-
-  <string-array name="yes_or_no">
-    <item>@string/yes</item>
-    <item>@string/no</item>
-  </string-array>
+  <string name="restore_confirm_title">Restore from Backup?</string>
+  <string name="restore_confirm_message">Are you sure you want to restore from a backup? \nThis will replace all current data</string>
+  <string name="restore_confirm">Continue with Restore</string>
+  <string name="restoring">Restoring</string>
+  <string name="restore_error_title">An Error Occurred</string>
+  <string name="restore_error_message">Ensure you are restoring from a valid .earworm file</string>
   <!--endregion-->
 
   <!--region OSS-->

@@ -34,3 +34,7 @@ const val PREF_RESTORE = "pref_restore"
 // <editor-fold desc="Request Codes">
 const val CHOOSE_RESTORE_FILE_REQUEST_CODE = 2
 // </editor-fold>
+
+// <editor-fold desc="Argument Keys">
+const val RESTORE_FILE_PATH_KEY = "restore_file_path"
+// </editor-fold>

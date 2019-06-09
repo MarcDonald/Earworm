@@ -18,6 +18,7 @@ import app.marcdev.earworm.BuildConfig
 import app.marcdev.earworm.R
 import app.marcdev.earworm.internal.*
 import app.marcdev.earworm.settingsscreen.backupdialog.BackupDialog
+import app.marcdev.earworm.settingsscreen.restoredialog.RestoreDialog
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
@@ -115,15 +116,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val filePathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)
         val filePath = filePathArray[0]
         if(filePath != null)
-          displayRestoreWarning(filePath)
+          displayRestoreDialog(filePath)
       }
     } else
       super.onActivityResult(requestCode, resultCode, data)
   }
 
-  private fun displayRestoreWarning(path: String) {
-    // TODO
-    Toast.makeText(requireContext(), path, Toast.LENGTH_SHORT).show()
+  private fun displayRestoreDialog(path: String) {
+    val dialog = RestoreDialog()
+    val bundle = Bundle()
+    bundle.putString(RESTORE_FILE_PATH_KEY, path)
+    dialog.arguments = bundle
+    dialog.show(requireFragmentManager(), "Restore Dialog")
   }
 
   private fun matchSummaryToSelection(preference: Preference, value: String) {
