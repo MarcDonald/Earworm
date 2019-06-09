@@ -1,17 +1,25 @@
 package app.marcdev.earworm.settingsscreen
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.preference.ListPreference
 import android.preference.PreferenceManager
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import app.marcdev.earworm.BuildConfig
 import app.marcdev.earworm.R
 import app.marcdev.earworm.internal.*
+import app.marcdev.earworm.settingsscreen.backupdialog.BackupDialog
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -37,6 +45,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     val githubPref = findPreference(PREF_GITHUB)
     githubPref.onPreferenceClickListener = githubOnClickListener
+
+    val backup = findPreference(PREF_BACKUP)
+    backup.onPreferenceClickListener = backupClickListener
+
+    val restore = findPreference(PREF_RESTORE)
+    restore.onPreferenceClickListener = restoreClickListener
   }
 
   private val themeChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
@@ -68,6 +82,48 @@ class SettingsFragment : PreferenceFragmentCompat() {
     launchBrowser.data = uriUrl
     startActivity(launchBrowser)
     true
+  }
+
+  private val backupClickListener = Preference.OnPreferenceClickListener {
+    if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+    } else {
+      val dialog = BackupDialog()
+      dialog.show(requireFragmentManager(), "Backup Dialog")
+    }
+    true
+  }
+
+  private val restoreClickListener = Preference.OnPreferenceClickListener {
+    if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+    } else {
+      FilePickerBuilder.instance
+        .setMaxCount(1)
+        .setActivityTheme(R.style.Earworm_DarkTheme)
+        .setActivityTitle(resources.getString(R.string.restore_title))
+        .enableDocSupport(false)
+        .addFileSupport(resources.getString(R.string.backup_file), Array(1) { ".earworm" })
+        .pickFile(this, CHOOSE_RESTORE_FILE_REQUEST_CODE)
+    }
+    true
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if(requestCode == CHOOSE_RESTORE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+      if(data != null) {
+        val filePathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)
+        val filePath = filePathArray[0]
+        if(filePath != null)
+          displayRestoreWarning(filePath)
+      }
+    } else
+      super.onActivityResult(requestCode, resultCode, data)
+  }
+
+  private fun displayRestoreWarning(path: String) {
+    // TODO
+    Toast.makeText(requireContext(), path, Toast.LENGTH_SHORT).show()
   }
 
   private fun matchSummaryToSelection(preference: Preference, value: String) {

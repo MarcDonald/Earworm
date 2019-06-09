@@ -32,4 +32,7 @@ class FileUtilsImpl(private val context: Context) : FileUtils {
 
   override val artworkDirectory: String
     get() = context.filesDir.path + "/artwork/"
+
+  override val localBackupDirectory: String
+    get() = context.filesDir.path + "/backup/"
 }

@@ -24,4 +24,10 @@ const val PREF_BUILD_NUMBER = "pref_build_number"
 const val PREF_LICENSES = "pref_licenses"
 const val PREF_GITHUB = "pref_github"
 const val PREF_CLEAR_INPUTS = "pref_clear_inputs_on_type_change_bool"
+const val PREF_BACKUP = "pref_backup"
+const val PREF_RESTORE = "pref_restore"
+// </editor-fold>
+
+// <editor-fold desc="Request Codes">
+const val CHOOSE_RESTORE_FILE_REQUEST_CODE = 2
 // </editor-fold>

@@ -8,4 +8,6 @@ interface FileUtils {
   fun saveImage(file: File)
 
   val artworkDirectory: String
+
+  val localBackupDirectory: String
 }

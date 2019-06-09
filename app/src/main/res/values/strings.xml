@@ -66,6 +66,16 @@
   <string name="build_code">Build Code</string>
   <string name="licenses">Licenses</string>
   <string name="github">Github</string>
+  <string name="backup_and_restore">Backup and Restore</string>
+  <string name="backup">Backup</string>
+  <string name="restore">Restore</string>
+  <string name="restore_title">Select a file to restore from</string>
+  <string name="backup_file">Backup</string>
+  <string name="backing_up">Backing Up</string>
+  <string name="share">Share</string>
+  <string name="dismiss">Dismiss</string>
+  <string name="backup_success">Backup Successful</string>
+  <string name="backup_error">Error Backing Up</string>
 
   <string-array name="yes_or_no">
     <item>@string/yes</item>
