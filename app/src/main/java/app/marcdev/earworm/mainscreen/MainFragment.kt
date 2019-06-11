@@ -14,7 +14,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -55,6 +54,7 @@ class MainFragment : Fragment(), KodeinAware {
   private lateinit var filterButton: ImageView
   private lateinit var settingsButton: ImageView
   private lateinit var filterDialog: FilterDialog
+  private lateinit var recycler: RecyclerView
   private lateinit var recyclerAdapter: MainRecyclerAdapter
   // </editor-fold>
 
@@ -66,7 +66,7 @@ class MainFragment : Fragment(), KodeinAware {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = inflater.inflate(R.layout.fragment_mainscreen, container, false)
     bindViews(view)
-    setupRecycler(view)
+    setupRecycler()
     setupObservers()
 
     requireActivity().addOnBackPressedCallback(this, OnBackPressedCallback {
@@ -107,8 +107,8 @@ class MainFragment : Fragment(), KodeinAware {
     this.filterButton = view.findViewById(R.id.img_filter)
     filterButton.setOnClickListener(filterOnClickListener)
 
-    val nestedScrollView: NestedScrollView = view.findViewById(R.id.scroll_main)
-    nestedScrollView.setOnScrollChangeListener(scrollViewOnScrollChangeListener)
+    recycler = view.findViewById(R.id.recycler_main)
+    recycler.addOnScrollListener(scrollListener)
 
     this.filterDialog = FilterDialog(::filterOkClick)
 
@@ -164,7 +164,11 @@ class MainFragment : Fragment(), KodeinAware {
     filterDialog.show(requireFragmentManager(), "Filter Dialog")
   }
 
-  private var scrollViewOnScrollChangeListener = { _: View, _: Int, scrollY: Int, _: Int, oldScrollY: Int -> hideFabOnScroll(scrollY, oldScrollY) }
+  private val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+      hideFabOnScroll(dy, dx)
+    }
+  }
 
   private fun hideFabOnScroll(scrollY: Int, oldScrollY: Int) {
     if(scrollY > oldScrollY) {
@@ -178,8 +182,7 @@ class MainFragment : Fragment(), KodeinAware {
     viewModel.filter(filter)
   }
 
-  private fun setupRecycler(view: View) {
-    val recycler: RecyclerView = view.findViewById(R.id.recycler_main)
+  private fun setupRecycler() {
     this.recyclerAdapter = MainRecyclerAdapter(requireContext(), ::itemClick, ::itemLongClick, requireActivity().theme)
     recycler.adapter = recyclerAdapter
     recycler.layoutManager = LinearLayoutManager(context)
