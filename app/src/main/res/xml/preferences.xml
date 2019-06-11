@@ -39,6 +39,11 @@
       android:title="@string/licenses" />
 
     <Preference
+      android:key="pref_privacy"
+      android:icon="@drawable/ic_visibility_24dp"
+      android:title="@string/privacy" />
+
+    <Preference
       android:key="pref_author"
       android:icon="@drawable/ic_person_24px"
       android:title="@string/author"

@@ -65,6 +65,8 @@
   <string name="version">Version</string>
   <string name="build_code">Build Code</string>
   <string name="licenses">Licenses</string>
+  <string name="privacy">Privacy</string>
+  <string name="privacy_content">All user data is stored on device. At no point does this app send any user data off device.</string>
   <string name="view_source_code">View Source Code</string>
   <string name="author">Author</string>
   <string name="marc_donald">Marc Donald</string>
