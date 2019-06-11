@@ -65,7 +65,9 @@
   <string name="version">Version</string>
   <string name="build_code">Build Code</string>
   <string name="licenses">Licenses</string>
-  <string name="github">Github</string>
+  <string name="view_source_code">View Source Code</string>
+  <string name="author">Author</string>
+  <string name="marc_donald">Marc Donald</string>
   <string name="backup_and_restore">Backup and Restore</string>
   <string name="backup">Backup</string>
   <string name="restore">Restore</string>
