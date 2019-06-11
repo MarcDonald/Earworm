@@ -31,30 +31,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
     setPreferencesFromResource(R.xml.preferences, rootKey)
     this.prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
 
-    val darkTheme = findPreference(PREF_DARK_THEME)
-    darkTheme.onPreferenceChangeListener = themeChangeListener
-
-    val tipsPref = findPreference(PREF_SHOW_TIPS)
-    tipsPref.onPreferenceClickListener = resetTipsListener
+    findPreference(PREF_DARK_THEME).onPreferenceChangeListener = themeChangeListener
+    findPreference(PREF_SHOW_TIPS).onPreferenceClickListener = resetTipsListener
 
     val versionPref = findPreference(PREF_BUILD_NUMBER)
     versionPref.summary = BuildConfig.VERSION_NAME
     versionPref.onPreferenceClickListener = versionClickListener
 
-    val licensesPref = findPreference(PREF_LICENSES)
-    licensesPref.onPreferenceClickListener = licensesOnClickListener
+    findPreference(PREF_LICENSES).onPreferenceClickListener = licensesOnClickListener
 
-    val githubPref = findPreference(PREF_GITHUB)
-    githubPref.onPreferenceClickListener = Preference.OnPreferenceClickListener { launchURL("https://github.com/MarcDonald/Earworm"); true }
+    findPreference(PREF_PRIVACY).onPreferenceClickListener = Preference.OnPreferenceClickListener {
+      PrivacyDialog().show(requireFragmentManager(), "Privacy Dialog")
+      true
+    }
 
-    val authorPref = findPreference(PREF_AUTHOR)
-    authorPref.onPreferenceClickListener = Preference.OnPreferenceClickListener { launchURL("https://github.com/MarcDonald"); true }
+    findPreference(PREF_GITHUB).onPreferenceClickListener = Preference.OnPreferenceClickListener {
+      launchURL("https://github.com/MarcDonald/Earworm")
+      true
+    }
 
-    val backup = findPreference(PREF_BACKUP)
-    backup.onPreferenceClickListener = backupClickListener
+    findPreference(PREF_AUTHOR).onPreferenceClickListener = Preference.OnPreferenceClickListener {
+      launchURL("https://github.com/MarcDonald")
+      true
+    }
 
-    val restore = findPreference(PREF_RESTORE)
-    restore.onPreferenceClickListener = restoreClickListener
+    findPreference(PREF_BACKUP).onPreferenceClickListener = backupClickListener
+    findPreference(PREF_RESTORE).onPreferenceClickListener = restoreClickListener
   }
 
   private val themeChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
@@ -65,7 +67,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
   private val resetTipsListener = Preference.OnPreferenceClickListener {
     prefs.edit().putBoolean(PREF_SHOW_TIPS, true).apply()
     Toast.makeText(requireContext(), resources.getString(R.string.reset_tips_confirmation), Toast.LENGTH_LONG).show()
-    return@OnPreferenceClickListener true
+    true
   }
 
   private val versionClickListener = Preference.OnPreferenceClickListener {
