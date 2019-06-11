@@ -39,9 +39,15 @@
       android:title="@string/licenses" />
 
     <Preference
+      android:key="pref_author"
+      android:icon="@drawable/ic_person_24px"
+      android:title="@string/author"
+      android:summary="@string/marc_donald" />
+
+    <Preference
       android:key="pref_github"
       android:icon="@drawable/ic_code_24dp"
-      android:title="@string/github" />
+      android:title="@string/view_source_code" />
 
     <Preference
       android:key="pref_build_number"

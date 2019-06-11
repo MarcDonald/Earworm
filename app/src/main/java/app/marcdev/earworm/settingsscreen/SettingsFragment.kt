@@ -45,7 +45,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     licensesPref.onPreferenceClickListener = licensesOnClickListener
 
     val githubPref = findPreference(PREF_GITHUB)
-    githubPref.onPreferenceClickListener = githubOnClickListener
+    githubPref.onPreferenceClickListener = Preference.OnPreferenceClickListener { launchURL("https://github.com/MarcDonald/Earworm"); true }
+
+    val authorPref = findPreference(PREF_AUTHOR)
+    authorPref.onPreferenceClickListener = Preference.OnPreferenceClickListener { launchURL("https://github.com/MarcDonald"); true }
 
     val backup = findPreference(PREF_BACKUP)
     backup.onPreferenceClickListener = backupClickListener
@@ -74,14 +77,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
   private val licensesOnClickListener = Preference.OnPreferenceClickListener {
     val intent = Intent(requireContext(), LicensesActivity::class.java)
     startActivity(intent)
-    true
-  }
-
-  private val githubOnClickListener = Preference.OnPreferenceClickListener {
-    val uriUrl = Uri.parse("https://github.com/MarcDonald/Earworm")
-    val launchBrowser = Intent(Intent.ACTION_VIEW)
-    launchBrowser.data = uriUrl
-    startActivity(launchBrowser)
     true
   }
 
@@ -128,6 +123,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     bundle.putString(RESTORE_FILE_PATH_KEY, path)
     dialog.arguments = bundle
     dialog.show(requireFragmentManager(), "Restore Dialog")
+  }
+
+  private fun launchURL(url: String) {
+    val uriUrl = Uri.parse(url)
+    val launchBrowser = Intent(Intent.ACTION_VIEW)
+    launchBrowser.data = uriUrl
+    startActivity(launchBrowser)
   }
 
   private fun matchSummaryToSelection(preference: Preference, value: String) {
