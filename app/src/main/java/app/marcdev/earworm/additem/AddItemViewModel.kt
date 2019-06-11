@@ -28,14 +28,6 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
   val displayEmpty: LiveData<Boolean>
     get() = _displayEmptyError
 
-  private val _displayError = MutableLiveData<Boolean>()
-  val displayError: LiveData<Boolean>
-    get() = _displayError
-
-  private val _displayAdded = MutableLiveData<Boolean>()
-  val displayAdded: LiveData<Boolean>
-    get() = _displayAdded
-
   private val _selectedType = MutableLiveData<Int>()
   val selectedType: LiveData<Int>
     get() = _selectedType
@@ -122,7 +114,6 @@ class AddItemViewModel(private val repository: FavouriteItemRepository,
 
         viewModelScope.launch {
           repository.addItem(item)
-          _displayAdded.value = true
           _dismiss.value = true
         }
       }

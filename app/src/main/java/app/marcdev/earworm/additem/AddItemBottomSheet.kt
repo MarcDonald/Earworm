@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -149,13 +148,6 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   }
 
   private fun setupObservers() {
-    viewModel.displayAdded.observe(this, Observer { value ->
-      value?.let { show ->
-        if(show)
-          Toast.makeText(requireActivity(), resources.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
-      }
-    })
-
     viewModel.displayEmpty.observe(this, Observer { value ->
       value?.let { show ->
         if(show) {
@@ -164,13 +156,6 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
           if(secondaryInput.text.isBlank())
             secondaryInput.error = resources.getString(R.string.empty)
         }
-      }
-    })
-
-    viewModel.displayError.observe(this, Observer { value ->
-      value?.let { show ->
-        if(show)
-          Toast.makeText(requireActivity(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
       }
     })
 
