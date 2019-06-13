@@ -9,8 +9,10 @@ import app.marcdev.earworm.internal.DATABASE_NAME
 import app.marcdev.earworm.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
 class RestoreDialogViewModel(private val fileUtils: FileUtils, private val database: AppDatabase) : ViewModel() {
@@ -79,13 +81,19 @@ class RestoreDialogViewModel(private val fileUtils: FileUtils, private val datab
   }
 
   private fun isValid(): Boolean {
-    if(restoreFilePath.isBlank())
+    if(restoreFilePath.isBlank()) {
+      Timber.e("Log: isValid: No restore file path")
       return false
+    }
 
-    val file = ZipFile(restoreFilePath)
-    for(element in file.entries()) {
-      if(element.name == DATABASE_NAME)
-        return true
+    try {
+      val file = ZipFile(restoreFilePath)
+      for(element in file.entries()) {
+        if(element.name == DATABASE_NAME)
+          return true
+      }
+    } catch(e: ZipException) {
+      Timber.e("Log: isValid: $e")
     }
     return false
   }
