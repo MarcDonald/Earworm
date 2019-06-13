@@ -13,7 +13,7 @@
   <dimen name="bottomSheetCornerRadius">8dp</dimen>
   <dimen name="bottomSheetTopPadding">8dp</dimen>
   <dimen name="addItemImageSize">90dp</dimen>
-  <dimen name="mainDisplayImageIconSize">56dp</dimen>
+  <dimen name="mainDisplayImageIconSize">90dp</dimen>
   <dimen name="warningDisplayImage">150dp</dimen>
   <dimen name="warningDisplayImageTopMargin">40dp</dimen>
   <dimen name="warningTextTopMargin">32dp</dimen>
