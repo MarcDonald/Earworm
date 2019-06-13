@@ -23,10 +23,10 @@ class MainRecyclerViewHolderSong(itemView: View,
   override val kodein: Kodein by closestKodein(itemView.context)
   private val fileUtils: FileUtils by instance()
 
-  private val songNameDisplay: TextView = itemView.findViewById(R.id.txt_songName)
-  private val songDateDisplay: TextView = itemView.findViewById(R.id.txt_songDate)
-  private val songArtistDisplay: TextView = itemView.findViewById(R.id.txt_songArtist)
-  private val songImageDisplay: ImageView = itemView.findViewById(R.id.img_song_icon)
+  private val songNameDisplay: TextView = itemView.findViewById(R.id.txt_main_primary)
+  private val songDateDisplay: TextView = itemView.findViewById(R.id.txt_main_date)
+  private val songArtistDisplay: TextView = itemView.findViewById(R.id.txt_main_secondary)
+  private var songImageDisplay: ImageView = itemView.findViewById(R.id.img_main_icon)
 
   override fun display(favouriteItemToDisplay: FavouriteItem) {
     displayedItem = favouriteItemToDisplay

@@ -31,17 +31,17 @@ class MainRecyclerAdapter(context: Context,
         viewHolder = MainRecyclerViewHolderHeader(view)
       }
       SONG -> {
-        val view = inflater.inflate(R.layout.item_mainrecycler_song, parent, false)
+        val view = inflater.inflate(R.layout.item_mainrecycler, parent, false)
         viewHolder = MainRecyclerViewHolderSong(view, itemClick, itemLongClick, theme)
       }
 
       ALBUM -> {
-        val view = inflater.inflate(R.layout.item_mainrecycler_album, parent, false)
+        val view = inflater.inflate(R.layout.item_mainrecycler, parent, false)
         viewHolder = MainRecyclerViewHolderAlbum(view, itemClick, itemLongClick, theme)
       }
 
       ARTIST -> {
-        val view = inflater.inflate(R.layout.item_mainrecycler_artist, parent, false)
+        val view = inflater.inflate(R.layout.item_mainrecycler, parent, false)
         viewHolder = MainRecyclerViewHolderArtist(view, itemClick, itemLongClick, theme)
       }
 
