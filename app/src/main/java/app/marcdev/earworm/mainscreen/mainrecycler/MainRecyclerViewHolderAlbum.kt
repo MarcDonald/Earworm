@@ -28,6 +28,10 @@ class MainRecyclerViewHolderAlbum(itemView: View,
   private val albumArtistDisplay: TextView = itemView.findViewById(R.id.txt_main_secondary)
   private var albumImageDisplay: ImageView = itemView.findViewById(R.id.img_main_icon)
 
+  init {
+    itemView.findViewById<TextView>(R.id.txt_main_type).text = itemView.resources.getString(R.string.album)
+  }
+
   override fun display(favouriteItemToDisplay: FavouriteItem) {
     displayedItem = favouriteItemToDisplay
     albumNameDisplay.text = favouriteItemToDisplay.albumName

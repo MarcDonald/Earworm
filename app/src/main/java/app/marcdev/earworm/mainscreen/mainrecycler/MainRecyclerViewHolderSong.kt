@@ -28,6 +28,10 @@ class MainRecyclerViewHolderSong(itemView: View,
   private val songArtistDisplay: TextView = itemView.findViewById(R.id.txt_main_secondary)
   private var songImageDisplay: ImageView = itemView.findViewById(R.id.img_main_icon)
 
+  init {
+    itemView.findViewById<TextView>(R.id.txt_main_type).text = itemView.resources.getString(R.string.song)
+  }
+
   override fun display(favouriteItemToDisplay: FavouriteItem) {
     displayedItem = favouriteItemToDisplay
     songNameDisplay.text = favouriteItemToDisplay.songName
