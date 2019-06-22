@@ -23,7 +23,7 @@ class MainActivity : EarwormActivity() {
   private fun setDefaultFragment() {
     val fragment = MainFragment()
 
-    if(intent.action == "app.marcdev.earworm.intent.ADD_ITEM") {
+    if(intent.action == "com.marcdonald.earworm.intent.ADD_ITEM") {
       Timber.d("Log: onCreate: Started from Add Item app shortcut")
       val args = Bundle()
       args.putBoolean("add_item", true)
