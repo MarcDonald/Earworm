@@ -16,11 +16,11 @@ An app for tracking your favourite music throughout time.
 ## Screenshots
 | Main Screen | Add Screen | Main Screen Dark |
 |:-:|:-:|:-:|
-| ![Main Screen](/.github/assets/main-display-light.png?raw=true) | ![Add Screen](/.github/assets/add-light.png?raw=true) |![Dark Theme](/.github/assets/main-display-dark.png?raw=true)
+| ![Main Screen](/.github/assets/main-display-light.png?raw=true) | ![Add Screen](/.github/assets/add-screen.png?raw=true) |![Dark Theme](/.github/assets/main-display-dark.png?raw=true)
 
 | Search | Filter |
 |:-:|:-:|
-| ![Search](/.github/assets/search-light.png?raw=true) | ![Filter](/.github/assets/filter-light.png?raw=true) |
+| ![Search](/.github/assets/search.png?raw=true) | ![Filter](/.github/assets/filter.png?raw=true) |
 
 ## Open Source Libraries Used
 ### [Timber](https://github.com/JakeWharton/timber)
@@ -57,6 +57,14 @@ MIT License
 Used throughout the application
 
 Apache 2 License
+
+### [Retrofit](https://github.com/square/retrofit)
+Used for API calls to Github for version checking
+
+Apache 2 License
+
+### [Gson](https://github.com/google/gson)
+Used for converting Github API responses into Kotlin objects
 
 ## License
 ```

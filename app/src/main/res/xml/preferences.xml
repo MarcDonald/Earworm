@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <PreferenceCategory android:title="@string/appearance">
     <SwitchPreference
-      android:defaultValue="false"
+      android:defaultValue="true"
       android:icon="@drawable/ic_brightness_3_24dp"
       android:key="pref_dark_theme"
       android:title="@string/theme_pref_title" />
@@ -39,14 +39,30 @@
       android:title="@string/licenses" />
 
     <Preference
+      android:key="pref_privacy"
+      android:icon="@drawable/ic_visibility_24dp"
+      android:title="@string/privacy" />
+
+    <Preference
+      android:key="pref_author"
+      android:icon="@drawable/ic_person_24px"
+      android:title="@string/author"
+      android:summary="@string/marc_donald" />
+
+    <Preference
       android:key="pref_github"
       android:icon="@drawable/ic_code_24dp"
-      android:title="@string/github" />
+      android:title="@string/view_source_code" />
 
     <Preference
       android:key="pref_build_number"
       android:icon="@drawable/ic_build_24dp"
       android:title="@string/version" />
+
+    <Preference
+      android:key="pref_app_update"
+      android:icon="@drawable/ic_system_update_24dp"
+      android:title="@string/check_for_update" />
   </PreferenceCategory>
 
 </PreferenceScreen>

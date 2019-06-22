@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
-  package="app.marcdev.earworm">
+  package="com.marcdonald.earworm">
 
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
   <application
@@ -13,7 +15,7 @@
     android:label="@string/app_name"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:theme="@style/Earworm.LightTheme"
+    android:theme="@style/Earworm.DarkTheme"
     tools:ignore="GoogleAppIndexingWarning">
     <activity android:name=".MainActivity">
       <intent-filter>
@@ -28,7 +30,7 @@
     <activity android:name=".settingsscreen.LicensesActivity" />
 
     <provider
-      android:authorities="app.marcdev.earworm.FileProvider"
+      android:authorities="com.marcdonald.earworm.FileProvider"
       android:name="androidx.core.content.FileProvider"
       android:enabled="true"
       android:grantUriPermissions="true"

@@ -27,6 +27,8 @@
   <color name="darkThemeIconTint">@color/white60</color>
   <color name="darkThemeColorAccent">#FF9700</color>
   <color name="darkThemeError">#F44336</color>
+  <color name="darkThemeChipBackground">#424242</color>
+  <color name="darkThemeSelectedItem">#26FFFFFF</color>
   <!--endregion-->
 
   <!--region Other-->

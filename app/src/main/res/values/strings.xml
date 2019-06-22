@@ -65,7 +65,11 @@
   <string name="version">Version</string>
   <string name="build_code">Build Code</string>
   <string name="licenses">Licenses</string>
-  <string name="github">Github</string>
+  <string name="privacy">Privacy</string>
+  <string name="privacy_content">All user data is stored on device. At no point does this app send any user data off device.</string>
+  <string name="view_source_code">View Source Code</string>
+  <string name="author">Author</string>
+  <string name="marc_donald">Marc Donald</string>
   <string name="backup_and_restore">Backup and Restore</string>
   <string name="backup">Backup</string>
   <string name="restore">Restore</string>
@@ -81,6 +85,14 @@
   <string name="restoring">Restoring</string>
   <string name="restore_error_title">An Error Occurred</string>
   <string name="restore_error_message">Ensure you are restoring from a valid .earworm file</string>
+  <string name="check_for_update">Check for Updates</string>
+  <string name="no_update_title">No Updates Found</string>
+  <string name="no_update_message">You are running the latest version</string>
+  <string name="new_version_available_title">Update Available</string>
+  <string name="new_version_available_message">A newer version (%1$s) is available for download</string>
+  <string name="download">Download</string>
+  <string name="checking_for_updates">Checking for Updates</string>
+  <string name="no_connection_warning">No Connection</string>
   <!--endregion-->
 
   <!--region OSS-->
@@ -110,5 +122,11 @@
 
   <string name="open_sans">Open Sans</string>
   <string name="open_sans_description">Used throughout the application</string>
+
+  <string name="retrofit">Retrofit</string>
+  <string name="retrofit_description">Used for API calls to Github for version checking</string>
+
+  <string name="gson">GSon</string>
+  <string name="gson_description">Used for converting Github API responses into Kotlin objects</string>
   <!--endregion-->
 </resources>
