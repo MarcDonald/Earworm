@@ -12,6 +12,8 @@ import com.marcdonald.earworm.settingsscreen.backupdialog.BackupDialogViewModelF
 import com.marcdonald.earworm.settingsscreen.restoredialog.RestoreDialogViewModelFactory
 import com.marcdonald.earworm.utils.FileUtils
 import com.marcdonald.earworm.utils.FileUtilsImpl
+import com.marcdonald.earworm.utils.ThemeUtils
+import com.marcdonald.earworm.utils.ThemeUtilsImpl
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -33,6 +35,7 @@ class Earworm : Application(), KodeinAware {
 
     // <editor-fold desc="Others">
     bind<FileUtils>() with provider { FileUtilsImpl(instance()) }
+    bind<ThemeUtils>() with provider { ThemeUtilsImpl(instance()) }
     // </editor-fold>
 
     // <editor-fold desc="View Model Factories">
