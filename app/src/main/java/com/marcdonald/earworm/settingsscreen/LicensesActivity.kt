@@ -19,32 +19,38 @@ class LicensesActivity : EarwormActivity() {
   }
 
   private fun bindViews() {
-    val backButton = findViewById<ImageView>(R.id.img_backFromSettings)
-    backButton.setOnClickListener { finish() }
+    findViewById<ImageView>(R.id.img_backFromSettings)
+      .setOnClickListener { finish() }
 
-    val toolbarTitle = findViewById<TextView>(R.id.txt_settingsToolbarTitle)
-    toolbarTitle.text = resources.getString(R.string.licenses)
+    findViewById<TextView>(R.id.txt_settingsToolbarTitle)
+      .text = resources.getString(R.string.licenses)
 
-    val glideCard = findViewById<CardView>(R.id.license_glide)
-    glideCard.setOnClickListener { launchUrl("https://github.com/bumptech/glide") }
+    findViewById<CardView>(R.id.license_glide)
+      .setOnClickListener { launchUrl("https://github.com/bumptech/glide") }
 
-    val timberCard = findViewById<LicenseDisplay>(R.id.license_timber)
-    timberCard.setOnClickListener { launchUrl("https://github.com/JakeWharton/timber") }
+    findViewById<LicenseDisplay>(R.id.license_timber)
+      .setOnClickListener { launchUrl("https://github.com/JakeWharton/timber") }
 
-    val materialIconsCard = findViewById<CardView>(R.id.license_material_design_icons)
-    materialIconsCard.setOnClickListener { launchUrl("https://github.com/google/material-design-icons") }
+    findViewById<CardView>(R.id.license_material_design_icons)
+      .setOnClickListener { launchUrl("https://github.com/google/material-design-icons") }
 
-    val materialComponentsCard = findViewById<CardView>(R.id.license_material_design_components)
-    materialComponentsCard.setOnClickListener { launchUrl("https://github.com/material-components/material-components-android") }
+    findViewById<CardView>(R.id.license_material_design_components)
+      .setOnClickListener { launchUrl("https://github.com/material-components/material-components-android") }
 
-    val filePickerCard = findViewById<CardView>(R.id.license_android_file_picker)
-    filePickerCard.setOnClickListener { launchUrl("https://github.com/DroidNinja/Android-FilePicker") }
+    findViewById<CardView>(R.id.license_android_file_picker)
+      .setOnClickListener { launchUrl("https://github.com/DroidNinja/Android-FilePicker") }
 
-    val kodeinCard = findViewById<CardView>(R.id.license_kodein)
-    kodeinCard.setOnClickListener { launchUrl("https://github.com/Kodein-Framework/Kodein-DI") }
+    findViewById<CardView>(R.id.license_kodein)
+      .setOnClickListener { launchUrl("https://github.com/Kodein-Framework/Kodein-DI") }
 
-    val openSansCard = findViewById<CardView>(R.id.license_open_sans)
-    openSansCard.setOnClickListener { launchUrl("https://fonts.google.com/specimen/Open+Sans") }
+    findViewById<CardView>(R.id.license_open_sans)
+      .setOnClickListener { launchUrl("https://fonts.google.com/specimen/Open+Sans") }
+
+    findViewById<LicenseDisplay>(R.id.license_retrofit)
+      .setOnClickListener { launchUrl("https://github.com/square/retrofit") }
+
+    findViewById<LicenseDisplay>(R.id.license_gson)
+      .setOnClickListener { launchUrl("https://github.com/google/gson") }
   }
 
   private fun launchUrl(url: String) {

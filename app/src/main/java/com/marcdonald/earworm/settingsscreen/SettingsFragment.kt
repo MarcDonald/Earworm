@@ -19,6 +19,7 @@ import com.marcdonald.earworm.R
 import com.marcdonald.earworm.internal.*
 import com.marcdonald.earworm.settingsscreen.backupdialog.BackupDialog
 import com.marcdonald.earworm.settingsscreen.restoredialog.RestoreDialog
+import com.marcdonald.earworm.settingsscreen.updatedialog.UpdateDialog
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import timber.log.Timber
@@ -57,6 +58,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     findPreference(PREF_BACKUP).onPreferenceClickListener = backupClickListener
     findPreference(PREF_RESTORE).onPreferenceClickListener = restoreClickListener
+
+    findPreference(PREF_APP_UPDATE).onPreferenceClickListener = Preference.OnPreferenceClickListener {
+      val dialog = UpdateDialog()
+      dialog.show(requireFragmentManager(), "Update Dialog")
+      true
+    }
   }
 
   private val themeChangeListener = Preference.OnPreferenceChangeListener { _, _ ->

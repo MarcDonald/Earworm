@@ -92,6 +92,30 @@
         app:title="@string/open_sans"
         app:description="@string/open_sans_description"
         app:license="@string/apache_2" />
+
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
+        style="@style/Widget.Earworm.CardView.Rounded"
+        android:id="@+id/license_retrofit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginStandard"
+        android:layout_marginEnd="@dimen/marginStandard"
+        android:layout_marginBottom="@dimen/marginStandard"
+        app:description="@string/retrofit_description"
+        app:license="@string/apache_2"
+        app:title="@string/retrofit" />
+
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
+        style="@style/Widget.Earworm.CardView.Rounded"
+        android:id="@+id/license_gson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginStandard"
+        android:layout_marginEnd="@dimen/marginStandard"
+        android:layout_marginBottom="@dimen/marginStandard"
+        app:description="@string/gson_description"
+        app:license="@string/apache_2"
+        app:title="@string/gson" />
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
