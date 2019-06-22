@@ -2,21 +2,24 @@ package com.marcdonald.earworm.internal.base
 
 import android.app.Dialog
 import android.os.Bundle
-import android.preference.PreferenceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.marcdonald.earworm.R
-import com.marcdonald.earworm.internal.PREF_DARK_THEME
+import com.marcdonald.earworm.utils.ThemeUtils
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
-abstract class EarwormBottomSheetDialogFragment : BottomSheetDialogFragment() {
+abstract class EarwormBottomSheetDialogFragment : BottomSheetDialogFragment(), KodeinAware {
+  override val kodein: Kodein by closestKodein()
+  private val themeUtils: ThemeUtils by instance()
 
   override fun getTheme(): Int {
-
-    return if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean(PREF_DARK_THEME, false))
-      R.style.Theme_Earworm_BottomSheetDialog_Dark
-    else
+    return if(themeUtils.isLightMode())
       R.style.Theme_Earworm_BottomSheetDialog_Light
-
+    else
+      R.style.Theme_Earworm_BottomSheetDialog_Dark
   }
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

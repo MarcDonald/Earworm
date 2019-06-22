@@ -2,7 +2,6 @@ package com.marcdonald.earworm.additem
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -28,6 +27,7 @@ import com.marcdonald.earworm.internal.SONG
 import com.marcdonald.earworm.internal.base.EarwormBottomSheetDialogFragment
 import com.marcdonald.earworm.uicomponents.AddItemDatePickerDialog
 import com.marcdonald.earworm.uicomponents.BinaryOptionDialog
+import com.marcdonald.earworm.utils.ThemeUtils
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import org.kodein.di.Kodein
@@ -54,6 +54,10 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   private lateinit var iconImageView: ImageView
   private lateinit var dateChip: Chip
   private lateinit var confirmImageDeleteDialog: BinaryOptionDialog
+  // </editor-fold>
+
+  // <editor-fold desc="Other">
+  private val themeUtils: ThemeUtils by instance()
   // </editor-fold>
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -204,23 +208,23 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
   private fun setTypeSelected(type: Int) {
     when(type) {
       SONG -> {
-        changeColorOfImageViewDrawable(requireActivity(), songButton, true)
-        changeColorOfImageViewDrawable(requireActivity(), albumButton, false)
-        changeColorOfImageViewDrawable(requireActivity(), artistButton, false)
+        changeColorOfImageViewDrawable(songButton, true)
+        changeColorOfImageViewDrawable(albumButton, false)
+        changeColorOfImageViewDrawable(artistButton, false)
         primaryInput.hint = resources.getString(R.string.song_name)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
       ALBUM -> {
-        changeColorOfImageViewDrawable(requireActivity(), songButton, false)
-        changeColorOfImageViewDrawable(requireActivity(), albumButton, true)
-        changeColorOfImageViewDrawable(requireActivity(), artistButton, false)
+        changeColorOfImageViewDrawable(songButton, false)
+        changeColorOfImageViewDrawable(albumButton, true)
+        changeColorOfImageViewDrawable(artistButton, false)
         primaryInput.hint = resources.getString(R.string.album)
         secondaryInput.hint = resources.getString(R.string.artist)
       }
       ARTIST -> {
-        changeColorOfImageViewDrawable(requireActivity(), songButton, false)
-        changeColorOfImageViewDrawable(requireActivity(), albumButton, false)
-        changeColorOfImageViewDrawable(requireActivity(), artistButton, true)
+        changeColorOfImageViewDrawable(songButton, false)
+        changeColorOfImageViewDrawable(albumButton, false)
+        changeColorOfImageViewDrawable(artistButton, true)
         primaryInput.hint = resources.getString(R.string.artist)
         secondaryInput.hint = resources.getString(R.string.genre)
       }
@@ -249,9 +253,9 @@ class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
     }
   }
 
-  private fun changeColorOfImageViewDrawable(context: Context, button: ImageView, isActivated: Boolean) {
+  private fun changeColorOfImageViewDrawable(button: ImageView, isActivated: Boolean) {
     when {
-      isActivated -> button.setColorFilter(context.getColor(R.color.lightThemeColorAccent))
+      isActivated -> button.setColorFilter(themeUtils.getAccentColor())
       else -> button.clearColorFilter()
     }
   }
