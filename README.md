@@ -66,6 +66,8 @@ Apache 2 License
 ### [Gson](https://github.com/google/gson)
 Used for converting Github API responses into Kotlin objects
 
+Apache 2 License
+
 ## License
 ```
 The MIT License (MIT)
