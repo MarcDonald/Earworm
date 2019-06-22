@@ -58,6 +58,14 @@ Used throughout the application
 
 Apache 2 License
 
+### [Retrofit](https://github.com/square/retrofit)
+Used for API calls to Github for version checking
+
+Apache 2 License
+
+### [Gson](https://github.com/google/gson)
+Used for converting Github API responses into Kotlin objects
+
 ## License
 ```
 The MIT License (MIT)

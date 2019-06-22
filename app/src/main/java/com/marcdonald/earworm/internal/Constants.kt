@@ -31,6 +31,7 @@ const val PREF_AUTHOR = "pref_author"
 const val PREF_CLEAR_INPUTS = "pref_clear_inputs_on_type_change_bool"
 const val PREF_BACKUP = "pref_backup"
 const val PREF_RESTORE = "pref_restore"
+const val PREF_APP_UPDATE = "pref_app_update"
 // </editor-fold>
 
 // <editor-fold desc="Request Codes">

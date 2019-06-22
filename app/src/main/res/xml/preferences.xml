@@ -58,6 +58,11 @@
       android:key="pref_build_number"
       android:icon="@drawable/ic_build_24dp"
       android:title="@string/version" />
+
+    <Preference
+      android:key="pref_app_update"
+      android:icon="@drawable/ic_system_update_24dp"
+      android:title="@string/check_for_update" />
   </PreferenceCategory>
 
 </PreferenceScreen>
