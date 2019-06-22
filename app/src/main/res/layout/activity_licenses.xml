@@ -23,7 +23,7 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_timber"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
         app:description="@string/timber_description"
         app:license="@string/apache_2" />
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_material_design_icons"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         app:description="@string/material_icons_description"
         app:license="@string/apache_2" />
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_material_design_components"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         app:description="@string/material_design_components_description"
         app:license="@string/apache_2" />
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_android_file_picker"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         app:description="@string/android_file_picker_description"
         app:license="@string/apache_2" />
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_glide"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         app:description="@string/glide_description"
         app:license="@string/glide_license" />
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_kodein"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
@@ -83,7 +83,7 @@
         app:description="@string/kodein_description"
         app:license="@string/mit" />
 
-      <app.marcdev.earworm.uicomponents.LicenseDisplay
+      <com.marcdonald.earworm.uicomponents.LicenseDisplay
         android:id="@+id/license_open_sans"
         style="@style/Widget.Earworm.CardView.Rounded"
         android:layout_width="match_parent"
