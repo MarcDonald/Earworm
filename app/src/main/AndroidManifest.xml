@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
-  package="app.marcdev.earworm">
+  package="com.marcdonald.earworm">
 
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -21,14 +21,14 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
       <meta-data
-        android:name="android.app.shortcuts"
+        android:name="android.com.shortcuts"
         android:resource="@xml/shortcuts" />
     </activity>
     <activity android:name=".settingsscreen.SettingsActivity" />
     <activity android:name=".settingsscreen.LicensesActivity" />
 
     <provider
-      android:authorities="app.marcdev.earworm.FileProvider"
+      android:authorities="com.marcdonald.earworm.FileProvider"
       android:name="androidx.core.content.FileProvider"
       android:enabled="true"
       android:grantUriPermissions="true"

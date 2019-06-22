@@ -11,8 +11,8 @@
     tools:targetApi="n_mr1">
 
     <intent
-      android:action="app.marcdev.earworm.intent.ADD_ITEM"
-      android:targetPackage="app.marcdev.earworm"
-      android:targetClass="app.marcdev.earworm.MainActivity" />
+      android:action="com.marcdonald.earworm.intent.ADD_ITEM"
+      android:targetPackage="com.marcdonald.earworm"
+      android:targetClass="com.marcdonald.earworm.MainActivity" />
   </shortcut>
 </shortcuts>
