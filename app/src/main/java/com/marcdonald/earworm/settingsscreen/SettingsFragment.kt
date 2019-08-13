@@ -75,7 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 		}
 
 		findPreference(PREF_AUTHOR).onPreferenceClickListener = Preference.OnPreferenceClickListener {
-			launchURL("https://github.com/MarcDonald")
+			launchURL("https://www.marcdonald.com")
 			true
 		}
 
