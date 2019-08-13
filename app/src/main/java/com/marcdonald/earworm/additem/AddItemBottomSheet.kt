@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2019 Marc Donald
+ *
+ * The MIT License (MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.marcdonald.earworm.additem
 
 import android.Manifest
@@ -36,227 +59,227 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
 class AddItemBottomSheet : EarwormBottomSheetDialogFragment(), KodeinAware {
-  override val kodein: Kodein by closestKodein()
+	override val kodein: Kodein by closestKodein()
 
-  // <editor-fold desc="View Model">
-  private val viewModelFactory: AddItemViewModelFactory by instance()
-  private lateinit var viewModel: AddItemViewModel
-  // </editor-fold>
+	// <editor-fold desc="View Model">
+	private val viewModelFactory: AddItemViewModelFactory by instance()
+	private lateinit var viewModel: AddItemViewModel
+	// </editor-fold>
 
-  // <editor-fold desc="UI Components">
-  private lateinit var saveButton: MaterialButton
-  private lateinit var primaryInput: EditText
-  private lateinit var secondaryInput: EditText
-  private lateinit var songButton: ImageView
-  private lateinit var albumButton: ImageView
-  private lateinit var artistButton: ImageView
-  private lateinit var datePickerDialog: AddItemDatePickerDialog
-  private lateinit var iconImageView: ImageView
-  private lateinit var dateChip: Chip
-  private lateinit var confirmImageDeleteDialog: BinaryOptionDialog
-  // </editor-fold>
+	// <editor-fold desc="UI Components">
+	private lateinit var saveButton: MaterialButton
+	private lateinit var primaryInput: EditText
+	private lateinit var secondaryInput: EditText
+	private lateinit var songButton: ImageView
+	private lateinit var albumButton: ImageView
+	private lateinit var artistButton: ImageView
+	private lateinit var datePickerDialog: AddItemDatePickerDialog
+	private lateinit var iconImageView: ImageView
+	private lateinit var dateChip: Chip
+	private lateinit var confirmImageDeleteDialog: BinaryOptionDialog
+	// </editor-fold>
 
-  // <editor-fold desc="Other">
-  private val themeUtils: ThemeUtils by instance()
-  // </editor-fold>
+	// <editor-fold desc="Other">
+	private val themeUtils: ThemeUtils by instance()
+	// </editor-fold>
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddItemViewModel::class.java)
-  }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddItemViewModel::class.java)
+	}
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    val view = inflater.inflate(R.layout.dialog_add_item, container, false)
-    bindViews(view)
-    setupObservers()
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = inflater.inflate(R.layout.dialog_add_item, container, false)
+		bindViews(view)
+		setupObservers()
 
-    var itemId = -1
-    if(arguments != null) {
-      itemId = requireArguments().getInt("item_id", -1)
-    }
-    viewModel.passArguments(itemId)
+		var itemId = -1
+		if(arguments != null) {
+			itemId = requireArguments().getInt("item_id", -1)
+		}
+		viewModel.passArguments(itemId)
 
-    return view
-  }
+		return view
+	}
 
-  private fun bindViews(view: View) {
-    saveButton = view.findViewById(R.id.btn_add_item_save)
-    saveButton.setOnClickListener {
-      viewModel.save(primaryInput.text.toString(), secondaryInput.text.toString())
-    }
+	private fun bindViews(view: View) {
+		saveButton = view.findViewById(R.id.btn_add_item_save)
+		saveButton.setOnClickListener {
+			viewModel.save(primaryInput.text.toString(), secondaryInput.text.toString())
+		}
 
-    primaryInput = view.findViewById(R.id.edt_item_primary_input)
-    secondaryInput = view.findViewById(R.id.edt_item_secondary_input)
+		primaryInput = view.findViewById(R.id.edt_item_primary_input)
+		secondaryInput = view.findViewById(R.id.edt_item_secondary_input)
 
-    songButton = view.findViewById(R.id.btn_add_item_song_choice)
-    songButton.setOnClickListener { viewModel.setType(SONG) }
+		songButton = view.findViewById(R.id.btn_add_item_song_choice)
+		songButton.setOnClickListener { viewModel.setType(SONG) }
 
-    albumButton = view.findViewById(R.id.btn_add_item_album_choice)
-    albumButton.setOnClickListener { viewModel.setType(ALBUM) }
+		albumButton = view.findViewById(R.id.btn_add_item_album_choice)
+		albumButton.setOnClickListener { viewModel.setType(ALBUM) }
 
-    artistButton = view.findViewById(R.id.btn_add_item_artist_choice)
-    artistButton.setOnClickListener { viewModel.setType(ARTIST) }
+		artistButton = view.findViewById(R.id.btn_add_item_artist_choice)
+		artistButton.setOnClickListener { viewModel.setType(ARTIST) }
 
-    datePickerDialog = AddItemDatePickerDialog(viewModel.date) { day, month, year ->
-      viewModel.setDate(day, month, year)
-      datePickerDialog.dismiss()
-    }
+		datePickerDialog = AddItemDatePickerDialog(viewModel.date) { day, month, year ->
+			viewModel.setDate(day, month, year)
+			datePickerDialog.dismiss()
+		}
 
-    dateChip = view.findViewById(R.id.chip_add_item_date_display)
-    dateChip.setOnClickListener {
-      datePickerDialog.show(requireFragmentManager(), "Add Item Date Picker Dialog")
-    }
+		dateChip = view.findViewById(R.id.chip_add_item_date_display)
+		dateChip.setOnClickListener {
+			datePickerDialog.show(requireFragmentManager(), "Add Item Date Picker Dialog")
+		}
 
-    iconImageView = view.findViewById(R.id.img_add_icon)
-    iconImageView.setOnClickListener(iconOnClickListener)
-    iconImageView.setOnLongClickListener { confirmImageDeleteDialog.show(requireFragmentManager(), "Confirm Image Delete Dialog"); true }
+		iconImageView = view.findViewById(R.id.img_add_icon)
+		iconImageView.setOnClickListener(iconOnClickListener)
+		iconImageView.setOnLongClickListener { confirmImageDeleteDialog.show(requireFragmentManager(), "Confirm Image Delete Dialog"); true }
 
-    initImageDeleteDialog()
-  }
+		initImageDeleteDialog()
+	}
 
-  private val iconOnClickListener = View.OnClickListener {
-    if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-      askForStoragePermissions()
-    } else {
-      FilePickerBuilder.instance.setMaxCount(1)
-        .setActivityTheme(R.style.Earworm_DarkTheme)
-        .setActivityTitle(resources.getString(R.string.choose_an_image))
-        .pickPhoto(this)
-    }
-  }
+	private val iconOnClickListener = View.OnClickListener {
+		if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+			askForStoragePermissions()
+		} else {
+			FilePickerBuilder.instance.setMaxCount(1)
+				.setActivityTheme(R.style.Earworm_DarkTheme)
+				.setActivityTitle(resources.getString(R.string.choose_an_image))
+				.pickPhoto(this)
+		}
+	}
 
-  private fun initImageDeleteDialog() {
-    val dialogBuilder = BinaryOptionDialog.Builder()
-    dialogBuilder
-      .setTitle(resources.getString(R.string.confirm_image_deletion_title))
-      .setMessage(resources.getString(R.string.confirm_image_deletion_message))
-      .setPositiveButton(resources.getString(R.string.cancel), {}, true)
-      .setNegativeButton(resources.getString(R.string.delete), {
-        viewModel.removeImage()
-      }, true)
-    confirmImageDeleteDialog = dialogBuilder.build()
-  }
+	private fun initImageDeleteDialog() {
+		val dialogBuilder = BinaryOptionDialog.Builder()
+		dialogBuilder
+			.setTitle(resources.getString(R.string.confirm_image_deletion_title))
+			.setMessage(resources.getString(R.string.confirm_image_deletion_message))
+			.setPositiveButton(resources.getString(R.string.cancel), {}, true)
+			.setNegativeButton(resources.getString(R.string.delete), {
+				viewModel.removeImage()
+			}, true)
+		confirmImageDeleteDialog = dialogBuilder.build()
+	}
 
-  private fun askForStoragePermissions() {
-    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-  }
+	private fun askForStoragePermissions() {
+		ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+	}
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
 
-    if(requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-      val photoPathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
-      val photoPath = photoPathArray[0]
-      viewModel.setNewImage(photoPath)
-    }
-  }
+		if(requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+			val photoPathArray = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+			val photoPath = photoPathArray[0]
+			viewModel.setNewImage(photoPath)
+		}
+	}
 
-  private fun setupObservers() {
-    viewModel.displayEmpty.observe(this, Observer { value ->
-      value?.let { show ->
-        if(show) {
-          if(primaryInput.text.isBlank())
-            primaryInput.error = resources.getString(R.string.empty)
-          if(secondaryInput.text.isBlank())
-            secondaryInput.error = resources.getString(R.string.empty)
-        }
-      }
-    })
+	private fun setupObservers() {
+		viewModel.displayEmpty.observe(this, Observer { value ->
+			value?.let { show ->
+				if(show) {
+					if(primaryInput.text.isBlank())
+						primaryInput.error = resources.getString(R.string.empty)
+					if(secondaryInput.text.isBlank())
+						secondaryInput.error = resources.getString(R.string.empty)
+				}
+			}
+		})
 
-    viewModel.selectedType.observe(this, Observer { value ->
-      value?.let { type ->
-        setTypeSelected(type)
-      }
-    })
+		viewModel.selectedType.observe(this, Observer { value ->
+			value?.let { type ->
+				setTypeSelected(type)
+			}
+		})
 
-    viewModel.dateDisplay.observe(this, Observer { value ->
-      value?.let { dateToDisplay ->
-        if(dateToDisplay.isBlank())
-          dateChip.text = resources.getString(R.string.today)
-        else
-          dateChip.text = dateToDisplay
-      }
-    })
+		viewModel.dateDisplay.observe(this, Observer { value ->
+			value?.let { dateToDisplay ->
+				if(dateToDisplay.isBlank())
+					dateChip.text = resources.getString(R.string.today)
+				else
+					dateChip.text = dateToDisplay
+			}
+		})
 
-    viewModel.primaryInputDisplay.observe(this, Observer { value ->
-      value?.let { input ->
-        primaryInput.setText(input)
-        primaryInput.setSelection(input.length)
-      }
-    })
+		viewModel.primaryInputDisplay.observe(this, Observer { value ->
+			value?.let { input ->
+				primaryInput.setText(input)
+				primaryInput.setSelection(input.length)
+			}
+		})
 
-    viewModel.secondaryInputDisplay.observe(this, Observer { value ->
-      value?.let { input ->
-        secondaryInput.setText(input)
-      }
-    })
+		viewModel.secondaryInputDisplay.observe(this, Observer { value ->
+			value?.let { input ->
+				secondaryInput.setText(input)
+			}
+		})
 
-    viewModel.displayImage.observe(this, Observer { value ->
-      value?.let { filePath ->
-        displayImage(filePath)
-      }
-    })
+		viewModel.displayImage.observe(this, Observer { value ->
+			value?.let { filePath ->
+				displayImage(filePath)
+			}
+		})
 
-    viewModel.dismiss.observe(this, Observer { value ->
-      value?.let { dismiss ->
-        if(dismiss)
-          dismiss()
-      }
-    })
-  }
+		viewModel.dismiss.observe(this, Observer { value ->
+			value?.let { dismiss ->
+				if(dismiss)
+					dismiss()
+			}
+		})
+	}
 
-  private fun setTypeSelected(type: Int) {
-    when(type) {
-      SONG -> {
-        changeColorOfImageViewDrawable(songButton, true)
-        changeColorOfImageViewDrawable(albumButton, false)
-        changeColorOfImageViewDrawable(artistButton, false)
-        primaryInput.hint = resources.getString(R.string.song_name)
-        secondaryInput.hint = resources.getString(R.string.artist)
-      }
-      ALBUM -> {
-        changeColorOfImageViewDrawable(songButton, false)
-        changeColorOfImageViewDrawable(albumButton, true)
-        changeColorOfImageViewDrawable(artistButton, false)
-        primaryInput.hint = resources.getString(R.string.album)
-        secondaryInput.hint = resources.getString(R.string.artist)
-      }
-      ARTIST -> {
-        changeColorOfImageViewDrawable(songButton, false)
-        changeColorOfImageViewDrawable(albumButton, false)
-        changeColorOfImageViewDrawable(artistButton, true)
-        primaryInput.hint = resources.getString(R.string.artist)
-        secondaryInput.hint = resources.getString(R.string.genre)
-      }
-    }
+	private fun setTypeSelected(type: Int) {
+		when(type) {
+			SONG   -> {
+				changeColorOfImageViewDrawable(songButton, true)
+				changeColorOfImageViewDrawable(albumButton, false)
+				changeColorOfImageViewDrawable(artistButton, false)
+				primaryInput.hint = resources.getString(R.string.song_name)
+				secondaryInput.hint = resources.getString(R.string.artist)
+			}
+			ALBUM  -> {
+				changeColorOfImageViewDrawable(songButton, false)
+				changeColorOfImageViewDrawable(albumButton, true)
+				changeColorOfImageViewDrawable(artistButton, false)
+				primaryInput.hint = resources.getString(R.string.album)
+				secondaryInput.hint = resources.getString(R.string.artist)
+			}
+			ARTIST -> {
+				changeColorOfImageViewDrawable(songButton, false)
+				changeColorOfImageViewDrawable(albumButton, false)
+				changeColorOfImageViewDrawable(artistButton, true)
+				primaryInput.hint = resources.getString(R.string.artist)
+				secondaryInput.hint = resources.getString(R.string.genre)
+			}
+		}
 
-    if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean(PREF_CLEAR_INPUTS, true)) {
-      primaryInput.setText("")
-      secondaryInput.setText("")
-      primaryInput.requestFocus()
-    }
-  }
+		if(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean(PREF_CLEAR_INPUTS, true)) {
+			primaryInput.setText("")
+			secondaryInput.setText("")
+			primaryInput.requestFocus()
+		}
+	}
 
-  private fun displayImage(imagePath: String) {
-    if(imagePath.isBlank()) {
-      Glide.with(this)
-        .load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, requireActivity().theme))
-        .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, requireActivity().theme)))
-        .into(iconImageView)
-    } else {
-      Glide.with(this)
-        .load(imagePath)
-        .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, requireActivity().theme)))
-        .into(iconImageView)
-    }
-  }
+	private fun displayImage(imagePath: String) {
+		if(imagePath.isBlank()) {
+			Glide.with(this)
+				.load(resources.getDrawable(R.drawable.ic_add_a_photo_24px, requireActivity().theme))
+				.apply(RequestOptions().centerCrop())
+				.apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, requireActivity().theme)))
+				.into(iconImageView)
+		} else {
+			Glide.with(this)
+				.load(imagePath)
+				.apply(RequestOptions().centerCrop())
+				.apply(RequestOptions().error(resources.getDrawable(R.drawable.ic_error_24px, requireActivity().theme)))
+				.into(iconImageView)
+		}
+	}
 
-  private fun changeColorOfImageViewDrawable(button: ImageView, isActivated: Boolean) {
-    when {
-      isActivated -> button.setColorFilter(themeUtils.getAccentColor())
-      else -> button.clearColorFilter()
-    }
-  }
+	private fun changeColorOfImageViewDrawable(button: ImageView, isActivated: Boolean) {
+		when {
+			isActivated -> button.setColorFilter(themeUtils.getAccentColor())
+			else        -> button.clearColorFilter()
+		}
+	}
 }
