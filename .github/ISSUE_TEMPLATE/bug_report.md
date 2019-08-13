@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Device (please complete the following information):**
  - Device: [e.g. Samsung S10+]
-- App Version (e.g. 1.4.0)
+ - App Version (e.g. 1.4.0)
  - Android Version [e.g. Pie]
 
 **Additional context**

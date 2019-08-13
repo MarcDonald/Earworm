@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2019 Marc Donald
+ *
+ * The MIT License (MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.marcdonald.earworm.mainscreen.mainrecycler
 
 import android.content.res.Resources
@@ -16,41 +39,42 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
 class MainRecyclerViewHolderSong(itemView: View,
-                                 itemClick: (Int) -> Unit,
-                                 itemLongClick: (FavouriteItem) -> Unit,
-                                 private val theme: Resources.Theme)
-  : MainRecyclerViewHolder(itemView, itemClick, itemLongClick), KodeinAware {
-  override val kodein: Kodein by closestKodein(itemView.context)
-  private val fileUtils: FileUtils by instance()
+																 itemClick: (Int) -> Unit,
+																 itemLongClick: (FavouriteItem) -> Unit,
+																 private val theme: Resources.Theme)
+	: MainRecyclerViewHolder(itemView, itemClick, itemLongClick), KodeinAware {
 
-  private val songNameDisplay: TextView = itemView.findViewById(R.id.txt_main_primary)
-  private val songDateDisplay: TextView = itemView.findViewById(R.id.txt_main_date)
-  private val songArtistDisplay: TextView = itemView.findViewById(R.id.txt_main_secondary)
-  private var songImageDisplay: ImageView = itemView.findViewById(R.id.img_main_icon)
+	override val kodein: Kodein by closestKodein(itemView.context)
+	private val fileUtils: FileUtils by instance()
 
-  init {
-    itemView.findViewById<TextView>(R.id.txt_main_type).text = itemView.resources.getString(R.string.song)
-  }
+	private val songNameDisplay: TextView = itemView.findViewById(R.id.txt_main_primary)
+	private val songDateDisplay: TextView = itemView.findViewById(R.id.txt_main_date)
+	private val songArtistDisplay: TextView = itemView.findViewById(R.id.txt_main_secondary)
+	private var songImageDisplay: ImageView = itemView.findViewById(R.id.img_main_icon)
 
-  override fun display(favouriteItemToDisplay: FavouriteItem) {
-    displayedItem = favouriteItemToDisplay
-    songNameDisplay.text = favouriteItemToDisplay.songName
-    songArtistDisplay.text = favouriteItemToDisplay.artistName
-    val date = formatDateForDisplay(favouriteItemToDisplay.day, favouriteItemToDisplay.month, favouriteItemToDisplay.year)
-    songDateDisplay.text = date
+	init {
+		itemView.findViewById<TextView>(R.id.txt_main_type).text = itemView.resources.getString(R.string.song)
+	}
 
-    if(favouriteItemToDisplay.imageName.isNotBlank()) {
-      Glide.with(itemView)
-        .load(fileUtils.artworkDirectory + favouriteItemToDisplay.imageName)
-        .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, theme)))
-        .into(songImageDisplay)
-    } else {
-      Glide.with(itemView)
-        .load(itemView.resources.getDrawable(R.drawable.ic_music_note_24px, theme))
-        .apply(RequestOptions().centerCrop())
-        .apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, theme)))
-        .into(songImageDisplay)
-    }
-  }
+	override fun display(favouriteItemToDisplay: FavouriteItem) {
+		displayedItem = favouriteItemToDisplay
+		songNameDisplay.text = favouriteItemToDisplay.songName
+		songArtistDisplay.text = favouriteItemToDisplay.artistName
+		val date = formatDateForDisplay(favouriteItemToDisplay.day, favouriteItemToDisplay.month, favouriteItemToDisplay.year)
+		songDateDisplay.text = date
+
+		if(favouriteItemToDisplay.imageName.isNotBlank()) {
+			Glide.with(itemView)
+				.load(fileUtils.artworkDirectory + favouriteItemToDisplay.imageName)
+				.apply(RequestOptions().centerCrop())
+				.apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, theme)))
+				.into(songImageDisplay)
+		} else {
+			Glide.with(itemView)
+				.load(itemView.resources.getDrawable(R.drawable.ic_music_note_24px, theme))
+				.apply(RequestOptions().centerCrop())
+				.apply(RequestOptions().error(itemView.resources.getDrawable(R.drawable.ic_error_24px, theme)))
+				.into(songImageDisplay)
+		}
+	}
 }
