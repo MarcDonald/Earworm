@@ -1,6 +1,9 @@
 ![Header](/.github/assets/header.png?raw=true "Header")
 
 # Earworm
+
+![Maintenance](https://img.shields.io/maintenance/no/2019)
+
 An app for tracking your favourite music throughout time.
 
 ## Download
